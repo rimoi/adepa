@@ -1,0 +1,6 @@
+App\Entity\User:
+  properties:
+    iban:
+      - Iban:
+          message: Il ne s'agit pas d'un IBAN valide.
+

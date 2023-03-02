@@ -1,0 +1,236 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil ADEPA
+{% endblock %}
+
+{% block body %}
+
+	<section class="banniere">
+		<div>
+			<h1>
+				LES EXTRAS FREELANCES
+				<br>
+				<span>DU MÉDICO SOCIAL</span>
+			</h1>
+			<img src="{{asset('images/banniere1.png')}}" alt=""/>
+			<img src="{{asset('images/banniere2.png')}}" alt=""/>
+		</div>
+
+{#		<div class="scroll-arrow">#}
+{#			<a href="#intro1">#}
+{#				<p>Scroll moi</p>#}
+{#				<i class="fa-solid fa-arrow-down"></i>#}
+{#			</a>#}
+{#		</div>#}
+
+	</section>
+
+
+
+	{# {% include "includes/_section_atelier.html.twig" %} #}
+
+	<section class="services" id="intro1">
+		<h2 style="color: #131314">Nos services</h2>
+		<div class="services-box">
+			<div class="service1">
+				<i class="fa fa-network-wired service-img text-dark"></i>
+				<h3 style="color: #131314" class="my-2">Plateforme
+				</h3>
+				<p>Grace à notre plateforme, vous pourrez en quelques clics proposer vos services, demander un freelance, réserver un atelier éducatif, obtenir du renfort professionnel, et avoir les dernières actualités éducatives dans le sport-médico-social.
+					Nous vous avons créé un espace autonome qui permet de répondre aux besoins simplement et avec efficacité !</p>
+			</div>
+			<div class="service2">
+				<span class="fa fa-chalkboard text-dark service-img"></span>
+				<h3 style="color: #131314" class="my-2">Formations</h3>
+				<p>Nous effectuons sur demande des présentations du dispositif de l'association, de la plateforme et son utilisation. Donc demander nous une Extra Présentation et inscrivez-vous à notre newsletter pour recevoir les dates de nos prochaines formations au monde du médico-social. Tous nos adhérents en bénéficient gratuitement.</p>
+			</div>
+			<div class="service3">
+				<i class="fa fa-handshake text-dark service-img"></i>
+				<h3 style="color: #131314" class="my-2">Assistance</h3>
+				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
+					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à asso.adepa@gmail.com
+				</p>
+			</div>
+		</div>
+	</section>
+
+	{# SECTION MISSION #}
+	<section class="mission">
+		<img src="{{asset('images/missions.png')}}" alt="" class="event-main-img">
+
+		<div id="container" class="row">
+
+				{% for mission in missions %}
+					<div class="col-12 col-md-4">
+						<div class="card bg-light text-center text-dark">
+							<div class="card-header fw-bold fs-5 text-dark">
+								<div class="my-1 text-dark lead" style="color: #131314">
+									{{ mission.title }}
+								</div>
+								<div class="text-center fs-6 badge bg-danger text-white">
+									{{ mission.started|date('d/m/Y à H:i') }}
+									<span class="fa fa-info-circle js-tooltip" title="Début de la mission le {{ mission.started|date('d/m/Y à H:i') }} et la fin de la mission et {{ mission.ended|date('d/m/Y à H:i') }}">
+                            </span>
+								</div>
+							</div>
+							<div class="card-body">
+								<div>
+									<div style="width: 359px;height: 195px!important;font-size: 13px">
+										{{ mission.content|u.truncate(250, '...')|raw }}
+									</div>
+									<div class="my-1">
+										<a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-danger">Voir l'offre</a>
+									</div>
+									<div class="text-small text-muted my-2">
+										{{ mission.createdAt|ago(locale='fr') }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+
+			{% if all_mission >= 3 %}
+				<div class="col-12 text-center">
+					<a href="{{ path('front_mission') }}" class="btn btn-danger"> Plus des missions...</a>
+				</div>
+			{% endif %}
+		</div>
+
+	</section>
+
+	<section class="news" id="news">
+		<div class="news-box row ">
+			<div class="col-2">
+				<img src="{{asset('images/news.png')}}" alt="">
+			</div>
+			<div class="col-6 offset-2">
+				{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}
+			</div>
+		</div>
+	</section>
+
+	<style>
+
+		#container {
+			display: flex;
+			flex-direction: row;
+			width: 100vw;
+			overflow: scroll;
+		}
+
+		.arrow-left {
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 60vh;
+			position: sticky;
+			left: 0;
+			z-index: 1;
+		}
+
+		.scroll {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 60vh;
+			position: sticky;
+			left: 0;
+			z-index: 1;
+		}
+
+		.arrow-right {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 60vh;
+			position: absolute;
+			right: 0;
+		}
+
+		.arrow-right i, .arrow-left i {
+			font-size: 4rem;
+		}
+
+		/* HOMEPAGE SECTION ACTUALITE */
+
+		.news {
+			width: 100%;
+			height: auto;
+			background-color: #263b46;
+			margin-bottom: 100px;
+		}
+
+		.news-box {
+			display: flex;
+			align-items: center;
+		}
+
+		.news-box img {
+			min-width: 25%;
+		}
+
+		.news-cards {
+			width: 100vw;
+			display: flex;
+			height: 418px;
+
+		}
+
+		.news-card, .more-news {
+			margin: 10px 10px 10px 0;
+			background-color: whitesmoke;
+			min-width: 20%;
+		}
+
+		.more-news div {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+
+		.more-news a {
+			color: black;
+			text-decoration: none;
+		}
+
+		.more-news i {
+			font-size: 100px;
+		}
+
+	</style>
+
+	<script>
+
+		// Afficher la fleche gauche si scroll
+		var arrowLeft = document.getElementById("arrowLeft");
+
+		document.getElementById("container").addEventListener("scroll", myFunction);
+
+		function myFunction() {
+  			arrowLeft.classList.add("scroll")
+		}
+
+
+		//Scroller à gauche au clic
+
+		const buttonLeft = document.getElementById('slide-right');
+
+		buttonLeft.onclick = () => {
+  			document.getElementById('container').scrollLeft -= 200;
+		};
+
+
+		// Scroller à droite au clic
+		const button = document.getElementById('slide');
+
+		button.onclick = () => {
+  			document.getElementById('container').scrollLeft += 200;
+		};
+
+	</script>
+
+	{% include "includes/_footer.html.twig" %}
+{% endblock %}

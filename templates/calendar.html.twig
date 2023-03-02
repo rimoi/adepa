@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil ADEPA
+{% endblock %}
+
+{% block body %}
+	<h1>Votre calendrier</h1>
+	
+    <div class= "calendar">
+        <div id="calendar"></div>
+    </div>
+
+    <style>
+        .calendar {
+            margin: auto;
+            width: 90vw;
+            height : 80vh;
+        }
+
+        #calendar {
+            height: 100%;
+        }
+    </style>
+
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale : 'fr',
+                buttonText : {
+                    today: 'Aujourd\'hui',
+                    month: 'Mois',
+                    week: 'Semaine',
+                },
+                timeZone: 'Europe/Paris',
+                headerToolbar : {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek',
+                },
+                events : {{data|raw}},
+                allDaySlot: false,
+                navLinks :true,
+
+            });
+            calendar.render();
+        });
+	</script>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+
+{% import 'macros/_macro_upload.html.twig' as upload %}
+
+<div class="card-body">
+    <div class="p-5">
+        {{ form_start(form, {'attr': {'class': 'user'}}) }}
+
+        <div class="row">
+            <div class="col-12">
+                 {{ form_row(form.title) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-3">
+                {{ form_row(form.type) }}
+            </div>
+            <div class="col-12 col-lg-9">
+                {{ form_row(form.category) }}
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-12">
+                {{ form_widget(form.content) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.debut) }}
+            </div>
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.fin) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.address) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.zipCode) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.city) }}
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_label(form.file) }}
+                {{ upload.image(
+                    form.file,
+                    mission.file
+                ) }}
+
+            </div>
+        </div>
+        <hr class="my-3">
+
+        {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_row(form.published) }}
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                {{ form_row(form.emergency) }}
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6 my-1 text-left">
+            {% if user is defined %}
+                <a href="#" class="btn btn-danger js-deleted" data-url="{{ path('admin_mission_archived', {slug: mission.slug }) }}">
+                    Supprimer
+                </a>
+            {% endif %}
+        </div>
+        <div class="col-12 col-lg-6 my-1 text-right">
+            <a href="{{ path('admin_mission_index') }}" class="btn btn-secondary">Fermer</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

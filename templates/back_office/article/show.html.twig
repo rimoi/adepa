@@ -1,0 +1,29 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Voir {{ article.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Article {{ article.title }}</h6>
+        </div>
+        <div class="card-body">
+            {{ article.content|raw }}
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <a href="{{ path('admin_article_index') }}" class="btn btn-secondary">
+                <span class="fa fa-arrow-left"></span>
+                Liste d'article
+            </a>
+            <a href="{{ path('admin_article_edit', {slug: article.slug}) }}" class="btn btn-success">
+                <span class="fa fa-pencil-alt"></span>
+                Modifier
+            </a>
+        </div>
+
+    </div>
+{% endblock %}

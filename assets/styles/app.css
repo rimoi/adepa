@@ -1,0 +1,144 @@
+body {
+    overflow-x : hidden;
+}
+
+#register-right {
+    color: white;
+    height: 100vh;
+    padding-top: 10%;
+    background-image: 
+    linear-gradient(
+        rgba(255, 87, 87, 0.6), 
+        rgba(255, 87, 87, 0.4)
+      ),
+        url("../../public/images/register-background.jpg");
+    z-index: 1;
+}
+
+#register-right h1 {
+    font-size: 2rem;
+}
+
+#register-left {
+    padding-top: 10%;
+    height: 100vh;
+    text-align : left;
+    position: relative;
+}
+
+#register-left h1 {
+    text-align: right;
+    font-size: 2rem;
+}
+
+#separator {
+    content: ' ';
+    display: block;
+    width: 100px;
+    height: 10px;
+    background: #ff5757;
+    float: left;
+}
+
+
+#container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    overflow: scroll;
+}
+
+.arrow-left {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.scroll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.arrow-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    position: absolute;
+    right: 0;
+}
+
+.arrow-right i, .arrow-left i {
+    font-size: 4rem;
+}
+
+/* HOMEPAGE SECTION ACTUALITE */
+
+.news {
+    width: 100%;
+    height: auto;
+    background-color: #263b46;
+    margin-bottom: 100px;
+}
+
+.news-box {
+    display: flex;
+    align-items: center;
+}
+
+.news-box img {
+    min-width: 25%;
+}
+
+.news-cards {
+    width: 100vw;
+    display: flex;
+    height: 418px;
+
+}
+
+.news-card, .more-news {
+    margin: 10px 10px 10px 0;
+    background-color: whitesmoke;
+    min-width: 20%;
+}
+
+.more-news div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.more-news a {
+    color: black;
+    text-decoration: none;
+}
+
+.more-news i {
+    font-size: 100px;
+}
+
+.rotate-15 {
+    transform: rotate(15deg);
+}
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #eaecf4;
+    border-radius: 0.35rem;
+}

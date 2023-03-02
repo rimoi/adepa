@@ -1,0 +1,27 @@
+/* FOOTER */
+footer {
+ position: relative;
+  background-color: #dd203c;
+  padding-bottom: 1px;
+  width: 100%;
+}
+    
+#footer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo-footer {
+  margin-top: 10px;
+  width: 100px;
+}
+
+#social-logo {
+  text-align: center;
+}
+
+#social-logo i {
+  font-size: 2rem;
+  margin: 5px;
+}

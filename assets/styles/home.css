@@ -1,0 +1,101 @@
+.banniere {
+    background-image: url(../../public/images/banniere.png);
+    background-size: cover;
+    height: 90vh;
+    width: 100vw;
+}
+
+.banniere div {
+    padding: 5rem;
+}
+
+.banniere div h1 {
+    font-size:calc(12px + 3.3vw);
+    font-weight: bold;
+}
+
+.banniere div h1 span {
+    color: #dd1e3a;
+}
+
+.banniere div img {
+    height: 20vh;
+    margin-top: 3rem;
+    margin-right: 2rem;
+}
+
+/* Fleche scroll */
+.banniere .scroll-arrow {
+    width: 50vw;
+    position: absolute;
+    bottom: -80px;
+  }
+  
+  .scroll-arrow a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #dd1e3a;
+  }
+  
+  .scroll-arrow i {
+    font-size: 100px;
+    color: #dd1e3a;
+  }
+
+.card {
+    margin: 10px 10px 10px 0;
+}
+
+#logoNav {
+    width: 100%;
+}
+
+#adminButtons {
+    width: 2rem;
+    margin: 1px;
+}
+
+.mission {
+    background-color: #737373;
+    margin-bottom: 100px;
+    display: flex;
+    width: 100vw;
+    height: 60vh;
+}
+
+/* SECTION NOS SERVICES */
+
+.services {
+    text-align: center;
+    background-color: whitesmoke;
+    padding: 1rem 0;
+}
+
+.services h2 {
+    margin: 50px;
+    font-size: 3rem;
+}
+
+.services-box {
+    display: flex;
+    margin-bottom : 50px;
+    width: 100vw;
+    justify-content: space-around;
+}
+
+.service1,
+.service2,
+.service3 {
+    border: #ff5751 solid 1px ;
+    margin: 10px;
+    padding: 10px;
+    width: 30%;
+}
+
+.service-img {
+    font-size: 5rem;
+}
+
+/* .services i {
+    color: #fab885;
+} */

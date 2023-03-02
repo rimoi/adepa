@@ -1,0 +1,219 @@
+{% extends 'base_admin.html.twig' %}
+
+{% import 'macros/_macro_upload.html.twig' as upload %}
+
+{% block title %}Mon profil - {{ app.user.nickname }}{% endblock %}
+
+{% block body %}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Mon profil</h6>
+        </div>
+        <div class="card-body">
+            <div class="p-5">
+                {% if errors %}
+                    {% for field, error in errors %}
+                        {% for f, e in error %}
+                            {% if e[0] ?? false %}
+
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="list-group">
+                                        {{ field }}
+                                        <li class="list-group-item">{{ e[0] }}</li>
+                                    </ul>
+                                </div>
+                            {% elseif e is iterable %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="list-group">
+                                        {{ field }}
+                                        <li class="list-group-item">{{ e|json_encode }}</li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="list-group">
+                                        {{ field }}
+{#                                        <li class="list-group-item">{{ f }}</li>#}
+                                        <li class="list-group-item">{{ e }}</li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+                {{ form_start(form, {'attr': {'class': 'user'}}) }}
+
+            <div class="row">
+                <div class="col-12 col-lg-12">
+                    {{ form_row(form.gender) }}
+                </div>
+            </div>
+          <div class="row">
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.firstname) }}
+                    </div>
+                  <div class="col-12 col-lg-4">
+                      {{ form_row(form.telephone) }}
+                  </div>
+            </div>
+                <hr>
+                <div class="col-12 col-lg-4">
+                    {{ form_label(form.permisConduite) }}
+                     {{ upload.image(
+                        form.permisConduite,
+                        app.user.permisConduite
+                    ) }}
+                </div>
+                {% if 'experiences' in form|keys %}
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.qualifications, 'Expériences : ') }}
+                            {{ form_errors(form.qualifications) }}
+
+                            <div id="qualification-fields-list"
+                                 data-prototype="{{ upload.printExperience(form.qualifications.vars.prototype)|e('html_attr')}}"
+                                 data-widget-tags="{{ '<div class="row"></div>'|e }}"
+                                 data-widget-counter="{{ form.experiences|length }}">
+                                {% for qualification in form.qualifications %}
+                                    {{ upload.printExperience(qualification, true) }}
+                                {% endfor %}
+                            </div>
+
+                            <button type="button"
+                                    class="add-another-collection-widget btn-sm btn-default"
+                                    data-list-selector="#qualification-fields-list">
+                                <span class="fa fa-plus-square"></span>
+                                Ajout une expérience
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.experiences, 'Qualifications : ') }}
+                            {{ form_errors(form.experiences) }}
+
+                            <div id="experience-fields-list"
+                                data-prototype="{{ upload.printExperience(form.experiences.vars.prototype)|e('html_attr')}}"
+                                data-widget-tags="{{ '<div class="row"></div>'|e }}"
+                                data-widget-counter="{{ form.experiences|length }}">
+                                {% for experience in form.experiences %}
+                                    {{ upload.printExperience(experience, true) }}
+                                {% endfor %}
+                            </div>
+
+                            <button type="button"
+                                    class="add-another-collection-widget btn-sm btn-default"
+                                    data-list-selector="#experience-fields-list">
+                                <span class="fa fa-plus-square"></span>
+                                Ajout un diplôme/qualification
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+                <hr>
+
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.adress) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.zipCode) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.city) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        {{ form_row(form.siret) }}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {{ form_row(form.tva) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.iban) }}
+                        {{ upload.image(
+                            form.iban,
+                            app.user.iban
+                        ) }}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.cni) }}
+                        {{ upload.image(
+                            form.cni,
+                            app.user.cni
+                        ) }}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.autoentrepriseCertificate) }}
+                        {{ upload.image(
+                            form.autoentrepriseCertificate,
+                            app.user.autoentrepriseCertificate
+                        ) }}
+                    </div>
+                </div>
+                <hr>
+{#                <div class="row">#}
+{#                    <div class="col-12">#}
+{#                        Curriculum vitae#}
+{#                    </div>#}
+{#                    <div class="col-12 col-lg-6">#}
+{#                        {{ upload.image(#}
+{#                            form.file,#}
+{#                            app.user.file#}
+{#                        ) }}#}
+{#                    </div>#}
+{#                </div>#}
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <a href="{{ path('admin_dash_board_index') }}" class="btn btn-danger">fermer</a>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+            </div>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.addEventListener('load', (event) => {
+            let form_has_error = '{{ show_updaded_image }}';
+
+            if (form_has_error != 0) {
+                document
+                    .querySelectorAll('.js-show-element')
+                    .forEach((tag) => {
+                        triggerEvent(tag, 'click')
+                    });
+            }
+
+            function triggerEvent(el, eventName, options) {
+                var event;
+                if (window.CustomEvent) {
+                    event = new CustomEvent(eventName, options);
+                } else {
+                    event = document.createEvent('CustomEvent');
+                    event.initCustomEvent(eventName, true, true, options);
+                }
+                el.dispatchEvent(event);
+            }
+
+        });
+    </script>
+{% endblock %}

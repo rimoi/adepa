@@ -1,0 +1,53 @@
+<nav class="navbar-header" id="navbar-header">
+	<a href="{{path('home')}}" class="logo"><img src="{{asset('images/logo.png')}}" class="logo-img" alt="logo workevent"></a>
+	<div class="nav-links">
+		<ul>
+			<li><a href="{{path('home')}}">Accueil</a></li>
+			<li>
+				<a href="{{path('front_mission')}}">
+					<i class="fa fa-briefcase"></i>&nbsp;
+					Missions
+				</a>
+			</li>
+			{% if app.user %}
+				<li>
+				<a href="{{path('admin_dash_board_index')}}">
+					<i class="fa fa-user user"></i>
+					Dashboard
+				</a>
+				</li>
+				<li><a href="{{path('app_logout')}}">Se déconnecter</a></li>
+			{% else %}
+				<li><a href="{{path('app_login')}}">
+						<i class="fa fa-user-shield"></i>&nbsp;
+						Se connecter</a></li>
+				<li><a href="{{path('app_register')}}">
+						<i class="fa fa-user-secret"></i>&nbsp;
+						S'inscrire</a></li>
+			{% endif %}
+			<li>
+				<a href="{{path('app_contact')}}">
+					<i class="fa fa-file-signature"></i>&nbsp;
+					Contact
+				</a>
+			</li>
+		</ul>
+	</div>
+	<img src="{{asset('images/burger.png')}}" class="menu-burger" alt="menu burger">
+</nav>
+
+<style>
+
+
+</style>
+
+<script>
+
+	const menuHamburger = document.querySelector(".menu-burger")
+	const navLinks = document.querySelector(".nav-links")
+
+	menuHamburger.addEventListener('click', () => {
+		navLinks.classList.toggle('mobile-menu')
+	})
+
+</script>

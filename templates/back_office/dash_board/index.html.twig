@@ -1,0 +1,90 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}DashBoard{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'back_office/dash_board/_statistic.html.twig' %}
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') and freelance_not_enabled|length %}
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Nouveau Freelanceur à valider</h6>
+                    </div>
+                    <div class="card-body">
+                        {% include 'back_office/freelance/_freelance.html.twig' with {'users': freelance_not_enabled} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') and client_not_enabled|length %}
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Nouveau Client à valider</h6>
+                    </div>
+                    <div class="card-body">
+                        {% include 'back_office/freelance/_freelance.html.twig' with {'users': client_not_enabled} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_FREELANCE') %}
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Les missions à la date la plus proche</h6>
+                    </div>
+                    <div class="card-body">
+                        {% include 'back_office/dash_board/_mission.html.twig' with {'missions': last_missions} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-12 col-lg-9">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Les dernières actualités</h6>
+                </div>
+                <div class="card-body">
+                    {% include 'back_office/dash_board/_article.html.twig' with {'articles': articles, 'photo_directory': photo_directory} %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}

@@ -1,0 +1,80 @@
+<section class="event">
+
+	<div>
+		<img src="{{asset('images/atelier.png')}}" alt="" class="event-main-img">
+
+		<div class="selectCategory">
+			<label for="category-select">Choisir une catégorie</label>
+			<select name="category" id="category-select">
+				{% for category in categories %}
+					<option value={{category.id}}>{{category.name}}</option>
+				{% endfor %}
+			</select>
+
+			<button onclick="getOption()">
+				Validez mon choix
+			</button>
+		</div>
+	</div>
+
+	{% for event in events %}
+		<div class="card-event">
+			<img src="{{asset("/uploads/images/")}}{{event.photo}}" alt="...">
+			<div>
+				<h5>{{event.title}}</h5>
+				<p>
+					{{event.description}}</p>
+				<p>
+					{{event.place}}</p>
+				<p>
+					Prix :
+					{{event.price /100}}
+					€</p>
+				<a href="{{ path('booking')}}?id={{event.id}}" class="btn btn-primary">Réserver</a>
+			</div>
+		</div>
+	{% endfor %}
+</section>
+
+
+{% for event in events %}
+	{% if event.categoryTest == app.request.query.get("id") %}
+		<section class="event">
+
+			<div>
+				<img src="{{asset('images/atelier.png')}}" alt="" class="event-main-img">
+				prout
+			</div>
+
+			<div class="card-event">
+				<img src="{{asset("/uploads/images/")}}{{event.photo}}" alt="...">
+				<div>
+					<h5>{{event.title}}</h5>
+					<p>
+						{{event.description}}</p>
+					<p>
+						{{event.place}}</p>
+					<p>
+						Prix :
+						{{event.price /100}}
+						€</p>
+					<a href="{{ path('booking')}}?id={{event.id}}" class="btn btn-primary">Réserver</a>
+				</div>
+			</div>
+		</section>
+	{% endif %}
+{% endfor %}
+
+
+<script type="text/javascript">
+	function getOption() {
+var selectElmt = document.querySelector('#category-select');
+var valeurselectionnee = selectElmt.options[selectElmt.selectedIndex].value;
+
+var eventCategorySection = document.querySelector('.event-category');
+
+window.location.href = "?id=" + valeurselectionnee + "#category-select";
+
+console.log(valeurselectionnee);
+}
+</script>

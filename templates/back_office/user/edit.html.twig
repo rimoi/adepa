@@ -1,0 +1,13 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title 'Modifier Utilisateur' %}
+
+{% block body %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Modifier l'utilisateur {{ user.nickname }}</h6>
+        </div>
+        {% include 'back_office/user/_form_user.html.twig' %}
+    </div>
+{% endblock %}
+

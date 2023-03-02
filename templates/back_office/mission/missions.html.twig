@@ -1,0 +1,80 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste article{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">
+            <a href="{{ path('admin_mission_my_missions') }}">Mes missions</a>
+        </li>
+    </ol>
+
+    <div>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Missions</h1>
+        {% if is_granted('ROLE_CLIENT') and app.user.enabled %}
+            <div class="text-right">
+                <a class="btn btn-outline-primary my-3" href="{{ path('admin_mission_new') }}">
+                    <span class="fa fa-plus-square"></span>
+                    Nouvelle mission
+                </a>
+            </div>
+        {% elseif is_granted('ROLE_CLIENT') and not app.user.enabled %}
+
+            <div class="alert alert-primary d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                <div>
+                    Vous ne pouvez pas proposer tant que votre profil n'est pas validé par un administrateur !
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Réservé</th>
+                            <th>Début mission</th>
+                            <th>Fin mission</th>
+                            <th>Offre</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for date, mission in missions %}
+                            <tr>
+                                <td>{{ mission.title }}</td>
+                                <td>{{ date }}</td>
+
+                                <td>{{ mission.started ? mission.started|date('Y-m-d H:i') : '' }}</td>
+                                <td>{{ mission.ended ? mission.ended|date('Y-m-d H:i') : '' }}</td>
+                                <td>
+                                    <a href="{{ path('front_mission_show', {slug: mission.slug }) }}">
+                                        Voir l'offre
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

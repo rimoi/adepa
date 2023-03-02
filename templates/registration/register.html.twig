@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+
+
+{% block body %}
+
+	<div class="container-fluid">
+
+
+		<div class="row">
+
+			<div class="col" id="register-left">
+				<div class="row">
+					<div class="col"></div>
+					<div class="col">
+						<div id="separator"></div>
+						<br>
+						<h2 id="welcome">Bienvenue</h2>
+						<p id="description-register">SUR LE PORTAIL D'ADMINISTRATION DEDIE AUX USAGERS D'ADEPA !</p>
+						<p>Ici vous pourrez facilement proposer vos prestations ou en réserver une. Alors n'hésitez pas à vous connecter ou vous inscrire si ce n'est pas déjà fait !</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col" id="register-right">
+				<div class="row">
+					<div class="col-7">
+						<h1>INSCRIPTION</h1>
+						<div class="container">
+							{{ form_start(registrationForm) }}
+
+							{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+
+							<div class="row">
+								<div class="col-12 col-sm-3">
+									{{ form_row(registrationForm.gender) }}
+								</div>
+								<div class="col-12 col-sm-12">
+									{{ form_row(registrationForm.lastname) }}
+								</div>
+								<div class="col-12 col-sm-12">
+									{{ form_row(registrationForm.firstname) }}
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-12 col-sm-6">
+									{{ form_row(registrationForm.telephone) }}
+								</div>
+								<div class="col-12 col-sm-6">
+									{{ form_row(registrationForm.email) }}
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12">
+									{{ form_row(registrationForm.plainPassword, {
+										label: 'Mot de passe'
+									}) }}
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12">
+									{{ form_row(registrationForm.statut) }}
+								</div>
+							</div>
+
+							{{ form_row(registrationForm.agreeTerms) }}
+
+                            <div class="row">
+                                <div class="col-3 col-lg-3 offset-lg-4">
+                                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                                </div>
+                            </div>
+							{{ form_end(registrationForm) }}
+						</div>
+					</div>
+
+					<div class="col-5"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

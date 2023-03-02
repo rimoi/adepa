@@ -1,0 +1,184 @@
+{% import 'macros/_macro_upload.html.twig' as upload %}
+
+<div class="card-body">
+    <div class="p-5">
+        {{ form_start(form, {'attr': {'class': 'user'}}) }}
+
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                {{ form_row(form.gender) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.lastname) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.telephone) }}
+            </div>
+        </div>
+        <hr>
+        <div class="col-12 col-lg-4">
+            {{ form_label(form.permisConduite) }}
+            {{ upload.image(
+                form.permisConduite,
+                app.user.permisConduite
+            ) }}
+        </div>
+        {% if 'experiences' in form|keys %}
+            <hr>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_label(form.qualifications, 'Expériences : ') }}
+                    {{ form_errors(form.qualifications) }}
+
+                    <div id="qualification-fields-list"
+                         data-prototype="{{ upload.printExperience(form.qualifications.vars.prototype)|e('html_attr')}}"
+                         data-widget-tags="{{ '<div class="row"></div>'|e }}"
+                         data-widget-counter="{{ form.experiences|length }}">
+                        {% for qualification in form.qualifications %}
+                            {{ upload.printExperience(qualification, true) }}
+                        {% endfor %}
+                    </div>
+
+                    <button type="button"
+                            class="add-another-collection-widget btn-sm btn-default"
+                            data-list-selector="#qualification-fields-list">
+                        <span class="fa fa-plus-square"></span>
+                        Ajout une expérience
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    {{ form_label(form.experiences, 'Qualifications : ') }}
+                    {{ form_errors(form.experiences) }}
+
+                    <div id="experience-fields-list"
+                         data-prototype="{{ upload.printExperience(form.experiences.vars.prototype)|e('html_attr')}}"
+                         data-widget-tags="{{ '<div class="row"></div>'|e }}"
+                         data-widget-counter="{{ form.experiences|length }}">
+                        {% for experience in form.experiences %}
+                            {{ upload.printExperience(experience, true) }}
+                        {% endfor %}
+                    </div>
+
+                    <button type="button"
+                            class="add-another-collection-widget btn-sm btn-default"
+                            data-list-selector="#experience-fields-list">
+                        <span class="fa fa-plus-square"></span>
+                        Ajout un diplôme/qualification
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+        <hr>
+        <div class="row">
+            {% set mot_passe_info = '( si vous ne rempplisser pas cette case le mot de passe ne serait pas changer )' %}
+            {% if 'email' in form|keys %}
+                {% set mot_passe_info = '' %}
+                <div class="col-12 col-lg-6">
+                    {{ form_row(form.email) }}
+                </div>
+            {% else %}
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="profile_form_con" class="form-label required">Email</label>
+                        <input disabled type="text" id="profile_form_con" name="profile_form[con]" class="form-control" value="{{ user ? user.email : '' }}">
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.plainPassword, {
+                    label: 'Mot de passe '
+                }) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.adress) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.zipCode) }}
+            </div>
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.city) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.siret) }}
+            </div>
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.tva) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-sm-4 mt-2">
+                {{ form_label(form.iban) }}
+                {{ upload.image(
+                    form.iban,
+                    app.user.iban
+                ) }}
+            </div>
+            <div class="col-12 col-sm-4 mt-2">
+                {{ form_label(form.cni) }}
+                {{ upload.image(
+                    form.cni,
+                    app.user.cni
+                ) }}
+            </div>
+            <div class="col-12 col-sm-4 mt-2">
+                {{ form_label(form.autoentrepriseCertificate) }}
+                {{ upload.image(
+                    form.autoentrepriseCertificate,
+                    app.user.autoentrepriseCertificate
+                ) }}
+            </div>
+        </div>
+        <hr>
+        {% form_theme form 'bootstrap_4_layout.html.twig' %}
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.enabled, {
+                    label: "Activer l'utilisateur ?"
+                }) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div>
+                    {{ form_label(form.roles, "Choisir un/plusieurs role(s) de l'utilisateur") }}
+                </div>
+                {{ form_widget(form.roles, {
+                    label: "Choisir un/plusieur role(s) de l'utilisateur"
+                }) }}
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6 my-1 text-left">
+            {% if user is defined %}
+                <a href="#" class="btn btn-danger js-deleted" data-url="{{ path('admin_user_archived', {slug: user.slug }) }}">
+                    Supprimer
+                </a>
+            {% endif %}
+        </div>
+        <div class="col-12 col-lg-6 my-1 text-right">
+            <a href="{{ path('admin_profile_index') }}" class="btn btn-secondary">Fermer</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

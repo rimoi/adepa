@@ -1,0 +1,79 @@
+<div class="bg">
+    <div class="bg-product">
+        <div class="container product">
+            <div class="row">
+                <div id="sliderproduct" class="carousel slide " data-ride="carousel" data-interval="10000">
+                    <ol class="carousel-indicators">
+                        <li data-target="#sliderproduct" data-slide-to="0" class="active"></li>
+                        <li data-target="#sliderproduct" data-slide-to="1"></li>
+                        <li data-target="#sliderproduct" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox" data-interval="10000000">
+                        {% for mission in missions %}
+                            <div class="carousel-item {{ loop.first ? 'active' }}">
+                                <div class=" text-center">
+                                    <div class="row my-2">
+{#                                        <div class="col-sm-6 image">#}
+{#                                            <div class="item">#}
+{#                                                <h1>{{ mission.title }}</h1>#}
+{#                                                <img class="img-fluid" src="{{ asset('images/mission.png') }}" alt="mission {{ mission.title }}">#}
+{#                                            </div>#}
+{#                                        </div>#}
+                                        <div class="col-12 col-lg-8 offset-lg-2">
+                                            <div class="top d-flex justify-content-center">
+                                                <div class="timer">
+                                                    <b>
+                                                        <span class="fa fa-hourglass-start"></span>
+                                                        <br>
+                                                        Début mission
+                                                    </b>
+                                                    <br>
+                                                    <span class="fa fa-clock"></span>
+                                                    {{ mission.started|date('d/m/Y H:i') }}
+                                                </div>
+                                                <div class="timer">
+                                                    <b>
+                                                        <span class="fa fa-hourglass-end"></span>
+                                                        <br>
+                                                        Fin mission
+                                                    </b>
+                                                    <br>
+                                                    <span class="fa fa-clock"></span>
+                                                    {{ mission.ended|date('d/m/Y H:i') }}
+                                                </div>
+    {#                                            <a href=""><b>15</b> <br>min</a>#}
+    {#                                            <a href=""><b>2</b> <br> sec</a>#}
+                                            </div><!--endtop-->
+                                            <div class="details">
+                                                <h2 class="cr3">{{ mission.title }}</h2>
+                                                <p class="cr4">{{ mission.content|u.truncate(250, '...')|raw }}</p>
+    {#                                            <div class="rating">#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                            </div>#}
+                                                <p class="cr1">
+                                                    {{ mission.fullAdresse }}
+                                                </p>
+                                                <a href="{{ path('front_mission_show', {slug: mission.slug}) }}" class="btn btn-food">
+                                                    <span class="fa fa-eye text-white"></span>
+                                                    Voir
+                                                </a>
+                                            </div><!--enddetails-->
+                                        </div>
+                                    </div><!--endrow-->
+                                </div><!--endcontainer-->
+                            </div><!--endcarousel-item-->
+                        {% endfor %}
+                        <a class="carousel-control-prev fa fa-angle-left" href="#sliderproduct" role="button" data-slide="prev">
+                        </a>
+                        <a class="carousel-control-next fa fa-angle-right" href="#sliderproduct" role="button" data-slide="next">
+                        </a>
+                    </div><!--endslidesliderproduct-->
+                </div><!--endrow-->
+            </div><!--endcontainer-->
+        </div><!--endbg-product-->
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir l'article {{ article.title }}{% endblock %}
+
+{% block body %}
+
+
+    <div class="container cs-article-front">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">{{ article.title }}</li>
+        </ol>
+        <h2 class="edito text-center text-dark">{{ article.title }}</h2>
+        {% if article.file %}
+            <div class="my-2">
+                <img class="img-fluid" src="{{ photo_directory ~'/'~ article.file.name }}" alt="mission {{ article.title }}">
+            </div>
+        {% endif %}
+        <div class="text-center my-2">
+            Publié le {{ article.createdAt|ago(locale='fr') }}
+        </div>
+        <p class="my-4 text-dark">
+            {{ article.content|raw }}
+        </p>
+    </div>
+{% endblock %}

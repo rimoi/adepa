@@ -1,0 +1,10 @@
+<div class="cs-alert-notice container">
+    {% for label, messages in app.flashes(['success', 'warning', 'danger']) %}
+        {% for message in messages %}
+            <div class="my-1 alert alert-{{ label }}{% if classNotice is defined %} {{ classNotice }}{% endif %} alert-dismissible fade show" role="alert" >
+                {{ message|raw }}
+{#                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

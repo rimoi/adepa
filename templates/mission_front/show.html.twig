@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}voir mission {{ mission.title }}{% endblock %}
+
+
+{% block body %}
+
+    {# poste https://codepen.io/USAbhishek/pen/rNKyorr #}
+
+    <div class="container cs-article-front cs-mission-front">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('front_mission') }}">Mission</a></li>
+            <li class="breadcrumb-item active">{{ mission.title }}</li>
+        </ol>
+        <h2 class="edito text-center text-dark">{{ mission.title }}</h2>
+
+        <div class="text-center mb-2 mt-1 text-muted">
+            Publié le {{ mission.createdAt|ago(locale='fr') }}
+        </div>
+        <div class="info-started ">
+            <div class="">
+                <div class="row">
+                    <div class="col-2">Début mission:</div>
+                    <div class="col-8">
+                        <span class="badge badge-primary">{{ mission.started|date('d/m/Y H:i') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="row">
+                    <div class="col-2">Fin de la mission:</div>
+                    <div class="col-8">
+                        <span class="badge badge-primary">{{ mission.ended|date('d/m/Y H:i') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="row">
+                    <div class="col-2">Adresse:</div>
+                    <div class="col-8">
+                        <span class="badge badge-primary">{{ mission.fullAdresse }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="my-4 text-dark">
+            {{ mission.content|raw }}
+        </p>
+
+        <div class="mt-2 mb-5" style="text-align: right!important;">
+            {% if mission.file %}
+                <a href="{{ path('front_mission_download', {slug: mission.slug}) }}" class="btn btn-default">
+                    <span class="fa fa-download"></span>
+                    Télécharger la fiche de poste
+                </a>
+            {% endif %}
+            &nbsp;
+            &nbsp;
+            {% if app.user and not app.user.enabled  %}
+                <div class="alert alert-danger text-center" role="alert">
+                    Votre compte n'est pas encore activé par un adminisatreur afin que vous puissiez postulez à des missions.
+                </div>
+            {% elseif app.user %}
+                {% if user_connected_reserved|default %}
+                    <div class="text-center mt-4">
+                        Vous avez postulez à cette offre le {{ user_connected_reserved }}
+                    </div>
+                    <div class="text-center">
+                        <a href="#" class="js-cancel-booking" data-url="{{ path('front_mission_cancel_booking', {slug: mission.slug}) }}">Annuler la réservation</a>
+                    </div>
+
+                {% else %}
+                   <div class="mt-4 text-center">
+                       <a href="#" class="js-booking-mission btn btn-primary" data-url="{{ path('front_mission_candidate', {slug: mission.slug}) }}">
+                           <span class="fa fa-paper-plane"></span>
+                           &nbsp;
+                           Postuler à cette offre
+                       </a>
+                   </div>
+                {% endif %}
+            {% endif %}
+
+        </div>
+
+        {% if not app.user %}
+            <div class="text-center text-muted">
+                Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour postuler à cette offre.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('front-mission') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('front-mission') }}
+{% endblock %}

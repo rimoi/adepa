@@ -1,0 +1,68 @@
+<div class="bg">
+    <div class="bg-product">
+        <div class="container product">
+            <div class="row">
+                <div id="sliderarticle" class="carousel slide " data-ride="carousel" data-interval="10000">
+                    <ol class="carousel-indicators">
+                        <li data-target="#sliderarticle" data-slide-to="0" class="active"></li>
+                        <li data-target="#sliderarticle" data-slide-to="1"></li>
+                        <li data-target="#sliderarticle" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox" data-interval="10000000">
+                        {% for article in articles %}
+                            <div class="carousel-item {{ loop.first ? 'active' }}">
+                                <div class="container text-center">
+                                    <div class="row my-2">
+                                        <div class="col-sm-6 image">
+                                            <div class="item">
+                                                <h1>{{ article.title }}</h1>
+{#                                                {% if article.file %}#}
+{#                                                    <img class="img-fluid" src="{{ photo_directory ~'/'~ article.file.name }}" alt="mission {{ article.title }}">#}
+{#                                                {% else %}#}
+                                                    <img class="img-fluid" src="{{ asset('images/news.jpg') }}" alt="mission {{ article.title }}">
+{#                                                {% endif %}#}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            {% set readtiming = article.content|readtime %}
+                                            <div class="top d-flex justify-content-center">
+                                                <div class="timer" title="{{ readtiming }} minute de lecture">
+                                                    <b>
+                                                        {{ readtiming }}
+                                                        <br>
+                                                    </b>
+                                                    min
+                                                </div>
+    {#                                            <a href=""><b>15</b> <br>min</a>#}
+    {#                                            <a href=""><b>2</b> <br> sec</a>#}
+                                            </div><!--endtop-->
+                                            <div class="details">
+                                                <h2 class="cr3">{{ article.title }}</h2>
+                                                <p class="cr4">{{ article.content|u.truncate(250, '...')|raw }}</p>
+    {#                                            <div class="rating">#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                                <i class="fa fa-star"></i>#}
+    {#                                            </div>#}
+                                                <p class="cr10">
+                                                    {{ article.createdAt|ago(locale='fr') }}
+                                                </p>
+                                                <a href="{{ path('app_article', {slug: article.slug}) }}" class="btn btn-food">Voir</a>
+                                            </div><!--enddetails-->
+                                        </div>
+                                    </div><!--endrow-->
+                                </div><!--endcontainer-->
+                            </div><!--endcarousel-item-->
+                        {% endfor %}
+                        <a class="carousel-control-prev fa fa-angle-left" href="#sliderarticle" role="button" data-slide="prev">
+                        </a>
+                        <a class="carousel-control-next fa fa-angle-right" href="#sliderarticle" role="button" data-slide="next">
+                        </a>
+                    </div><!--endslidesliderarticle-->
+                </div><!--endrow-->
+            </div><!--endcontainer-->
+        </div><!--endbg-product-->
+    </div>
+</div>

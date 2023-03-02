@@ -1,0 +1,103 @@
+
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste article{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Missions
+        </li>
+    </ol>
+
+    <div class="mt-3">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Missions</h1>
+        <div class="text-right">
+            <a class="btn btn-outline-primary my-3" href="{{ path('front_mission') }}">
+                <span class="fa fa-search"></span>
+                Chercher une mission
+            </a>
+        </div>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Crée</th>
+                            <th>Publiée</th>
+                            <th>Début</th>
+                            <th>Fin</th>
+                            <th>Réservé</th>
+                            <th>Auteur</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for mission in missions %}
+                            <tr>
+                                <td>{{ mission.title }}</td>
+                                <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i') : '' }}</td>
+                                <td>
+                                    {% if mission.published %}
+                                        <span class="badge badge-info">
+                            Oui
+                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                          Non
+                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ mission.started ? mission.started|date('Y-m-d H:i') : '' }}</td>
+                                <td>{{ mission.ended ? mission.ended|date('Y-m-d H:i') : '' }}</td>
+                                <td>
+                                    {% if mission.booked %}
+                                        <span class="badge badge-info">
+                            Oui
+                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                          Non
+                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dark">{{ mission.user ? mission.user.nickname }}</span>
+                                </td>
+                                <td align="center">
+                                    <a href="{{ path('admin_mission_show', {'slug': mission.slug}) }}">
+                                        <span class="fa fa-eye"></span>
+                                        Voir
+                                    </a>
+                                    |
+                                    <a href="{{ path('admin_mission_edit', {'slug': mission.slug}) }}">
+                                        <span class="fa fa-pencil-alt"></span>
+                                        Modifier
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

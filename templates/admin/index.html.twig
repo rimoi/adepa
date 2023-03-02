@@ -1,0 +1,195 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Tableau de bord
+{% endblock %}
+{# {% block page_actions %}
+    <a class="btn btn-primary" href="...">Some Action</a>
+{% endblock %} #}
+
+{% block main %}
+
+	<h1>Bonjour
+		{{app.user.email}}</h1>
+
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col">
+				<div class ="row">
+					<div class="nbrUser">POSTE MISSION</div>
+
+					<div class="nbrEvent">
+						<a 
+						class="text-white" 
+						href="{{ ea_url()
+							.setController('App\\Controller\\Admin\\ProductCrudController')
+							.setAction('new')
+						}}">
+						CREER UN ATELIER
+						</a>
+					</div>
+
+					<div class="calendarLink">MON CALENDRIER</div>
+
+				</div>
+			</div>
+
+			{# <div class="col">
+				<div id="containerCalendrier">
+					<a href={{path('calendar')}}>
+						<i class="fa-solid fa-calendar" id="calendrier"></i>
+						<p>Accéder à son calendrier</p>
+					</a>
+				</div>
+			</div> #}
+
+			<div class="col">
+				<div class ="row">
+				<div class="nbrUser">Nombre d'utilisateurs enregistrés :
+					{{nbrUser.total}}
+				</div>
+				<div class="nbrEvent">Nombre d'évènements enregistrés :
+					{{nbrEvent.total}}
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+
+			<div class="col vue cadre_scroll">
+				<h2>Actualités d'ADEPA</h2>
+				<div class="accordion accordion-flush" id="accordionFlushExample">
+					{% for new in news %}
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="flush-headingOne">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#target_test" aria-expanded="false" aria-controls="flush-collapseOne">
+									test
+								</button>
+							</h2>
+							<div id="target_test" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+								<div class="accordion-body"> </div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				{% for new in news %}{% endfor %}
+
+			</div>
+
+		</div>
+
+		<hr>
+
+		<div class="row">
+
+			{% if app.user.roles.0 == "ROLE_ADMIN" %}
+
+				<h2>Réception messages</h2>
+
+			{% else %}
+				<h2>Un problème ?</h2>
+				<p>Envoyer un message à l'administration</p>
+				<p>MESSAGE AUX TESTEURS : LA MESSAGERIE EST EN COURS D'IMPLEMENTATION MERCI DE NE PAS ENVOYER DE MESSAGE</p>
+			{% endif %}
+
+			<form>
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Votre adresse mail</label>
+					<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+				</div>
+
+				<div class="mb-3">
+					<label for="exampleFormControlTextarea1" class="form-label">Décrivez votre problème</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Envoyer votre message</button>
+			</form>
+		
+
+		</div>
+
+		<hr>
+	</div>
+
+	<style>
+		.nbrUser {
+			background-color: red;
+			height: 5rem;
+			width: 10rem;
+			border: solid;
+			margin-right: 20px;
+		}
+
+		.nbrEvent {
+			background-color: grey;
+			height: 5rem;
+			width: 10rem;
+			border: solid;
+			margin-right: 20px;
+		}
+
+		.calendarLink {
+			background-color: blue;
+			height: 5rem;
+			width: 10rem;
+			border: solid;
+			margin-right: 20px;
+		}
+
+
+
+	</style>
+
+
+<style>
+
+	.row {
+		margin : 1rem;
+	}
+
+	#calendrier {
+		font-size: 50px;
+	}
+
+	#containerCalendrier {
+		text-align: center;
+		margin: 1rem;
+	}
+
+	.cadre_scroll {
+		overflow: auto;
+		max-height: 200px;
+	}
+
+</style>{% endblock %}{% block javascripts %}
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('booking');
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+locale: 'fr',
+buttonText: {
+today: 'Aujourd\'hui',
+month: 'Mois',
+week: 'Semaine'
+},
+timeZone: 'Europe/Paris',
+headerToolbar: {
+start: 'prev,next today',
+center: 'title',
+allDaySlot: false,
+end: 'dayGridMonth,timeGridWeek'
+},
+// events: {{ data|raw }},
+navLinks: true
+
+});
+calendar.render();
+});
+</script>{% endblock %}

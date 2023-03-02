@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Controller\BackOffice;
+
+use App\Entity\File;
+use App\Entity\User;
+use App\Form\ProfileFormType;
+use App\helper\ArrayHelper;
+use App\helper\FormHelper;
+use App\Service\FileUploader;
+use App\Service\QualificationService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/admin', name: 'admin_profile_')]
+class ProfileController extends AbstractController
+{
+    #[Route('/profile', name: 'index')]
+    public function index(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        QualificationService $qualificationService
+    ): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+       
+        $form = $this->createForm(ProfileFormType::class, $user, ['show_experience' => true]);
+        $form->handleRequest($request);
+
+        $errors = null;
+        $showUploadedImage = 0;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $qualificationService->addElement($form, 'cni');
+            $qualificationService->addElement($form, 'permisConduite');
+            $qualificationService->addElement($form, 'iban');
+            $qualificationService->addElement($form, 'autoentrepriseCertificate');
+
+            // Decommenter quand on rajout le CV
+            //$qualificationService->addElement($form, 'file');
+
+            $qualificationService->addExperience($form, 'experiences');
+            $qualificationService->addExperience($form, 'qualifications');
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Modification bien enregistrés !');
+
+            return $this->redirectToRoute('admin_dash_board_index');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+
+            $errors = FormHelper::getErrorsFromForm($form, true);
+
+        }
+
+        return $this->renderForm('back_office/profile/index.html.twig', [
+            'form' => $form,
+            'errors' => $errors,
+            'show_updaded_image' => !!$errors,
+            'path' => $this->getParameter('app.image_directory')
+        ]);
+    }
+}

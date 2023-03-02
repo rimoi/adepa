@@ -1,0 +1,27 @@
+<div id="booking"></div>
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('calendar');
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+locale: 'fr',
+buttonText: {
+today: 'Aujourd\'hui',
+month: 'Mois',
+week: 'Semaine'
+},
+timeZone: 'Europe/Paris',
+headerToolbar: {
+start: 'prev,next today',
+center: 'title',
+end: 'dayGridMonth,timeGridWeek'
+},
+allDaySlot: false,
+navLinks: true
+
+});
+calendar.render();
+});
+</script>

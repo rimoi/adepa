@@ -1,0 +1,27 @@
+#experience-fields-list, #qualification-fields-list {
+    list-style: none;
+    padding: 12px;
+    background-color: #e4e5e7;
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+
+
+.js-genus-scientist-item {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.cs-gender-bo .form-check {
+    margin-right: 21px;
+}
+
+.cs-upload-image-block  {
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #e4e5e7;
+}
+
+.js-toggle-show .form-control {
+    height: auto !important;
+}
+

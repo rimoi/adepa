@@ -1,0 +1,80 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste article{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">News</h1>
+    <div class="text-right">
+        <a class="btn btn-outline-primary my-3" href="{{ path('admin_article_new') }}">
+            <span class="fa fa-plus-square"></span>
+            Nouveau article
+        </a>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"></h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                    <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Crée</th>
+                <th>Publié ?</th>
+                <th>Auteur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.title }}</td>
+                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i') : '' }}</td>
+                <td align="center">
+                    {% if article.published %}
+                        <span class="badge badge-info">
+                                            Oui
+                                        </span>
+                    {% else %}
+                        <span class="badge badge-secondary">
+                                            Non
+                                        </span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="badge badge-dark">{{ article.user ? article.user.nickname }}</span>
+                </td>
+                <td align="center">
+                    <a href="{{ path('admin_article_show', {'slug': article.slug}) }}">
+                        <span class="fa fa-eye"></span>
+                        Voir
+                    </a>
+                    |
+                    <a href="{{ path('admin_article_edit', {'slug': article.slug}) }}">
+                        <span class="fa fa-pencil-alt"></span>
+                        Modifier
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

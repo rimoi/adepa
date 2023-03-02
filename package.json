@@ -1,0 +1,39 @@
+{
+    "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/webpack-encore": "^3.0.0",
+        "browser-sync": "2.26.14",
+        "core-js": "^3.23.0",
+        "file-loader": "^6.0.0",
+        "fos-router": "./vendor/friendsofsymfony/jsrouting-bundle/Resources/",
+        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.58.2",
+        "sass-loader": "^13.0.0",
+        "webpack-notifier": "^1.15.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "5.15.3",
+        "@fullcalendar/core": "^6.1.4",
+        "@fullcalendar/daygrid": "^6.1.4",
+        "@fullcalendar/list": "^6.1.4",
+        "@fullcalendar/timegrid": "^6.1.4",
+        "@popperjs/core": "^2.11.6",
+        "bootstrap": "5.2.3",
+        "ckeditor4": "^4.13.0",
+        "datatables.net-bs4": "1.10.24",
+        "flatpickr": "^4.6.13",
+        "jquery": "3.6.0",
+        "jquery.easing": "^1.4.1",
+        "sweetalert2": "^11.7.2",
+        "tooltip": "^1.6.1"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    }
+}

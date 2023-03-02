@@ -1,0 +1,31 @@
+.event-main-img {
+    min-width: 25%;
+}
+
+.selectCategory {
+    margin-right: 10px;
+}
+
+.event {
+    display: flex;
+    width: 100vw;
+    background-color: #ff5751;
+    overflow: scroll;
+}
+
+.event-category {
+    background-color: red;
+}
+
+.card-event {
+    min-width: 25%;
+    margin: 5px;
+}
+
+.card-event img {
+    width: 100%;
+}
+
+.event .card {
+    width: 20%;
+}

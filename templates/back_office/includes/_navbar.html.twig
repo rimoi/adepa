@@ -1,0 +1,150 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center class" href="{{ path('admin_dash_board_index') }}">
+        <img src="/images/logo.png" alt="Logo ADEPA" width="90">
+{#        <div class="sidebar-brand-icon rotate-n-15">#}
+{#            <i class="fas fa-laugh-wink"></i>#}
+{#        </div>#}
+{#        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>#}
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_dash_board_index' ? 'active' }}">
+        <a class="nav-link" href="{{ path('admin_dash_board_index') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Utilisateurs
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_profile_index' ? 'active' }}">
+        <a class="nav-link" href="{{ path('admin_profile_index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Mon profil</span>
+        </a>
+    </li>
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_user_index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Gestion utilisateurs</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Missions
+    </div>
+
+    {% if is_granted('ROLE_CLIENT') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_mission_new') }}">
+                <i class="fas fa-fw fa-plus-circle"></i>
+                <span>Proposer une mission</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_candidat_index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Mes candidats</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_mission_index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Mes missions</span>
+            </a>
+        </li>
+    {% elseif is_granted('ROLE_FREELANCE') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_agenda_index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Mon planning</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_mission_my_missions') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Mes missions</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Divider -->
+{#    <hr class="sidebar-divider">#}
+
+{#    <!-- Heading -->#}
+{#    <div class="sidebar-heading">#}
+{#        Offres#}
+{#    </div>#}
+
+{#    <li class="nav-item">#}
+{#        <a class="nav-link" href="#">#}
+{#            <i class="fas fa-fw fa-plus-circle"></i>#}
+{#            <span>Proposer une offre</span>#}
+{#        </a>#}
+{#    </li>#}
+
+{#    <li class="nav-item">#}
+{#        <a class="nav-link" href="#">#}
+{#            <i class="fas fa-fw fa-folder"></i>#}
+{#            <span>Mes offres</span>#}
+{#        </a>#}
+{#    </li>#}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            News
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_article_new') }}">
+                <i class="fas fa-fw fa-plus"></i>
+                <span>Partager une nouvelles</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_article_index') }}">
+                <i class="fas fa-fw fa-newspaper"></i>
+                <span>Les nouvelles</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    <!-- Sidebar Message -->
+{#    <div class="sidebar-card d-none d-lg-flex">#}
+{#        <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">#}
+{#        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>#}
+{#        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>#}
+{#    </div>#}
+
+</ul>

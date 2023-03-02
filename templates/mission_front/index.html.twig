@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste missions{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">Missions</li>
+        </ol>
+
+        <div class="gallery col-12 col-md-4 offset-md-5">
+            <h1 class="bg-danger text-white p-3 d-inline-block my-4 rounded-2">Missions Urgentes</h1>
+        </div>
+        <br>
+        <div class="row">
+            {% for mission in missions.urgent %}
+                <div class="col-12 col-md-4">
+                    <div class="card border-danger bg-light text-center text-dark">
+                        <div class="card-header fw-bold fs-5 text-dark">
+                            <div class="my-1">
+                                {{ mission.title }}
+                            </div>
+                            <div class="text-center fs-6 badge bg-danger">
+                                {{ mission.started|date('d/m/Y à H:i') }}
+                                <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
+                            </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <div style="width: 359px;height: 195px!important;">
+                                    {{ mission.content|u.truncate(250, '...')|raw }}
+                                </div>
+                                <div class="my-1">
+                                    <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-danger">Voir l'offre</a>
+                                </div>
+                                <div class="text-small text-muted my-2">
+                                    {{ mission.createdAt|ago(locale='fr') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-2 mt-md-5 mb-5">
+        <div class="gallery col-12 col-md-4 offset-md-5">
+            <h1 class="bg-primary text-white p-3 d-inline-block my-4 rounded-2">Missions</h1>
+        </div>
+        <div class="row">
+            <br />
+            {% for mission in missions.normal %}
+            <div class="col-12 col-md-4">
+                <div class="card border-primary bg-light text-center text-dark">
+                    <div class="card-header fw-bold fs-5 text-dark">
+                        <div class="my-1">
+                            {{ mission.title }}
+                        </div>
+                        <div class="text-center fs-6 badge bg-primary">
+                            {{ mission.started|date('d/m/Y à H:i') }}
+                            <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div style="width: 359px;height: 195px!important;">
+                                {{ mission.content|u.truncate(250, '...')|raw }}
+                            </div>
+                            <div class="my-1">
+                                <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-primary">Voir l'offre</a>
+                            </div>
+                            <div class="text-small text-muted my-2">
+                                {{ mission.createdAt|ago(locale='fr') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('front-mission') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('front-mission') }}
+{% endblock %}

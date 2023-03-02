@@ -1,0 +1,194 @@
+<?php
+
+namespace App\Form;
+
+use App\Constant\GenderConstant;
+use App\Constant\UserConstant;
+use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ProfileFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('telephone', TelType::class, [
+                'label' => "Numéro de téléphone :",
+                'attr' => [
+                    'placeholder' => '0606060606'
+                ]
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom :',
+                'attr' => [
+                    'placeholder' => 'Jean'
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom :',
+                'attr' => [
+                    'placeholder' => 'Dupond'
+                ]
+            ])
+            ->add('gender', ChoiceType::class, [
+                'choices' => GenderConstant::MAP,
+                'label' => 'Civilité :',
+                'expanded' => true,
+                'multiple' => false,
+                'attr'=> [
+                    'class' => 'd-flex cs-gender-bo'
+                ]
+            ])
+            ->add('adress',TextType::class, [
+                'label' => 'Adresse :',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '23 avenue claude monet'
+                ]
+            ])
+            ->add('zipCode',IntegerType::class, [
+                'label' => 'Code postal :',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '75015'
+                ]
+            ])
+            ->add('city',TextType::class, [
+                'label' => 'Ville :',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Paris'
+                ]
+            ])
+            ->add('iban', FileType::class, [
+                'label' => 'IBAN :',
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('siret', TextType::class, [
+                'label' => 'SIRET :',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '36252187900034'
+                ]
+            ])
+            ->add('tva', TextType::class, [
+                'label' => 'TVA :',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'numéro TVA'
+                ]
+            ])
+            ->add('cni', FileType::class, [
+                'label' => 'Pièce d\'identité :',
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('permisConduite', FileType::class, [
+                'label' => 'Permis de conduire :',
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('autoentrepriseCertificate', FileType::class, [
+                'label' => 'Attestation auto-entrepreneur :',
+                'required' => false,
+                'mapped' => false
+            ])
+
+            // CV
+//            ->add('file', FileType::class, [
+//                'label' => false,
+//                'required' => false,
+//                'mapped' => false
+//            ])
+        ;
+
+
+        if ($options['show_experience'] ?? false) {
+            $builder
+                ->add('experiences', CollectionType::class, [
+                    'label' => false,
+                    'entry_type' => ExperienceType::class,
+                    'allow_add' => true,
+                    'prototype' => true,
+                    // these options are passed to each "email" type
+                    'entry_options' => [
+                        'attr' => ['class' => 'row'],
+                    ],
+                    'allow_delete' => true,
+                    'delete_empty' => true
+                ]);
+
+            $builder
+                ->add('qualifications', CollectionType::class, [
+                    'label' => false,
+                    'entry_type' => QualificationType::class,
+                    'allow_add' => true,
+                    'prototype' => true,
+                    // these options are passed to each "email" type
+                    'entry_options' => [
+                        'attr' => ['class' => 'row'],
+                    ],
+                    'allow_delete' => true,
+                    'delete_empty' => true
+                ]);
+        }
+
+        if ($options['new_user'] ?? false) {
+            $builder
+                ->add('email', EmailType::class);
+        }
+        if ($options['edit_user'] ?? false) {
+            $user  = $options['data'];
+            $roles = $user->getRoles();
+                foreach ($roles as $key => $value) {
+                    $roles[$key] = UserConstant::asStringInverse($value);
+                }
+
+                $builder
+                    ->add('enabled', CheckboxType::class, [
+                        'label_attr' => ['class' => 'switch-custom'],
+                        'label'    => 'Activer ?',
+                        'required' => false
+                    ])
+                    ->add('roles', ChoiceType::class,  [
+                        'choices'  => UserConstant::all(),
+                        'mapped'   => false,
+                        'multiple' => true,
+                        'expanded' => true,
+                        'data'     => $roles,
+                        'required' => false,
+                    ])
+                    ->add('plainPassword', PasswordType::class, [
+                          'label' => 'Mot de passe',
+                          'required' => false,
+                          'mapped' => false,
+                          'attr' => [
+                              'placeholder' => '******'
+                          ]
+                  ]);
+            }
+    }
+
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'new_user' => false,
+            'edit_user' => false,
+            'show_experience' => false,
+            'show_formation' => false,
+        ]);
+    }
+}

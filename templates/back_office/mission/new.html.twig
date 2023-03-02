@@ -1,0 +1,19 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title 'Nouvelle Mission' %}
+
+{% block body %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('admin_mission_index') }}">Missions</a>
+        </li>
+        <li class="breadcrumb-item active">Nouvelle Mission</li>
+    </ol>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Nouvelle Mission</h6>
+        </div>
+        {% include 'back_office/mission/_form.html.twig' %}
+    </div>
+{% endblock %}

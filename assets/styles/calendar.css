@@ -1,0 +1,78 @@
+.cal-wrapper{background:#fff;max-width:1200px;margin:0 auto;padding:20px;
+    border-radius:10px;}
+
+/*#calendar {*/
+
+/*}*/
+
+/*.fc-timegrid-slot-label {*/
+/*    font-weight: 800;*/
+/*}*/
+
+/*.fc-timegrid-slots table tr {*/
+/*    transition: all .15s ease;*/
+/*}*/
+
+/*.fc-timegrid-slots table tr:hover {*/
+/*    background: #fffae2 !important;*/
+/*    transition: all .15s ease;*/
+/*}*/
+
+/*.fc-timegrid-slots table tr:nth-child(4n + 1) {*/
+/*//background: #fffae2 !important;}*/
+
+/*.fc-timegrid-slot-label[data-time*=":15"],*/
+/*.fc-timegrid-slot-label[data-time*=":30"],*/
+/*.fc-timegrid-slot-label[data-time*=":45"] {*/
+/*    font-size: 80%;*/
+/*    opacity: 0.5;*/
+/*    font-weight: 400;*/
+/*}*/
+
+/*{}*/
+
+/*.fc .fc-highlight {*/
+/*    background: #f16621 !important;*/
+/*}*/
+
+/*.fc-day-today {*/
+/*    background-color: #fffae2;*/
+/*}*/
+
+/*.fc-day-past {*/
+/*    background-color: #f7edee;*/
+/*}*/
+
+/*th.fc-day-today:before {*/
+/*    content: 'Today';*/
+/*    font-size: 80%;*/
+/*    line-height: 1;*/
+/*    text-transform: uppercase;*/
+/*    opacity: 0.6;*/
+/*}*/
+
+/*th.fc-day-past:before {*/
+/*    content: 'Past';*/
+/*    font-size: 80%;*/
+/*    line-height: 1;*/
+/*    text-transform: uppercase;*/
+/*    opacity: 0.6;*/
+/*}*/
+
+/*th.fc-day-future:before {*/
+/*    content: "\00a0";*/
+/*    font-size: 80%;*/
+/*    line-height: 1;*/
+/*    text-transform: uppercase;*/
+/*}*/
+
+/*.fc-timegrid-axis-frame:after {*/
+/*    content: 'V';*/
+/*    font-family: 'Times';*/
+/*    line-height: 36px;*/
+/*    text-align: center;*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    font-size: 24px;*/
+/*    color: #f16621;*/
+/*}*/

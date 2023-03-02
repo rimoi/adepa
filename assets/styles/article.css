@@ -1,0 +1,227 @@
+:root{
+    --cr1:#d89839;
+    --cr2:#fff;
+    --cr3:#000000da;
+    --cr4:#000000a1;
+    --cr5:#BEB4B1;
+    --fs1:34px;
+    --fs2:24px;
+    --fs3:20px;
+    --fs4:16px;
+    --fs5:14px;
+}
+
+/* the same attribute */
+.cr1{
+    color: var(--cr1);
+}
+.c2{
+    color:  var(--cr2);
+}
+.cr3{
+    color:  var(--cr3);
+}
+.cr4{
+    color:  var(--cr4);
+}
+.cr5{
+    color:  var(--cr5);
+}
+.fs1{
+    font-size: 34px;
+}
+.fs2{
+    font-size: 24px;
+}
+.fs3{
+    font-size: 20px;
+}
+.fs4{
+    font-size: 16px;
+}
+.fs5{
+    font-size: 14px;
+}
+/* end the same attribute */
+
+
+.bg-product{
+    /* SET Height cho nó rồi bảo sao ko lỗi? */
+    /*height: #e3e5eb;*/
+    background: #e3e5eb;
+    /*background: #d1d7f5;*/
+    /* overflow: hidden; */
+}
+#sliderproduct, #sliderarticle{
+    width: 100%;
+}
+#sliderproduct .carousel-inner , #sliderarticle .carousel-inner {
+    overflow: visible;
+}
+
+#sliderproduct .col-sm-6.image , #sliderarticle .col-sm-6.image {
+    background: #fff;
+    box-shadow: 0px 4px 8px 0px #959595;
+    position: relative;
+    /* Thêm cái của nợ này vào bảo sao nó ko tràn bờ đê */
+    /*top: -44px;
+    padding: 100px;
+    padding-top: 40px;*/
+}
+.cs-carousel .item {
+    padding: 20px 20px 40px 20px;
+}
+
+.cs-carousel .col-sm-6.image .item img.img-fluid {
+    /* Ai mướn thêm cái vào làm phá bố cục css của người ta.. mún trang web đẹp thì phải lựa cái ảnh đẹp đẹp vào rồi set cái độ rộng cho nó vừa là được rồi */
+    /*min-width: 100%;*/
+    width: 315px;
+}
+.cs-carousel .col-sm-6.image h1 {
+    margin-bottom: 20px;
+}
+
+
+#sliderproduct .top .timer , #sliderarticle .top .timer {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    padding: 14px 22px;
+    background: #d89839;
+    box-sizing: border-box !important;
+    text-align: center;
+    margin: 0px 2px;
+    display: block;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#sliderproduct .col-sm-4.mr-auto , #sliderarticle .col-sm-4.mr-auto {
+    margin-top: 22px;
+}
+
+
+#sliderproduct p.cr1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+
+#sliderarticle p.cr1 {
+    font-size: 12px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+#sliderproduct .col-sm-6:last-child ,#sliderarticle .col-sm-6:last-child {
+    /* Cần nâng cao thêm kiến thức về sử dụng padding */
+    padding-top: 27px;
+    padding-bottom: 27px;
+}
+#sliderproduct .details p.d-inline-block ,#sliderarticle .details p.d-inline-block {
+    color: #e0794f;
+}
+
+#sliderproduct .details .fa ,#sliderarticle .details .fa {
+    color: #e0794f;
+    padding: 0px 3px;
+}
+
+#sliderproduct .rating ,#sliderarticle .rating {
+    margin: 23px 0px;
+}
+
+#sliderproduct .details .btn ,#sliderarticle .details .btn {
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 16px 22px;
+    background: #d89839;
+    color: #fff;
+    border-radius: 81px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+#sliderproduct .details h2 , #sliderarticle .details h2 {
+    margin: 25px 0px 30px 0px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+#sliderproduct .details p.cr4 , #sliderarticle .details p.cr4 {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    margin-bottom: 0px;
+}
+#sliderproduct .carousel-item, #sliderarticle .carousel-item{
+    transition: 0.4s;
+}
+
+
+#sliderproduct a.carousel-control-prev, #sliderproduct a.carousel-control-next , #sliderarticle a.carousel-control-prev, #sliderarticle a.carousel-control-next {
+    border-radius: 50%;
+    background-color: #d89839;
+    width: 59px;
+    height: 59px;
+    font-size: 30px;
+    text-align: center;
+    line-height: 40px;
+    opacity: 1;
+    top: 50%;
+    transform: translate(-50%,-60%);
+}
+
+#sliderproduct a.carousel-control-next  {
+    transform: translate(-23%,-60%);
+}
+
+#sliderproduct a.carousel-control-prev  {
+    transform: translate(34%,-60%);
+}
+
+#sliderarticle a.carousel-control-next {
+    transform: translate(77%,-60%);
+}
+
+#sliderarticle a.carousel-control-prev {
+    transform: translate(-90%,-60%);
+}
+
+.cs-carousel .bg {
+    height: 570px;
+    overflow: hidden;
+}
+
+#sliderproduct ol.carousel-indicators , #sliderarticle ol.carousel-indicators {
+    display: none;
+}
+
+@media (max-width: 1072px) {
+    #sliderproduct a.carousel-control-next  {
+        transform: translate(86%,-104%);
+    }
+
+    #sliderproduct a.carousel-control-prev  {
+        transform: translate(-97%,-115%);
+    }
+}
+
+/* Partie front */
+.cs-article-front .edito {
+    border-bottom: 1px solid #f1e9e0;
+    margin: 0 0 13px;
+    padding: 30px 0;
+}
+
+.cs-article-front p {
+    font-size: 15px;
+    line-height: 21px;
+    margin-bottom: 10px;
+}
+
+.cs-mission-front .info-started {
+    margin-top: 4rem;
+    margin-bottom: 6rem;
+}

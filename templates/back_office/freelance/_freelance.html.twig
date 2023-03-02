@@ -1,0 +1,62 @@
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+
+    <div>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th align="center">Prénom</th>
+                            <th align="center">Nom</th>
+                            <th align="center">Phone</th>
+                            <th align="center">Email</th>
+                            <th align="center">Active</th>
+                            <th align="center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr class="user-{{ user.id }}">
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.telephone }}</td>
+                                <td>{{ user.email }}</td>
+                                <td align="center">
+                                    {% if user.enabled %}
+                                        <span class="badge badge-info">
+                                            Oui
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                                            Non
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td align="center">
+                                    <a href="{{ path('admin_user_edit', {slug: user.slug}) }}">Modifier</a>
+                                    |
+                                    <a href="#" class="js-validate-url" data-slug="{{ user.slug }}" data-element="user-{{ user.id }}">Activer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+

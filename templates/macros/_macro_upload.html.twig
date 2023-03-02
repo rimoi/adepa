@@ -1,0 +1,118 @@
+{% macro image(file, file_object) %}
+    <div class="form-error">
+        {{ form_errors(file) }}
+    </div>
+    <div class="js-macro-upload-image">
+        <div class="js-parent-element">
+            {% set uploaded_file = false %}
+            {% if file_object and file_object.name %}
+                {% set uploaded_file = true %}
+
+                <div class="col">
+                    <div class="cs-upload-image-block">
+                        Vous-avez déjà uploader un document pour le
+                        <a target="_blank" href="{{ path('front_mission_consulter', {id: file_object.id}) }}">consulter</a>
+                        <p>
+                            Si vous souhaiter le mettre à jour cliquer
+                            <span class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                       <a href="#" class="js-show-element" data-class-parent=".js-toggle-show">ici</a>
+                                               </span>
+                        </p>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+
+        <div class="js-toggle-show {{ uploaded_file ? 'd-none' }}">
+            {{ form_widget(file) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro show_image(file_object) %}
+    <div class="js-macro-upload-image">
+        <div class="js-parent-element">
+            {% set uploaded_file = false %}
+            {% if file_object and file_object.name %}
+                {% set uploaded_file = true %}
+
+                <div class="col-12 text-center">
+                    <div class="cs-upload-image-block">
+                        <a target="_blank" href="{{ path('front_mission_consulter', {id: file_object.id}) }}">Voir le document</a>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro only_bouton(file, file_object) %}
+    <div class="form-error">
+        {{ form_errors(file) }}
+    </div>
+    <div class="js-parent-element">
+        {% set uploaded_file = false %}
+        {% if file_object and file_object.name %}
+            {% set uploaded_file = true %}
+
+            <div class="col mt-2">
+                <a target="_blank" href="{{ path('front_mission_consulter', {id: file_object.id}) }}">
+                    <span class="fa fa-eye text-primary" title="consulter le fichier"></span>
+                </a>
+                &nbsp;
+                &nbsp;
+                <a href="#" class="js-show-element" data-class-parent=".js-toggle-show">
+                    <span class="fa fa-pencil-alt text-info" title="Modifier le fichier"></span>
+                </a>
+            </div>
+
+        {% endif %}
+    </div>
+
+    <div class="js-toggle-show {{ uploaded_file ? 'd-none' }}">
+        {{ form_row(file) }}
+    </div>
+{% endmacro %}
+
+{% macro printExperience(experience, with_div) %}
+
+    {% from 'macros/_macro_upload.html.twig' import only_bouton as upload %}
+
+    {% if with_div|default %}
+        <div class="row js-genus-scientist-item">
+    {% endif %}
+
+    <div class="col-12 col-sm-2 my-1">
+        {{ form_errors(experience.year) }}
+        {{ form_widget(experience.year) }}
+    </div>
+    <div class="col-12 col-sm-6 my-1">
+        {{ form_errors(experience.title) }}
+        {{ form_widget(experience.title) }}
+    </div>
+    {% if 'file' in experience|keys %}
+        <div class="col-12 col-sm-2 my-1">
+            {% if experience.vars.value.file is defined %}
+                {{ upload(
+                    experience.file,
+                    experience.vars.value.file
+                ) }}
+            {% else %}
+                {{ form_errors(experience.file) }}
+                {{ form_widget(experience.file) }}
+            {% endif %}
+        </div>
+    {% endif %}
+    {% if 'entreprise' in experience|keys %}
+        <div class="col-12 col-sm-2 my-1">
+            {{ form_errors(experience.entreprise) }}
+            {{ form_widget(experience.entreprise) }}
+        </div>
+    {% endif %}
+
+    {% if with_div|default %}
+        </div>
+    {% endif %}
+{% endmacro %}

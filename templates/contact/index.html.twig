@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Contact{% endblock %}
+
+{% block body %}
+
+    <div class="container" id="contant">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">Contact</li>
+        </ol>
+
+        <h2 class="text-dark text-center my-5">Contactez-nous</h2>
+        <div>
+            {{ form_start(form) }}
+
+            {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.phone) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(form.email) }}
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.type) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.content) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+   
+
+{% endblock %}

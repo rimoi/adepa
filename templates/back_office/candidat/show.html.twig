@@ -1,0 +1,192 @@
+{% extends 'base_admin.html.twig' %}
+
+{% import 'macros/_macro_upload.html.twig' as upload %}
+
+{% block title %}Mon profil - {{ app.user.nickname }}{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('admin_candidat_index') }}">Mes candidats</a>
+        </li>
+        <li class="breadcrumb-item active">Profil de {{ user.gender }} {{ user.nickname }}</li>
+    </ol>
+
+
+    {% import _self as macro %}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Profil de {{ user.gender }} {{ user.nickname }}</h6>
+        </div>
+        <div class="card-body">
+            <div class="p-5">
+                {{ form_start(form, {'attr': {'class': 'user'}}) }}
+
+                <div class="row mb-2">
+                    <div class="col-12 col-lg-12">
+                        Civilité :
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
+                            <label class="form-check-label" for="flexRadioCheckedDisabled">
+                                {{ user.gender }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.lastname, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.firstname, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.telephone, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12 col-lg-4">
+                    {{ form_label(form.permisConduite) }}
+                    {% if user.permisConduite %}
+                        {{ upload.show_image(user.permisConduite) }}
+                    {% else %}
+                        <div class="alert alert-secondary" role="alert">
+                            Pas remplie par l'utilisateur
+                        </div>
+                    {% endif %}
+
+                </div>
+                {% if 'experiences' in form|keys %}
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.qualifications, 'Expériences : ') }}
+                            {{ form_errors(form.qualifications) }}
+
+                            <div>
+                                {% for qualification in form.qualifications %}
+                                    {{ macro.printExperience(qualification, true) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.experiences, 'Qualifications : ') }}
+                            {{ form_errors(form.experiences) }}
+
+                            <div>
+                                {% for experience in form.experiences %}
+                                    {{ macro.printExperience(experience, true) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <hr>
+
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.adress, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.zipCode, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {{ form_row(form.city, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        {{ form_row(form.siret, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {{ form_row(form.tva, {attr: {disabled: 'disabled'}}) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.iban) }}
+                        {% if user.iban %}
+                            {{ upload.show_image(user.iban) }}
+                        {% else %}
+                            <div class="alert alert-secondary" role="alert">
+                                Pas remplie par l'utilisateur
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.cni) }}
+                        {% if user.cni %}
+                            {{ upload.show_image(user.cni) }}
+                        {% else %}
+                            <div class="alert alert-secondary" role="alert">
+                                Pas remplie par l'utilisateur
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_label(form.autoentrepriseCertificate) }}
+
+                        {% if user.autoentrepriseCertificate %}
+                            {{ upload.show_image(user.autoentrepriseCertificate) }}
+                        {% else %}
+                            <div class="alert alert-secondary" role="alert">
+                                Pas remplie par l'utilisateur
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+            {{ form_end(form, {render_rest: false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% macro printExperience(experience, with_div) %}
+
+    {% from 'macros/_macro_upload.html.twig' import show_image as upload %}
+
+    {% if with_div|default %}
+        <div class="row js-genus-scientist-item">
+    {% endif %}
+
+        <div class="col-12 col-sm-2 my-1">
+            {{ form_errors(experience.year) }}
+            {{ form_widget(experience.year, {attr: {disabled: 'disabled'}}) }}
+        </div>
+        <div class="col-12 col-sm-6 my-1">
+            {{ form_errors(experience.title) }}
+            {{ form_widget(experience.title, {attr: {disabled: 'disabled'}}) }}
+        </div>
+        {% if 'file' in experience|keys %}
+            <div class="col-12 col-sm-2 my-1">
+                {% if experience.vars.value.file is defined %}
+                    {{ upload.show_image(experience.vars.value.file) }}
+                {% else %}
+                    <div class="alert alert-secondary" role="alert">
+                        Pas remplie par l'utilisateur
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if 'entreprise' in experience|keys %}
+            <div class="col-12 col-sm-2 my-1">
+                {{ form_errors(experience.entreprise) }}
+                {{ form_widget(experience.entreprise, {attr: {disabled: 'disabled'}}) }}
+            </div>
+        {% endif %}
+
+    {% if with_div|default %}
+        </div>
+    {% endif %}
+{% endmacro %}
