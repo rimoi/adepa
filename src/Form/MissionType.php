@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Constant\MissionTypeConstant;
+use App\Entity\Category;
 use App\Entity\Mission;
+use App\Repository\CategoryRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MissionType extends AbstractType
@@ -34,19 +39,19 @@ class MissionType extends AbstractType
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'Ex: Poste'],
             ])
-            ->add('category', TextType::class, [
-                'attr' => ['placeholder' => 'handicapé, mineur, personne agé, ...', 'class' => 'form-control'],
-                'label' => 'Personne concerné',
-                'required' => false,
-            ])
-            ->add('type', ChoiceType::class, [
-                'choices' => MissionTypeConstant::MAP,
-                'label' => 'Type de service',
-                'attr' => [
-                    'class' => 'custom-select'
-                ],
-                'required' => 'false',
-            ])
+//            ->add('category', TextType::class, [
+//                'attr' => ['placeholder' => 'handicapé, mineur, personne agé, ...', 'class' => 'form-control'],
+//                'label' => 'Personne concerné',
+//                'required' => false,
+//            ])
+//            ->add('type', ChoiceType::class, [
+//                'choices' => MissionTypeConstant::MAP,
+//                'label' => 'Type de service',
+//                'attr' => [
+//                    'class' => 'custom-select'
+//                ],
+//                'required' => 'false',
+//            ])
             ->add('content', CKEditorType::class, [
                 'required' => 'false',
                 'label' => 'false',
@@ -98,6 +103,32 @@ class MissionType extends AbstractType
                 'label_attr' => ['class' => 'switch-custom'],
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+    }
+
+    public function onPreSetData(FormEvent $event): void
+    {
+        $form = $event->getForm();
+
+        $form->add('categories', EntityType::class, [
+            'class' => Category::class,
+            'query_builder' => static function (CategoryRepository $repository) {
+                return $repository->createQueryBuilder('t')
+                    ->innerJoin('t.parent', 'p')
+                    ->addOrderBy('t.title', 'ASC');
+            },
+            'group_by' => static function (Category $choice) {
+                return $choice->getParent()->getTitle();
+            },
+            'mapped' => true,
+            'label' => 'Type de service ( Vous pourriez choisir plusieurs )',
+            'multiple' => true,
+            'attr' => [
+                'class' => 'js-select2',
+                'style' => "width: 100%",
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -4,7 +4,10 @@ namespace App\Form;
 
 use App\Constant\GenderConstant;
 use App\Constant\UserConstant;
+use App\Entity\Category;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;

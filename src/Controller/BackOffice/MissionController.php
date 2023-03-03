@@ -2,12 +2,14 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Constant\NotificationConstant;
 use App\Entity\File;
 use App\Entity\Mission;
 use App\Form\MissionType;
 use App\Repository\BookingRepository;
 use App\Repository\MissionRepository;
 use App\Service\FileUploader;
+use App\Service\NotificationService;
 use App\Service\QualificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,10 +54,10 @@ class MissionController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, QualificationService $qualificationService, MissionRepository $missionRepository): Response
+    public function new(Request $request, QualificationService $qualificationService, MissionRepository $missionRepository, NotificationService $notificationService): Response
     {
-        if ($this->getUser()->isEnabled()) {
-            $this->addFlash('danger', "Vous ne pouvez pas proposer tant que votre profil n'est pas validé par un administrateur !");
+        if (!$this->getUser()->isEnabled()) {
+            $this->addFlash('danger', "Vous ne pouvez pas proposer une mission tant que votre profil n'est pas validé par un administrateur !");
 
             return $this->redirectToRoute('admin_mission_index');
         }
@@ -87,6 +89,10 @@ class MissionController extends AbstractController
             $qualificationService->addElement($form, 'file');
 
             $missionRepository->save($mission, true);
+
+            if ($mission->isEmergency()) {
+                $notificationService->infoUserMission($mission);
+            }
 
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
 

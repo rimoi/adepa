@@ -4,7 +4,10 @@ namespace App\Form;
 
 use App\Constant\GenderConstant;
 use App\Constant\UserConstant;
+use App\Entity\Category;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProfileFormType extends AbstractType
@@ -178,6 +183,31 @@ class ProfileFormType extends AbstractType
                           ]
                   ]);
             }
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+    }
+
+    public function onPreSetData(FormEvent $event): void
+    {
+        $form = $event->getForm();
+
+        $form->add('categories', EntityType::class, [
+            'class' => Category::class,
+            'query_builder' => static function (CategoryRepository $repository) {
+                return $repository->createQueryBuilder('t')
+                    ->innerJoin('t.parent', 'p')
+                    ->addOrderBy('t.title', 'ASC');
+            },
+            'group_by' => static function (Category $choice) {
+                return $choice->getParent()->getTitle();
+            },
+            'mapped' => true,
+            'label' => 'Vous êtes interessé par quelle type de mission ? ( Vous pourriez choisir plusieurs )',
+            'multiple' => true,
+            'attr' => [
+                'class' => 'js-select2',
+                'style' => "width: 100%",
+            ],
+        ]);
     }
 
 

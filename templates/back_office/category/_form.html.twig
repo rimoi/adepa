@@ -1,19 +1,7 @@
-{% import 'macros/_macro_upload.html.twig' as upload %}
-
 <div class="card-body">
     <div class="p-5">
         {{ form_start(form, {'attr': {'class': 'user'}}) }}
 
-        <div class="row">
-            <div class="col-12">
-                {{ form_label(form.file) }}
-                {{ upload.image(
-                    form.file,
-                    article.file
-                ) }}
-            </div>
-        </div>
-        <hr>
         <div class="row">
             <div class="col-12">
                 {{ form_row(form.title) }}
@@ -22,18 +10,14 @@
         <hr>
         <div class="row">
             <div class="col-12">
-                {{ form_row(form.content, {
-                    label: 'Contenu'
-                }) }}
+                {{ form_row(form.description) }}
             </div>
         </div>
         <hr>
 
-        {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
         <div class="row">
             <div class="col-12">
-                {{ form_row(form.published) }}
+                {{ form_row(form.parent) }}
             </div>
         </div>
         <hr>
@@ -41,14 +25,14 @@
 
     <div class="row">
         <div class="col-12 col-lg-6 my-1 text-left">
-            {% if article is defined and article.id %}
-                <a href="#" class="btn btn-danger js-deleted" data-url="{{ path('admin_article_archived', {slug: article.slug }) }}">
+            {% if category is defined and category.id %}
+                <a href="#" class="btn btn-danger js-deleted" data-url="{{ path('admin_category_archived', {id: category.id }) }}">
                     Supprimer
                 </a>
             {% endif %}
         </div>
         <div class="col-12 col-lg-6 my-1 text-right">
-            <a href="{{ path('admin_article_index') }}" class="btn btn-secondary">Fermer</a>
+            <a href="{{ path('admin_category_index') }}" class="btn btn-secondary">Fermer</a>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </div>
     </div>

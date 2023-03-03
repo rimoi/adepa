@@ -19,28 +19,30 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    {% if is_granted('ROLE_FREELANCE') %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Utilisateurs
-    </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Utilisateurs
+        </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_profile_index' ? 'active' }}">
-        <a class="nav-link" href="{{ path('admin_profile_index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Mon profil</span>
-        </a>
-    </li>
-    {% if is_granted('ROLE_ADMIN') %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('admin_user_index') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Gestion utilisateurs</span>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_profile_index' ? 'active' }}">
+            <a class="nav-link" href="{{ path('admin_profile_index') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Mon profil</span>
             </a>
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_user_index' ? 'active' }}">
+                <a class="nav-link" href="{{ path('admin_user_index') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Gestion utilisateurs</span>
+                </a>
+            </li>
+        {% endif %}
     {% endif %}
 
     <!-- Divider -->
@@ -108,6 +110,30 @@
 {#            <span>Mes offres</span>#}
 {#        </a>#}
 {#    </li>#}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Catégories
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_category_new' ? 'active' }}">
+            <a class="nav-link" href="{{ path('admin_category_new') }}">
+                <i class="fas fa-fw fa-plus"></i>
+                <span>Nouvelle catégories</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_category_index' ? 'active' }}" href="{{ path('admin_category_index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Liste des catégories</span>
+            </a>
+        </li>
+    {% endif %}
 
     {% if is_granted('ROLE_ADMIN') %}
         <!-- Divider -->

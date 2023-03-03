@@ -71,6 +71,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @return User[]
+     */
+    public function findByCategory(array $parentIds): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->join('u.categories', 'c')
+            ->join('c.parent', 'cp')
+            ->where('cp.id IN (:parents)')
+            ->setParameter('parents', $parentIds)
+            ->andWhere('u.isVerified = :enabled')
+            ->andWhere('u.enabled = :enabled')
+            ->setParameter('enabled', true);
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 //    /**
 //     * @return User[] Returns an array of User objects

@@ -25,3 +25,28 @@
     height: auto !important;
 }
 
+/* SELECT 2 */
+.site .w-95 {
+    width: 90% !important;
+}
+.site .select2-selection__rendered {
+    line-height: 63px !important;
+}
+.site .select2-container .select2-selection--single {
+    height: 66px !important;
+}
+.site .select2-selection__arrow {
+    height: 66px !important;
+}
+.site .select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 0;
+}
+.site .select2-container--default .select2-selection--single,
+.site .select2-container--default.select2-container--focus .select2-selection--multiple,
+.site .select2-container--default .select2-selection--multiple{
+    border: none !important;
+}
+.site .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #eddddc;
+}
+/* FIN SELECT 2 */

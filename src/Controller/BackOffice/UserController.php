@@ -13,8 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/admin', name: 'admin_user_')]
+#[IsGranted('ROLE_ADMIN')]
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'index')]
@@ -79,7 +81,7 @@ class UserController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', 'Modification bien enregistrés !');
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées !');
 
             return $this->redirectToRoute('admin_user_index');
         }
@@ -138,7 +140,7 @@ class UserController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', 'Modification bien enregistrés !');
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées !');
 
             return $this->redirectToRoute('admin_user_index');
         }

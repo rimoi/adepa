@@ -25,6 +25,7 @@
         "flatpickr": "^4.6.13",
         "jquery": "3.6.0",
         "jquery.easing": "^1.4.1",
+        "select2": "^4.1.0-rc.0",
         "sweetalert2": "^11.7.2",
         "tooltip": "^1.6.1"
     },

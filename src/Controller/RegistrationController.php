@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Constant\UserConstant;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\UsersAuthenticator;
@@ -16,6 +17,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -24,10 +26,12 @@ class RegistrationController extends AbstractController
 {
 
     private EmailVerifier $emailVerifier;
+    private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, UrlGeneratorInterface $urlGenerator)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->urlGenerator = $urlGenerator;
     }
 
     #[Route('/inscription', name: 'app_register')]
@@ -119,6 +123,12 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre email a bien été bien validé ! <br /> <br /> 
         Vous recevez prochaine un email des qu\'un administateur valide votre compte');
+
+        if ($user->hasRole(UserConstant::ROLE_FREELANCE)) {
+            $this->addFlash('success',
+                sprintf('Nous-vous invitons à compléter votre profil <a href="%s">ici</a>',
+                    $this->urlGenerator->generate('admin_profile_index')));
+        }
 
         return $userAuthenticator->authenticateUser(
             $user,

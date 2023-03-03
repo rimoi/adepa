@@ -77,23 +77,23 @@
                         <td>
                 <![endif]-->
                 <table role="presentation" style="width:94%;max-width:600px;border:none;border-spacing:0;text-align:left;font-family:'Basier Circle', 'Roboto', 'Helvetica', 'Arial', sans-serif;font-size:1em;line-height:1.37em;color:#384049;">
+                    {% set host = homepage|slice(0, homepage|length-1) %}
                     <!--      Logo headder -->
                     <tr>
                         <td style="padding:40px 30px 30px 30px;text-align:center;font-size:1.5em;font-weight:bold;">
                             <a href="{{ homepage }}" style="text-decoration:none;">
-                                <img width="2170" alt="Logo ADEPA" style="width:2170px;max-width:24%;height:auto;border:none;text-decoration:none;color:#ffffff;" src="{{ homepage|slice(0, homepage|length-1) ~ asset('images/logo_email.png') }}">
+                                <img width="2170" alt="Logo ADEPA" style="width:2170px;max-width:24%;height:auto;border:none;text-decoration:none;color:#ffffff;" src="{{ host ~ asset('images/logo_email.png') }}">
                             </a>
                         </td>
                     </tr>
                     <!--      Intro Section -->
                     <tr>
                         <td style="padding:30px;background-color:#ffffff;">
-                            <h1 style="margin-top:0;margin-bottom:1.38em;font-size:1.953em;line-height:1.3;font-weight:bold;letter-spacing:-0.02em;">Vous-avez recu une nouvelle candidature</h1>
                             <p style="margin:0;">Bonjour,</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores enim illum ipsa necessitatibus nihil non, quas suscipit ut! Corporis culpa doloribus error fuga fugit, ipsum obcaecati perspiciatis quas ullam velit.</p>
+                            <p>Vous-avez reçu une nouvelle candidature pour la mission <a href="{{ host ~ path('front_mission_show', {slug: mission.slug}) }}">{{ mission.title }}</a>.</p>
                             <p>Pour voir le profile du candidat, veuillez cliquez sur le lien :</p>
                             <p style="text-align: center;margin: 2.5em auto;">
-                                <a class="button" href="{{ path('admin_candidat_show', {slug: user.slug}) }}" style="background: #DE4D3B;
+                                <a class="button" href="{{ host ~ path('admin_candidat_show', {slug: user.slug}) }}" style="background: #DE4D3B;
                        text-decoration: none;
                        padding: 1em 1.5em;
                        color: #ffffff;
@@ -105,7 +105,7 @@
                                     <!--[if mso]><i style="letter-spacing: 25px;mso-font-width:-100%">&nbsp;</i><![endif]-->
                                 </a>
                             </p>
-                            <p>Merci de nous avoir fait confiance pour avoir des candidats.</p>
+                            <p>Merci pour votre candidature.</p>
                             <p>Cordialement,</p>
                             <p>Equipe ADEPA</p>
                         </td>

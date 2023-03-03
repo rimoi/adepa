@@ -11,12 +11,16 @@ import './admin/vendor/fontawesome-free/css/all.min.css';
 import './styles/bo.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import './styles/carousel.css';
+import 'select2/dist/css/select2.min.css';
 
 
 import $ from 'jquery';
 import "./admin/vendor/bootstrap/js/bootstrap.bundle.min.js";
 import "./admin/vendor/jquery-easing/jquery.easing.min.js";
 import "./admin/js/sb-admin-2.min.js";
+
+import 'select2';
+import 'select2/dist/js/i18n/fr';
 
 import Routing from 'fos-router';
 

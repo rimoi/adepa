@@ -22,12 +22,15 @@
     <div class="mt-3">
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Missions</h1>
-        <div class="text-right">
-            <a class="btn btn-outline-primary my-3" href="{{ path('front_mission') }}">
-                <span class="fa fa-search"></span>
-                Chercher une mission
-            </a>
-        </div>
+        {% if is_granted('ROLE_FREELANCE') %}
+            <div class="text-right">
+                <a class="btn btn-outline-primary my-3" href="{{ path('front_mission') }}">
+                    <span class="fa fa-search"></span>
+                    Chercher une mission
+                </a>
+            </div>
+        {% endif %}
+
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">

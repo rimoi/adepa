@@ -23,6 +23,16 @@ class DashBoardController extends AbstractController
         ArticleRepository $articleRepository
     ): Response
     {
+        if (
+            $this->getUser()->hasRole(UserConstant::ROLE_FREELANCE)
+            && !$this->getUser()->isEnabled()
+        ) {
+            $this->addFlash('success',
+                sprintf('Merci de compléter votre profil <a href="%s">ici</a>',
+                    $this->urlGenerator->generate('admin_profile_index')));
+
+        }
+
         $missions = $missionRepository->findBy(['published' => true, 'archived' => false], ['started' => 'ASC']);
 
         $availables = [];

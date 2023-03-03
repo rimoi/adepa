@@ -57,19 +57,35 @@
             {% endif %}
             &nbsp;
             &nbsp;
-            {% if app.user and not app.user.enabled  %}
+            {% if app.user and is_granted('ROLE_CLIENT') and app.user.id == mission.user.id %}
+
+            {% elseif app.user and is_granted('ROLE_CLIENT') %}
+                <div class="alert alert-danger text-center" role="alert">
+                    Votre profil ne vous permet de candidater à des missions.
+                </div>
+            {% elseif app.user and not app.user.enabled  %}
                 <div class="alert alert-danger text-center" role="alert">
                     Votre compte n'est pas encore activé par un adminisatreur afin que vous puissiez postulez à des missions.
                 </div>
             {% elseif app.user %}
                 {% if user_connected_reserved|default %}
-                    <div class="text-center mt-4">
+                    <div class="alert alert-info text-center mt-4" role="alert">
                         Vous avez postulez à cette offre le {{ user_connected_reserved }}
                     </div>
-                    <div class="text-center">
-                        <a href="#" class="js-cancel-booking" data-url="{{ path('front_mission_cancel_booking', {slug: mission.slug}) }}">Annuler la réservation</a>
-                    </div>
 
+                    {% if retraction %}
+                        <div class="text-center my-2">
+                            <a href="#" class="js-cancel-booking btn btn-danger" data-url="{{ path('front_mission_cancel_booking', {slug: mission.slug}) }}" title="Annuler la réservation de la mission">
+                                Annuler la réservation
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center my-2">
+                            <a href="#" class="js-cancel-booking btn btn-danger" data-url="{{ path('front_mission_cancel_booking', {slug: mission.slug}) }}" title="Annuler la réservation de la mission">
+                                Vous avez dépasser le délais d'annulation
+                            </a>
+                        </div>
+                    {% endif %}
                 {% else %}
                    <div class="mt-4 text-center">
                        <a href="#" class="js-booking-mission btn btn-primary" data-url="{{ path('front_mission_candidate', {slug: mission.slug}) }}">

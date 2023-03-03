@@ -50,7 +50,7 @@ class ProfileController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', 'Modification bien enregistrés !');
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées !');
 
             return $this->redirectToRoute('admin_dash_board_index');
         } elseif ($form->isSubmitted() && !$form->isValid()) {

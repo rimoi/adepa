@@ -7,6 +7,12 @@ import French from "flatpickr/dist/l10n/fr";
 // button suppression
 $(document).ready(function() {
 
+    let input_select2 = $('.js-select2');
+    input_select2.select2({
+        allowClear: true,
+        placeholder: input_select2.attr('placeholder'),
+    });
+
     $('.js-deleted').on('click', function (e) {
         e.preventDefault();
 
@@ -174,6 +180,6 @@ $(document).ready(function() {
                 });
             }
         })
-    })
+    });
 });
 

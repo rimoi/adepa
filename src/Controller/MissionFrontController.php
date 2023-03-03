@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\Mission;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -73,7 +74,8 @@ class MissionFrontController extends AbstractController
 
         return $this->render('mission_front/show.html.twig', [
             'mission' => $mission,
-            'user_connected_reserved' => $userConnectedReserved
+            'user_connected_reserved' => $userConnectedReserved,
+            'retraction' => $mission->getStarted() > (new \DateTime('now', new \DateTimeZone('Europe/Paris')))
         ]);
     }
 
@@ -94,9 +96,9 @@ class MissionFrontController extends AbstractController
     }
 
     #[Route('/{slug}/candidate', name: 'front_mission_candidate')]
-    public function candidate(Request $request, Mission $mission, EntityManagerInterface $em): Response
+    public function candidate(Request $request, Mission $mission, EntityManagerInterface $em, NotificationService $notificationService): Response
     {
-        $booking = $em->getRepository(Booking::class)->findBy([
+        $booking = $em->getRepository(Booking::class)->findOneBy([
             'archived' => false,
             'user' => $this->getUser(),
             'mission' => $mission,
@@ -108,7 +110,6 @@ class MissionFrontController extends AbstractController
             return $this->redirectToRoute('front_mission');
         }
 
-
         $booking = new Booking();
         $booking->setMission($mission);
         $booking->setUser($this->getUser());
@@ -119,13 +120,16 @@ class MissionFrontController extends AbstractController
 
         $em->flush();
 
+        $notificationService->sendEmailToFreelanceCandidate($this->getUser(), $mission);
+        $notificationService->sendEmailToClient($mission->getUser(), $mission);
+
         $this->addFlash('success', sprintf('Réservation mission `%s` à bien été effectuée !', $mission->getTitle()));
 
         return $this->redirectToRoute('front_mission');
     }
 
     #[Route('/{slug}/cancel-booking', name: 'front_mission_cancel_booking')]
-    public function cancelBooking(Mission $mission, EntityManagerInterface $em): Response
+    public function cancelBooking(Mission $mission, EntityManagerInterface $em, NotificationService $notificationService): Response
     {
         $mission->setBooked(false);
 
@@ -135,17 +139,18 @@ class MissionFrontController extends AbstractController
             if ($booking->getUser()->getId() === $this->getUser()->getId()) {
                 $booking->setArchived(true);
 
-                $this->addFlash('success', sprintf('La mission `%s` à bien été libérée !', $mission->getTitle()));
-
                 $em->flush();
-
-                return $this->redirectToRoute('front_mission');
             }
         }
 
-        $this->addFlash('danger',
-            sprintf("La mission n'a pas pu être libérée ( Veuillez contactez votre administrateur en renseignant le numéro suivante : %d )", $mission->getId())
-        );
+        $this->addFlash('success', sprintf('La mission `%s` à bien été libérée !', $mission->getTitle()));
+
+        $notificationService->sendEmailToFreelanceCancel($this->getUser(), $mission);
+        $notificationService->sendEmailToClientCancel($mission->getUser(), $mission);
+
+//        $this->addFlash('danger',
+//            sprintf("La mission n'a pas pu être libérée ( Veuillez contactez votre administrateur en renseignant le numéro suivante : %d )", $mission->getId())
+//        );
 
         return $this->redirectToRoute('front_mission');
     }

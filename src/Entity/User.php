@@ -117,6 +117,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $gender = null;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
+    private Collection $categories;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -152,6 +155,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->bookings = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->qualifications = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function hasRole(string $role): bool
@@ -616,6 +620,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $qualification->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }

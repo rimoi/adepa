@@ -169,7 +169,7 @@
 
     <div class="row">
         <div class="col-12 col-lg-6 my-1 text-left">
-            {% if user is defined %}
+            {% if user is defined and user.id %}
                 <a href="#" class="btn btn-danger js-deleted" data-url="{{ path('admin_user_archived', {slug: user.slug }) }}">
                     Supprimer
                 </a>
