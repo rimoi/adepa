@@ -39,6 +39,8 @@ class UserFixture extends Fixture
         $admin->setTelephone('0606060606');
         $admin->setZipcode((int) str_replace(' ', '', $faker->postcode));
         $admin->setCity($faker->city);
+        $admin->setIsVerified(true);
+        $admin->setEnabled(true);
         $admin->setPassword(
             $this->passwordEncoder->hashPassword($admin, 'toto')
         );
@@ -58,6 +60,8 @@ class UserFixture extends Fixture
             $user->setFirstname($faker->firstName);
             $admin->setTelephone('0606060606');
             $user->setAdress($faker->streetAddress);
+            $admin->setIsVerified(true);
+            $admin->setEnabled(true);
             $user->setZipcode((int) str_replace(' ', '', $faker->postcode));
             $user->setCity($faker->city);
             $user->setPassword(
@@ -77,9 +81,12 @@ class UserFixture extends Fixture
 
             $mission = new Mission();
             $mission->setTitle($faker->words(3, true));
-            $mission->setContent($faker->words(100, true));
-            $mission->setStarted(new \DateTime('+2 days'));
-            $mission->setEnded(new \DateTime('+15 days'));
+            $mission->setContent($faker->words(200, true));
+
+            $jours = random_int(5,70);
+
+            $mission->setStarted(new \DateTime(sprintf('+%d days', $jours)));
+            $mission->setEnded(new \DateTime(sprintf('+%d days', $jours + 15)));
             $mission->setPublished(true);
             $mission->setAddress($faker->streetAddress);
             $mission->setZipcode((int) str_replace(' ', '', $faker->postcode));
@@ -95,7 +102,7 @@ class UserFixture extends Fixture
 
             $article = new Article();
             $article->setTitle($faker->words(3, true));
-            $article->setContent($faker->words(8, true));
+            $article->setContent($faker->words(1000, true));
             $article->setPublished(true);
 
             $t = $this->getReference('user-'.$usr);

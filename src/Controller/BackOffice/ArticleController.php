@@ -82,18 +82,15 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'archived', methods: ['POST'])]
+    #[Route('/{slug}/archived', name: 'archived', methods: ['POST', 'GET'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
-//            $articleRepository->remove($article, true);
-            $article->setArchived(!$article->isArchived());
+        $article->setArchived(!$article->isArchived());
 
-            $this->addFlash('success', sprintf('Article `%s` archivé !', $article->getTitle()));
+        $this->addFlash('success', sprintf('Article `%s` archivé !', $article->getTitle()));
 
-            $entityManager->flush();
-        }
+        $entityManager->flush();
 
-        return $this->redirectToRoute('admin_article_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_article_index');
     }
 }

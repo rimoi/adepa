@@ -159,17 +159,13 @@ class MissionController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/archived', name: 'archived', methods: ['POST'])]
+    #[Route('/{slug}/archived', name: 'archived', methods: ['POST', 'GET'])]
     public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$mission->getId(), $request->request->get('_token'))) {
-//            $missionRepository->remove($mission, true);
-            $mission->setArchived(!$mission->isArchived());
-            $entityManager->flush();
+        $mission->setArchived(!$mission->isArchived());
+        $entityManager->flush();
 
-            $this->addFlash('success', sprintf('Mission `%s` archivée !', $mission->getTitle()));
-
-        }
+        $this->addFlash('success', sprintf('Mission `%s` archivée !', $mission->getTitle()));
 
         return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
     }

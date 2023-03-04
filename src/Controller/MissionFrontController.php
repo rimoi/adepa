@@ -121,7 +121,7 @@ class MissionFrontController extends AbstractController
         $em->flush();
 
         $notificationService->sendEmailToFreelanceCandidate($this->getUser(), $mission);
-        $notificationService->sendEmailToClient($mission->getUser(), $mission);
+        $notificationService->sendEmailToClient($this->getUser(), $mission);
 
         $this->addFlash('success', sprintf('Réservation mission `%s` à bien été effectuée !', $mission->getTitle()));
 
@@ -146,7 +146,7 @@ class MissionFrontController extends AbstractController
         $this->addFlash('success', sprintf('La mission `%s` à bien été libérée !', $mission->getTitle()));
 
         $notificationService->sendEmailToFreelanceCancel($this->getUser(), $mission);
-        $notificationService->sendEmailToClientCancel($mission->getUser(), $mission);
+        $notificationService->sendEmailToClientCancel($this->getUser(), $mission);
 
 //        $this->addFlash('danger',
 //            sprintf("La mission n'a pas pu être libérée ( Veuillez contactez votre administrateur en renseignant le numéro suivante : %d )", $mission->getId())

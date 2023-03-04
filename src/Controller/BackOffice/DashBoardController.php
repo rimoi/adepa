@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/admin', name: 'admin_dash_board_')]
 class DashBoardController extends AbstractController
@@ -20,18 +21,19 @@ class DashBoardController extends AbstractController
     public function index(
         MissionRepository $missionRepository, 
         UserRepository $userRepository,
-        ArticleRepository $articleRepository
+        ArticleRepository $articleRepository,
+        UrlGeneratorInterface $urlGenerator
     ): Response
     {
-        if (
-            $this->getUser()->hasRole(UserConstant::ROLE_FREELANCE)
-            && !$this->getUser()->isEnabled()
-        ) {
-            $this->addFlash('success',
-                sprintf('Merci de compléter votre profil <a href="%s">ici</a>',
-                    $this->urlGenerator->generate('admin_profile_index')));
-
-        }
+//        if (
+//            $this->getUser()->hasRole(UserConstant::ROLE_FREELANCE)
+//            && !$this->getUser()->isEnabled()
+//        ) {
+//            $this->addFlash('success',
+//                sprintf('Merci de compléter votre profil <a href="%s">ici</a>',
+//                    $urlGenerator->generate('admin_profile_index')));
+//
+//        }
 
         $missions = $missionRepository->findBy(['published' => true, 'archived' => false], ['started' => 'ASC']);
 
@@ -57,7 +59,7 @@ class DashBoardController extends AbstractController
         $clientNotEnabled = $userRepository->findByRole(UserConstant::ROLE_CLIENT);
         $clientEnabled = $userRepository->findByRole(UserConstant::ROLE_CLIENT, true);
 
-        $articles = $articleRepository->findBy([], ['id' => 'DESC']);
+        $articles = $articleRepository->findBy(['archived' => false, 'published' => true], ['id' => 'DESC']);
 
         return $this->render('back_office/dash_board/index.html.twig', [
             'total' => count($allMissions),

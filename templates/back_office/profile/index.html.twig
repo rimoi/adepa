@@ -63,6 +63,12 @@
                   </div>
             </div>
                 <hr>
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(form.categories) }}
+                    </div>
+                </div>
+                <hr>
                 <div class="col-12 col-lg-4">
                     {{ form_label(form.permisConduite) }}
                      {{ upload.image(
@@ -166,11 +172,6 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-6">
-                        {{ form_row(form.categories) }}
-                    </div>
-                </div>
 {#                <div class="row">#}
 {#                    <div class="col-12">#}
 {#                        Curriculum vitae#}

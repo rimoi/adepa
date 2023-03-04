@@ -72,7 +72,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/archived', name: 'archived', methods: ['POST'])]
+    #[Route('/{id}/archived', name: 'archived', methods: ['POST', 'GET'])]
     public function archived(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
 //        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {

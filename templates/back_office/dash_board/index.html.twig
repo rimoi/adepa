@@ -49,33 +49,36 @@
     {% endif %}
 
     {% if is_granted('ROLE_FREELANCE') %}
+        {% if last_missions|length %}
+            <div class="row">
+                <div class="col-12 col-lg-9">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Les missions à la date la plus proche</h6>
+                        </div>
+                        <div class="card-body">
+                            {% include 'back_office/dash_board/_mission.html.twig' with {'missions': last_missions} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if articles|length %}
         <div class="row">
             <div class="col-12 col-lg-9">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Les missions à la date la plus proche</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Les dernières actualités</h6>
                     </div>
                     <div class="card-body">
-                        {% include 'back_office/dash_board/_mission.html.twig' with {'missions': last_missions} %}
+                        {% include 'back_office/dash_board/_article.html.twig' with {'articles': articles, 'photo_directory': photo_directory} %}
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
-
-    <div class="row">
-        <div class="col-12 col-lg-9">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Les dernières actualités</h6>
-                </div>
-                <div class="card-body">
-                    {% include 'back_office/dash_board/_article.html.twig' with {'articles': articles, 'photo_directory': photo_directory} %}
-                </div>
-            </div>
-        </div>
-    </div>
-
 {% endblock %}
 
 

@@ -101,7 +101,7 @@ class NotificationService
 
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
-            ->to($user->getEmail())
+            ->to($mission->getUser()->getEmail())
             ->subject('ADEPA - Nouvelle candidature pour le poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
@@ -202,7 +202,7 @@ class NotificationService
 
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
-            ->to($user->getEmail())
+            ->to($mission->getUser()->getEmail())
             ->subject('ADEPA - Annulation pour le poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([

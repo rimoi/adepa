@@ -19,7 +19,8 @@
             <span>Dashboard</span></a>
     </li>
 
-    {% if is_granted('ROLE_FREELANCE') %}
+    {% if is_granted('ROLE_FREELANCE') and not is_granted('ROLE_ADMIN') %}
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -35,25 +36,35 @@
                 <span>Mon profil</span>
             </a>
         </li>
-        {% if is_granted('ROLE_ADMIN') %}
-            <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_user_index' ? 'active' }}">
-                <a class="nav-link" href="{{ path('admin_user_index') }}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Gestion utilisateurs</span>
-                </a>
-            </li>
-        {% endif %}
+
     {% endif %}
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    {% if is_granted('ROLE_ADMIN') %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Missions
-    </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Utilisateurs
+        </div>
 
-    {% if is_granted('ROLE_CLIENT') %}
+        <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_user_index' ? 'active' }}">
+            <a class="nav-link" href="{{ path('admin_user_index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Gestion utilisateurs</span>
+            </a>
+        </li>
+    {% endif %}
+
+    {% if is_granted('ROLE_CLIENT') and not is_granted('ROLE_ADMIN') %}
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Missions
+        </div>
+
         <li class="nav-item">
             <a class="nav-link" href="{{ path('admin_mission_new') }}">
                 <i class="fas fa-fw fa-plus-circle"></i>
@@ -74,7 +85,7 @@
                 <span>Mes missions</span>
             </a>
         </li>
-    {% elseif is_granted('ROLE_FREELANCE') %}
+    {% elseif is_granted('ROLE_FREELANCE') and not is_granted('ROLE_ADMIN') %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('admin_agenda_index') }}">
                 <i class="fas fa-fw fa-list"></i>

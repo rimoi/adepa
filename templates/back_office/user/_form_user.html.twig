@@ -21,12 +21,20 @@
             </div>
         </div>
         <hr>
-        <div class="col-12 col-lg-4">
-            {{ form_label(form.permisConduite) }}
-            {{ upload.image(
-                form.permisConduite,
-                app.user.permisConduite
-            ) }}
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_row(form.categories) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                {{ form_label(form.permisConduite) }}
+                {{ upload.image(
+                    form.permisConduite,
+                    app.user.permisConduite
+                ) }}
+            </div>
         </div>
         {% if 'experiences' in form|keys %}
             <hr>

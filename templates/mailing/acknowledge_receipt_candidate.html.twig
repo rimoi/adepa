@@ -90,10 +90,10 @@
                     <tr>
                         <td style="padding:30px;background-color:#ffffff;">
                             <h1 style="margin-top:0;margin-bottom:1.38em;font-size:1.953em;line-height:1.3;font-weight:bold;letter-spacing:-0.02em;">
-                                Accusé réception de votre condidature pour la mission {{ mission.title }}
+                                Accusé réception de votre condidature pour la mission '{{ mission.title }}'
                             </h1>
                             <p style="margin:0;">Bonjour,</p>
-                            <p>Ceci est l'accusé de réception de votre candidature {{ mission.title }}.</p>
+                            <p>Ceci est l'accusé de réception de votre candidature '{{ mission.title }}'.</p>
                             <p>Pour voir la mission, veuillez cliquez sur le lien :</p>
                             <p style="text-align: center;margin: 2.5em auto;">
                                 <a class="button" href="{{ host ~ path('front_mission_show', {slug: mission.slug}) }}" style="background: #DE4D3B;

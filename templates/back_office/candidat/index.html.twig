@@ -31,22 +31,22 @@
                     <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Titre de l'offre</th>
-                            <th>Réservé le</th>
                             <th>Candidat</th>
+                            <th>Réservé le</th>
+                            <th>Titre de l'offre</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for booking in bookings %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('admin_mission_show', {slug: booking.mission.slug}) }}">{{ booking.mission.title }}</a>
+                                    <a href="{{ path('admin_candidat_show', {slug: booking.user.slug}) }}">
+                                        {{ booking.user ? booking.user.nickname }}
+                                    </a>
                                 </td>
                                 <td>{{ booking.createdAt ? booking.createdAt|date('d/m/Y à H:i') : '' }}</td>
                                 <td>
-                                    <a href="{{ path('admin_candidat_show', {slug: booking.user.slug}) }}">
-                                        <span class="badge badge-dark">{{ booking.user ? booking.user.nickname }}</span>
-                                    </a>
+                                    <a href="{{ path('admin_mission_show', {slug: booking.mission.slug}) }}">{{ booking.mission.title }}</a>
                                 </td>
                             </tr>
                         {% endfor %}
