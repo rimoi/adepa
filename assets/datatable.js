@@ -15,7 +15,11 @@ import './admin/vendor/jquery/jquery.min.js';
 import "./admin/vendor/datatables/jquery.dataTables.min.js";
 import "./admin/vendor/bootstrap/js/bootstrap.bundle";
 
+import Swal from 'sweetalert2/dist/sweetalert2.all';
+window.Swal = global.Swal = Swal;
+
 import "./admin/vendor/datatables/dataTables.bootstrap4.min";
 
 import "./admin/js/sb-admin-2.min.js";
 import "./admin/js/demo/datatables-demo";
+import './scripts/delete-element';

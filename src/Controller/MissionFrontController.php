@@ -51,14 +51,26 @@ class MissionFrontController extends AbstractController
     }
 
     #[Route('/{slug}/afficher', name: 'front_mission_show')]
-    public function show(Request $request, Mission $mission): Response
+    #[Route('/{id}/see', name: 'front_mission_show_with_id')]
+    public function show(Request $request, EntityManagerInterface $em, ?string $slug = null, ?int $id = null): Response
     {
+
+        if ($id) {
+            $mission = $em->getRepository(Mission::class)->findOneBy(['id' => $id]);
+        } elseif ($slug) {
+            $mission = $em->getRepository(Mission::class)->findOneBy(['slug' => $slug]);
+        } else {
+            throw $this->createNotFoundException('Impossible de récuperer la mission'); 
+        }
+
         $userConnectedReserved = '';
 
         if ($mission->isBooked()) {
             foreach ($mission->getBookings() as $booking) {
                 if (
                     !$booking->isArchived()
+                    && $this->getUser()
+                    && $booking->getUser()
                     && $booking->getUser()->getId() === $this->getUser()->getId()
                 ) {
                     $userConnectedReserved = $booking->getCreatedAt()->format('d/m/Y h:i');
@@ -75,7 +87,7 @@ class MissionFrontController extends AbstractController
         return $this->render('mission_front/show.html.twig', [
             'mission' => $mission,
             'user_connected_reserved' => $userConnectedReserved,
-            'retraction' => $mission->getStarted() > (new \DateTime('now', new \DateTimeZone('Europe/Paris')))
+            'retraction' => $mission->getStarted() > (new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris')))
         ]);
     }
 

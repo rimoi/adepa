@@ -120,6 +120,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $categories;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sms::class)]
+    private Collection $sms;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -156,6 +159,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->experiences = new ArrayCollection();
         $this->qualifications = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->sms = new ArrayCollection();
     }
 
     public function hasRole(string $role): bool
@@ -644,6 +648,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sms>
+     */
+    public function getSms(): Collection
+    {
+        return $this->sms;
+    }
+
+    public function addSms(Sms $sms): self
+    {
+        if (!$this->sms->contains($sms)) {
+            $this->sms->add($sms);
+            $sms->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSms(Sms $sms): self
+    {
+        if ($this->sms->removeElement($sms)) {
+            // set the owning side to null (unless already changed)
+            if ($sms->getUser() === $this) {
+                $sms->setUser(null);
+            }
+        }
 
         return $this;
     }

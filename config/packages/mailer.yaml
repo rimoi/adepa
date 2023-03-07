@@ -8,3 +8,4 @@ when@dev:
         mailer:
             envelope:
                 recipients: ['sidi.khalifa@live.fr']
+#                recipients: ['assoc.adepa@gmail.com']

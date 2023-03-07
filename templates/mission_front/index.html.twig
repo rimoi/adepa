@@ -16,7 +16,7 @@
         <br>
         <div class="row">
             {% for mission in missions.urgent %}
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <div class="card border-danger bg-light text-center text-dark">
                         <div class="card-header fw-bold fs-5 text-dark">
                             <div class="my-1">
@@ -30,8 +30,8 @@
                         </div>
                         <div class="card-body">
                             <div>
-                                <div style="width: 359px;height: 195px!important;">
-                                    {{ mission.content|u.truncate(250, '...')|raw }}
+                                <div style="width: 266px;height: 142px!important;">
+                                    {{ mission.content|u.truncate(150, '...')|raw }}
                                 </div>
                                 <div class="my-1">
                                     <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-danger">Voir l'offre</a>
@@ -54,7 +54,7 @@
         <div class="row">
             <br />
             {% for mission in missions.normal %}
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <div class="card border-primary bg-light text-center text-dark">
                     <div class="card-header fw-bold fs-5 text-dark">
                         <div class="my-1">
@@ -68,8 +68,8 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <div style="width: 359px;height: 195px!important;">
-                                {{ mission.content|u.truncate(250, '...')|raw }}
+                            <div style="width: 266px;height: 142px!important;">
+                                {{ mission.content|u.truncate(150, '...')|raw }}
                             </div>
                             <div class="my-1">
                                 <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-primary">Voir l'offre</a>

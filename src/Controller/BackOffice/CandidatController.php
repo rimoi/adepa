@@ -2,6 +2,7 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Constant\UserConstant;
 use App\Entity\User;
 use App\Form\ProfileFormType;
 use App\Repository\BookingRepository;
@@ -21,12 +22,19 @@ class CandidatController extends AbstractController
     ): Response
     {
 
-        $missions = $missionRepository->findBy([
-            'booked' => true,
-            'archived' => false,
-            'user' => $this->getUser()
-        ], ['id' => 'DESC']);
-      
+        if ($this->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
+            $missions = $missionRepository->findBy([
+                'booked' => true,
+                'archived' => false,
+            ], ['id' => 'DESC']);
+        } else {
+            $missions = $missionRepository->findBy([
+                'booked' => true,
+                'archived' => false,
+                'user' => $this->getUser()
+            ], ['id' => 'DESC']);
+        }
+
         $bookings = [];
         foreach ($missions as $mission) {
             foreach ($mission->getBookings() as $booking) {
@@ -35,7 +43,6 @@ class CandidatController extends AbstractController
                 }
             }
         }
-
 
         return $this->renderForm('back_office/candidat/index.html.twig', [
             'bookings' => $bookings,

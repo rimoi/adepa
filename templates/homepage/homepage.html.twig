@@ -56,9 +56,13 @@
 
 	{# SECTION MISSION #}
 	<section class="mission">
-		<img src="{{asset('images/missions.png')}}" alt="" class="event-main-img">
-
-		<div id="container" class="row">
+		<div class="row">
+			<div class="col-12">
+				<img src="{{asset('images/missions.png')}}" alt="" class="event-main-img">
+			</div>
+		</div>
+		<div>
+			<div id="container" class="row">
 
 				{% for mission in missions %}
 					<div class="col-12 col-md-4">
@@ -90,13 +94,13 @@
 					</div>
 				{% endfor %}
 
-			{% if all_mission >= 3 %}
-				<div class="col-12 text-center">
-					<a href="{{ path('front_mission') }}" class="btn btn-danger"> Plus des missions...</a>
-				</div>
-			{% endif %}
+				{% if all_mission >= 3 %}
+					<div class="col-12 text-center">
+						<a href="{{ path('front_mission') }}" class="btn btn-danger"> Plus des missions...</a>
+					</div>
+				{% endif %}
+			</div>
 		</div>
-
 	</section>
 
 	<section class="news" id="news">

@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Constant\NotificationConstant;
+use App\Entity\Contact;
 use App\Entity\Mission;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,34 +20,59 @@ class NotificationService
     private string $mailerSender;
     private EntityManagerInterface $entityManager;
     private UrlGeneratorInterface $urlGenerator;
+    private MessageBird $messageBird;
 
     public function __construct(
         MailerInterface $mailer,
         string $mailerSender,
         EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        MessageBird $messageBird
     )
     {
         $this->mailer = $mailer;
         $this->mailerSender = $mailerSender;
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
+        $this->messageBird = $messageBird;
     }
 
-    public function infoUserMission(Mission $mission, string $type = NotificationConstant::EMAIL): void
+    public function infoUserMission(Mission $mission, string $type = NotificationConstant::EMAIL, array $users = []): void
     {
-        $categories = $mission->getCategories();
+        if (!$users) {
+            $categories = $mission->getCategories();
 
-        $parents = [];
+            $parents = [];
 
-        foreach ($categories as $category) {
-            $parents[$category->getParent()->getId()] = $category->getParent()->getId();
+            foreach ($categories as $category) {
+                $parents[$category->getParent()->getId()] = $category->getParent()->getId();
+            }
+            $users = $this->entityManager->getRepository(User::class)->findByCategory($parents);
         }
-        $users = $this->entityManager->getRepository(User::class)->findByCategory($parents);
 
-        foreach ($users as $user) {
-            $this->sendEmailToFreelanceSuggestMission($user, $mission);
+        switch ($type) {
+            case NotificationConstant::EMAIL:
+                foreach ($users as $user) {
+                    $this->sendEmailToFreelanceSuggestMission($user, $mission);
+                }
+                break;
+            case NotificationConstant::SMS:
+                foreach ($users as $user) {
+                    $this->sendSMSEmergency($user, $mission);
+                }
+                break;
         }
+    }
+
+    private function sendSMSEmergency(User $user, Mission $mission)
+    {
+        $template = 'sms/admin/mission_available_emergency.txt.twig';
+        $params = [
+            'url' => $this->urlGenerator->generate('front_mission_show_with_id', ['id' => $mission->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            'user' => $user
+        ];
+
+        $this->messageBird->sendSMS($user, $template, $params);
     }
 
     // suggestion de mission
@@ -151,11 +177,13 @@ class NotificationService
         $this->entityManager->flush();
     }
 
-    // accusé de reception de candidature
-    public function sendEmailToFreelanceCancel(User $user, Mission $mission): void
+    // annulation depuis front ou de l'admin
+    public function sendEmailToFreelanceCancel(
+        User $user,
+        Mission $mission,
+        string $template = 'mailing/acknowledge_cancel_candidate.html.twig'
+    ): void
     {
-        $template = 'mailing/acknowledge_cancel_candidate.html.twig';
-
         $options = [
             'user' => $user,
             'sender' => $this->mailerSender,
@@ -170,7 +198,7 @@ class NotificationService
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
             ->to($user->getEmail())
-            ->subject('ADEPA - Annulation de mission : ' . $mission->getTitle())
+            ->subject('ADEPA - Annulation : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -185,10 +213,12 @@ class NotificationService
         $this->entityManager->flush();
     }
 
-    public function sendEmailToClientCancel(User $user, Mission $mission): void
+    public function sendEmailToClientCancel(
+        User $user,
+        Mission $mission,
+        string $template = 'mailing/candidate_cancel.html.twig'
+    ): void
     {
-        $template = 'mailing/candidate_cancel.html.twig';
-
         $options = [
             'user' => $user,
             'sender' => $this->mailerSender,
@@ -203,7 +233,7 @@ class NotificationService
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
             ->to($mission->getUser()->getEmail())
-            ->subject('ADEPA - Annulation pour le poste : ' . $mission->getTitle())
+            ->subject('ADEPA - Annulation du poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -217,4 +247,23 @@ class NotificationService
         $email->setSend(true);
         $this->entityManager->flush();
     }
+
+    public function sendEmailWhenContactAdmin(Contact $contact): void
+    {
+        $template = 'mailing/contact.html.twig';
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->to($this->mailerSender)
+            ->subject('ADEPA - Prise de contact ')
+            ->htmlTemplate($template)
+            ->context([
+                'contact' => $contact,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+    }
+
 }

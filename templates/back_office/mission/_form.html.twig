@@ -54,6 +54,11 @@
                 ) }}
 
             </div>
+            {% if 'users' in form|keys %}
+                <div class="col-12 col-lg-8 mt-1">
+                    {{ form_row(form.users) }}
+                </div>
+            {% endif %}
         </div>
         <hr class="my-3">
 

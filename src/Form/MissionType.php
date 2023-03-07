@@ -2,16 +2,15 @@
 
 namespace App\Form;
 
-use App\Constant\MissionTypeConstant;
 use App\Entity\Category;
 use App\Entity\Mission;
+use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,19 +38,6 @@ class MissionType extends AbstractType
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'Ex: Poste'],
             ])
-//            ->add('category', TextType::class, [
-//                'attr' => ['placeholder' => 'handicapé, mineur, personne agé, ...', 'class' => 'form-control'],
-//                'label' => 'Personne concerné',
-//                'required' => false,
-//            ])
-//            ->add('type', ChoiceType::class, [
-//                'choices' => MissionTypeConstant::MAP,
-//                'label' => 'Type de service',
-//                'attr' => [
-//                    'class' => 'custom-select'
-//                ],
-//                'required' => 'false',
-//            ])
             ->add('content', CKEditorType::class, [
                 'required' => 'false',
                 'label' => 'false',
@@ -104,6 +90,30 @@ class MissionType extends AbstractType
             ])
         ;
 
+        if ($options['user'] ?? false) {
+            $builder->add('users', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => static function (UserRepository $repository) {
+                    return $repository->createQueryBuilder('u')
+                        ->where('u.enabled = :enabled')
+                        ->setParameter('enabled', true);
+                },
+                'mapped' => false,
+                'label' => 'Envoie une notification a ces personnes ',
+                'choice_label' => function (User $user) {
+                    return sprintf('%s ( %s )',
+                        $user->nickname(),
+                        $user->getEmail()
+                    );
+                },
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'js-select2',
+                    'style' => "width: 100%",
+                ],
+            ]);
+        }
+
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
     }
 
@@ -135,6 +145,7 @@ class MissionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Mission::class,
+            'user' => null
         ]);
     }
 }

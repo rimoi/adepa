@@ -79,18 +79,16 @@ class Mission
 
     private ?string $city = null;
 
-    // categorie ( handicapé, mineur, personne agé, ... )
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $category = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $type = null;
-
     #[ORM\Column(options: ['default' => 0])]
     private bool $emergency = false;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'missions')]
     private Collection $categories;
+
+    public function isPossibleToCancel(): bool
+    {
+        return $this->started > new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris'));
+    }
 
     public function __construct()
     {
@@ -314,30 +312,6 @@ class Mission
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Controller\BackOffice;
 
 use App\Constant\NotificationConstant;
+use App\Constant\UserConstant;
+use App\Entity\Booking;
 use App\Entity\File;
 use App\Entity\Mission;
 use App\Form\MissionType;
@@ -62,8 +64,14 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_mission_index');
         }
 
+        $user = $this->getUser()->hasRole(UserConstant::ROLE_ADMIN) ? $this->getUser() : null;
+
         $mission = new Mission();
-        $form = $this->createForm(MissionType::class, $mission);
+        $form = $this->createForm(
+            MissionType::class,
+            $mission,
+            compact('user')
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,6 +92,14 @@ class MissionController extends AbstractController
                 ]);
             }
 
+            $users = $form->get('users')->getData();
+
+            if ($users) {
+                 $mission->setEmergency(true);
+
+                $users = $users->toArray();
+            }
+
             $mission->setUser($this->getUser());
 
             $qualificationService->addElement($form, 'file');
@@ -91,8 +107,9 @@ class MissionController extends AbstractController
             $missionRepository->save($mission, true);
 
             if ($mission->isEmergency()) {
-                $notificationService->infoUserMission($mission);
+                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
             }
+            $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
 
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
 
@@ -119,9 +136,12 @@ class MissionController extends AbstractController
         Mission $mission,
         MissionRepository $missionRepository,
         QualificationService $qualificationService,
+        NotificationService $notificationService
     ): Response
     {
-        $form = $this->createForm(MissionType::class, $mission);
+        $user = $this->getUser()->hasRole(UserConstant::ROLE_ADMIN) ? $this->getUser() : null;
+
+        $form = $this->createForm(MissionType::class, $mission, compact('user'));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -146,6 +166,17 @@ class MissionController extends AbstractController
                 ]);
             }
 
+            $users = $form->get('users')->getData();
+
+            if ($users) {
+                $mission->setEmergency(true);
+
+                $users = $users->toArray();
+
+                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
+                $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+            }
+
             $missionRepository->save($mission, true);
 
             $this->addFlash('success', sprintf('Mission `%s` modifiée !', $mission->getTitle()));
@@ -168,5 +199,24 @@ class MissionController extends AbstractController
         $this->addFlash('success', sprintf('Mission `%s` archivée !', $mission->getTitle()));
 
         return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/cancel-booking', name: 'cancel_booking')]
+    public function cancelBooking(Booking $booking, EntityManagerInterface $em, NotificationService $notificationService): Response
+    {
+        $mission = $booking->getMission();
+        $mission->setBooked(false);
+
+        $booking->setArchived(true);
+
+        $this->addFlash('success', sprintf('La mission `%s` a bien été annuler !', $mission->getTitle()));
+
+        $em->flush();
+
+        // à changer ces deux lma
+        $notificationService->sendEmailToFreelanceCancel($booking->getUser(), $mission, 'mailing/admin/acknowledge_cancel_candidate.html.twig');
+        $notificationService->sendEmailToClientCancel($booking->getUser(), $mission, 'mailing/admin/candidate_cancel.html.twig');
+
+        return $this->redirectToRoute('admin_candidat_index');
     }
 }

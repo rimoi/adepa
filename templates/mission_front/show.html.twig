@@ -81,9 +81,14 @@
                         </div>
                     {% else %}
                         <div class="text-center my-2">
-                            <a href="#" class="js-cancel-booking btn btn-danger" data-url="{{ path('front_mission_cancel_booking', {slug: mission.slug}) }}" title="Annuler la réservation de la mission">
-                                Vous avez dépasser le délais d'annulation
-                            </a>
+                            <div class="alert alert-danger">
+                                Vous avez dépassez le délais d'annulation, merci de contacter votre administrateur afin d'annuler la réservation.
+                            </div>
+                            <div>
+                                <a href="{{ path('app_contact') }}" class="btn btn-info">
+                                    Contacter administrateur
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
                 {% else %}
