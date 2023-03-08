@@ -2,8 +2,10 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Constant\UserConstant;
 use App\Entity\File;
 use App\Entity\User;
+use App\Form\ProfileClientFormType;
 use App\Form\ProfileFormType;
 use App\helper\ArrayHelper;
 use App\helper\FormHelper;
@@ -28,25 +30,32 @@ class ProfileController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-       
-        $form = $this->createForm(ProfileFormType::class, $user, ['show_experience' => true]);
+
+        if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
+            $form = $this->createForm(ProfileClientFormType::class, $user, ['show_service' => true]);
+        } else {
+            $form = $this->createForm(ProfileFormType::class, $user, ['show_experience' => true]);
+        }
         $form->handleRequest($request);
 
         $errors = null;
-        $showUploadedImage = 0;
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $qualificationService->addElement($form, 'cni');
-            $qualificationService->addElement($form, 'permisConduite');
-            $qualificationService->addElement($form, 'iban');
-            $qualificationService->addElement($form, 'autoentrepriseCertificate');
+            if (!$user->hasRole(UserConstant::ROLE_CLIENT)) {
+                $qualificationService->addElement($form, 'cni');
+                $qualificationService->addElement($form, 'permisConduite');
+                $qualificationService->addElement($form, 'iban');
+                $qualificationService->addElement($form, 'autoentrepriseCertificate');
 
-            // Decommenter quand on rajout le CV
-            //$qualificationService->addElement($form, 'file');
+                // Decommenter quand on rajout le CV
+                //$qualificationService->addElement($form, 'file');
 
-            $qualificationService->addExperience($form, 'experiences');
-            $qualificationService->addExperience($form, 'qualifications');
+                $qualificationService->addExperience($form, 'experiences');
+                $qualificationService->addExperience($form, 'qualifications');
+            } else {
+                $qualificationService->addExperience($form, 'services');
+            }
 
             $entityManager->flush();
 
@@ -59,11 +68,17 @@ class ProfileController extends AbstractController
 
         }
 
-        return $this->renderForm('back_office/profile/index.html.twig', [
+        $params = [
             'form' => $form,
             'errors' => $errors,
             'show_updaded_image' => !!$errors,
             'path' => $this->getParameter('app.image_directory')
-        ]);
+        ];
+
+        if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
+            return $this->renderForm('back_office/profile/profil_client.html.twig', $params);
+        }
+
+        return $this->renderForm('back_office/profile/index.html.twig', $params);
     }
 }

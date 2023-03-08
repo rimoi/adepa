@@ -123,6 +123,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sms::class)]
     private Collection $sms;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $socialReason = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $unityName = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $services;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -175,6 +184,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->qualifications = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->sms = new ArrayCollection();
+        $this->services = new ArrayCollection();
     }
 
     /**
@@ -681,6 +691,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sms->getUser() === $this) {
                 $sms->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSocialReason(): ?string
+    {
+        return $this->socialReason;
+    }
+
+    public function setSocialReason(?string $socialReason): self
+    {
+        $this->socialReason = $socialReason;
+
+        return $this;
+    }
+
+    public function getUnityName(): ?string
+    {
+        return $this->unityName;
+    }
+
+    public function setUnityName(?string $unityName): self
+    {
+        $this->unityName = $unityName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services->add($service);
+            $service->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->removeElement($service)) {
+            // set the owning side to null (unless already changed)
+            if ($service->getUser() === $this) {
+                $service->setUser(null);
             }
         }
 

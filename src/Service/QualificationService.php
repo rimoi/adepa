@@ -53,8 +53,6 @@ class QualificationService
 
             $experience = $formExp->getData();
 
-            if ($formExp->has('file'))
-
             if (
                 $formExp->has('file')
                 && ($file = $formExp->get('file')->get('name')->getData())

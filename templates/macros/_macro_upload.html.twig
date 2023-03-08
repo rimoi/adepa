@@ -116,3 +116,39 @@
         </div>
     {% endif %}
 {% endmacro %}
+
+
+{% macro printService(service, with_div) %}
+
+    {% if with_div|default %}
+        <div class="row js-genus-scientist-item">
+    {% endif %}
+
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.address) }}
+        {{ form_widget(service.address) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.zipCode) }}
+        {{ form_widget(service.zipCode) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.city) }}
+        {{ form_widget(service.city) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.phone) }}
+        {{ form_widget(service.phone) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.contactName) }}
+        {{ form_widget(service.contactName) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.public) }}
+        {{ form_widget(service.public) }}
+    </div>
+    {% if with_div|default %}
+        </div>
+    {% endif %}
+{% endmacro %}
