@@ -124,11 +124,9 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Votre email a bien été bien validé ! <br /> <br /> 
         Vous recevez prochaine un email des qu\'un administateur valide votre compte');
 
-        if ($user->hasRole(UserConstant::ROLE_FREELANCE)) {
-            $this->addFlash('success',
-                sprintf('Nous-vous invitons à compléter votre profil <a href="%s">ici</a>',
-                    $this->urlGenerator->generate('admin_profile_index')));
-        }
+        $this->addFlash('success',
+            sprintf('Nous-vous invitons à compléter votre profil <a href="%s">ici</a>',
+                $this->urlGenerator->generate('admin_profile_index')));
 
         return $userAuthenticator->authenticateUser(
             $user,

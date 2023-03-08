@@ -34,6 +34,7 @@
                             <th>Candidat</th>
                             <th>Réservé le</th>
                             <th>Titre de l'offre</th>
+                            <th>Status</th>
                             <th>Annuler</th>
                         </tr>
                         </thead>
@@ -48,6 +49,11 @@
                                 <td>{{ booking.createdAt ? booking.createdAt|date('d/m/Y à H:i') : '' }}</td>
                                 <td>
                                     <a href="{{ path('admin_mission_show', {slug: booking.mission.slug}) }}">{{ booking.mission.title }}</a>
+                                </td>
+                                <td>
+                                    {% if booking.validate %}
+                                        <span class="badge badge-success">Terminé</span>
+                                    {% endif %}
                                 </td>
                                 <td align="center">
                                     {% if booking.mission.possibleToCancel or is_granted('ROLE_ADMIN') %}

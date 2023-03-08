@@ -2,6 +2,11 @@
 
 {% block title %}Voir l'article {{ article.title }}{% endblock %}
 
+{% block description %}
+    {{ article.content|u.truncate(200, '...')|raw }}
+{% endblock %}
+
+
 {% block body %}
 
 

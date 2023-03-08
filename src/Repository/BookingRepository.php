@@ -39,20 +39,23 @@ class BookingRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Booking[] Returns an array of Booking objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Booking[] Returns an array of Booking objects
+     */
+    public function getTerminateBooking(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.mission', 'm')
+            ->where('b.archived = :not_archived')
+            ->andWhere('m.ended <= :now')
+            ->andWhere('b.validate = :not_archived')
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('Europe/Paris')))
+            ->setParameter('not_archived', false)
+            ->andWhere('b.ConfirmStarted IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Booking
 //    {

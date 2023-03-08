@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Constant\NotificationConstant;
+use App\Entity\Booking;
 use App\Entity\Contact;
 use App\Entity\Mission;
 use App\Entity\User;
@@ -263,6 +264,138 @@ class NotificationService
             ]);
 
         $this->mailer->send($templateEmail);
+
+    }
+
+    public function sendEmailToClientConfirmTime(
+        Booking $booking,
+        Mission $mission,
+        string $template = 'mailing/admin/confirm_date.html.twig'
+    ): void
+    {
+        $options = [
+            'user' => $booking->getUser(),
+            'sender' => $this->mailerSender,
+            'template' => $template,
+        ];
+
+        $email = EmailFactory::create($options);
+
+        $this->entityManager->persist($email);
+        $this->entityManager->flush();
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->to($mission->getUser()->getEmail())
+            ->subject('ADEPA - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $booking->getUser(),
+                'booking' => $booking,
+                'mission' => $mission,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+
+        $email->setSend(true);
+        $this->entityManager->flush();
+    }
+
+    public function sendEmailToClientConfirmFine(
+        Booking $booking,
+        Mission $mission,
+        string $template = 'mailing/admin/confirm_fine.html.twig'
+    ): void
+    {
+        $options = [
+            'user' => $booking->getUser(),
+            'sender' => $this->mailerSender,
+            'template' => $template,
+        ];
+
+        $email = EmailFactory::create($options);
+
+        $this->entityManager->persist($email);
+        $this->entityManager->flush();
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->to('assoc.adepa@gmail.com')
+            ->subject('ADEPA - Merci de générer la facture pour la mission : ' . $mission->getTitle())
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $booking->getUser(),
+                'booking' => $booking,
+                'mission' => $mission,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+
+        $email->setSend(true);
+        $this->entityManager->flush();
+    }
+
+
+    public function sendEmailAdminConflitValidateTime(
+        Booking $booking,
+        Mission $mission,
+        array $tab
+    ): void
+    {
+
+        $template = 'mailing/admin/conflit.html.twig';
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->to('assoc.adepa@gmail.com')
+            ->subject('ADEPA - Conflit entre client et freelance pour les heures de la mission : ' . $mission->getTitle())
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $booking->getUser(),
+                'booking' => $booking,
+                'mission' => $mission,
+                'tab' => $tab,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+    }
+
+    public function sendEmailToFreelanceConfirmTime(Booking $booking, Mission $mission, string $template)
+    {
+        $options = [
+            'user' => $booking->getUser(),
+            'sender' => $this->mailerSender,
+            'template' => $template,
+        ];
+
+        $email = EmailFactory::create($options);
+
+        $this->entityManager->persist($email);
+        $this->entityManager->flush();
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->to($booking->getUser()->getEmail())
+            ->subject('ADEPA - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $booking->getUser(),
+                'booking' => $booking,
+                'mission' => $mission,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+
+        $email->setSend(true);
+        $this->entityManager->flush();
 
     }
 

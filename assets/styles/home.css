@@ -1,7 +1,7 @@
 .banniere {
-    background-image: url(../../public/images/banniere.png);
+    /*background-image: url(../../public/images/banniere.png);*/
     background-size: cover;
-    height: 90vh;
+    height: 64vh;
     width: 100vw;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .banniere div h1 {
-    font-size:calc(12px + 3.3vw);
+    font-size:calc(12px + 2.3vw);
     font-weight: bold;
 }
 

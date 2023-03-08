@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BookingRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
@@ -25,6 +26,15 @@ class Booking
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?Mission $mission = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $ConfirmStarted = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $confirmEnded = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $validate = false;
 
     public function __construct()
     {
@@ -73,6 +83,42 @@ class Booking
     public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
+
+        return $this;
+    }
+
+    public function getConfirmStarted(): ?\DateTimeInterface
+    {
+        return $this->ConfirmStarted;
+    }
+
+    public function setConfirmStarted(?\DateTimeInterface $ConfirmStarted): self
+    {
+        $this->ConfirmStarted = $ConfirmStarted;
+
+        return $this;
+    }
+
+    public function getConfirmEnded(): ?\DateTimeInterface
+    {
+        return $this->confirmEnded;
+    }
+
+    public function setConfirmEnded(?\DateTimeInterface $confirmEnded): self
+    {
+        $this->confirmEnded = $confirmEnded;
+
+        return $this;
+    }
+
+    public function isValidate(): ?bool
+    {
+        return $this->validate;
+    }
+
+    public function setValidate(bool $validate): self
+    {
+        $this->validate = $validate;
 
         return $this;
     }

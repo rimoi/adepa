@@ -1,17 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste missions{% endblock %}
+{% block title %}Liste des missions{% endblock %}
 
+{% block description %}
+    Nous offrons une solution rapide et efficace pour les deux parties afin de répondre aux besoins de main-d'œuvre dans le domaine médico-social.
+    Nos services sont simples et conviviaux, offrant une expérience utilisateur optimale pour les structures et les candidats.
+    Nous sommes fiers de notre engagement à soutenir les professionnels de la santé en connectant les bons talents avec les bons emplois.
+{% endblock %}
 
 {% block body %}
     <div class="container">
-        <ol class="breadcrumb mb-2">
-            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-            <li class="breadcrumb-item active">Missions</li>
-        </ol>
 
-        <div class="gallery col-12 col-md-4 offset-md-5">
-            <h1 class="bg-danger text-white p-3 d-inline-block my-4 rounded-2">Missions Urgentes</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+                <li class="breadcrumb-item active">Missions</li>
+            </ol>
+        </nav>
+
+        <div class="mt-5">
+            {{ form_start(form, {'action': path('front_mission'), 'method': 'POST'}) }}
+            <div class="row">
+                <div class="col-12 col-lg-8 offset-lg-2">
+                    <p>
+                        Vous pouvez choisir une/plusieurs catégories des missions
+                    </p>
+
+                    {{ form_widget(form.categories) }}
+                    <div class="text-center mt-2">
+                        <button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        <hr class="my-4">
+        <div class="gallery col-12 col-md-5 offset-md-4">
+            <h1 class="bg-danger text-white p-1 p-lg-2 d-inline-block my-4 rounded-2 position-relative">Missions Urgentes
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gradient-dark">
+                    {{ missions.urgent|length }}
+                </span>
+            </h1>
         </div>
         <br>
         <div class="row">
@@ -49,8 +79,14 @@
 
     <div class="container mt-2 mt-md-5 mb-5">
         <div class="gallery col-12 col-md-4 offset-md-5">
-            <h1 class="bg-primary text-white p-3 d-inline-block my-4 rounded-2">Missions</h1>
+            <h1 class="bg-primary text-white p-3 d-inline-block my-4 rounded-2 position-relative">
+                Missions
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gradient-dark">
+                    {{ missions.urgent|length }}
+                </span>
+            </h1>
         </div>
+
         <div class="row">
             <br />
             {% for mission in missions.normal %}

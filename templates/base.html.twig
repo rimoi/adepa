@@ -2,6 +2,11 @@
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="keywords" content="ADEPA">
+		<meta name="author" content="ADEPA">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="description" content="{% block description '' %}"/>
 		<title>
 			{% block title %}{% endblock %} - ADEPA
 		</title>
@@ -16,8 +21,6 @@
 		{% include "includes/_notice.html.twig" %}
 		{% block body %}
 		{% endblock %}
-
-
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}

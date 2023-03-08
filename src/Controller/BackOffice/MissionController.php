@@ -5,12 +5,11 @@ namespace App\Controller\BackOffice;
 use App\Constant\NotificationConstant;
 use App\Constant\UserConstant;
 use App\Entity\Booking;
-use App\Entity\File;
 use App\Entity\Mission;
 use App\Form\MissionType;
+use App\Form\ValidateTimeType;
 use App\Repository\BookingRepository;
 use App\Repository\MissionRepository;
-use App\Service\FileUploader;
 use App\Service\NotificationService;
 use App\Service\QualificationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -77,11 +76,11 @@ class MissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($dateDebut = $form->get('debut')->getData()) {
                 $dateDebut = str_replace('/', '-', $dateDebut);
-                $mission->setStarted(new \DateTimeImmutable($dateDebut));
+                $mission->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
             }
             if ($dateFin = $form->get('fin')->getData()) {
                 $dateFin = str_replace('/', '-', $dateFin);
-                $mission->setEnded(new \DateTimeImmutable($dateFin));
+                $mission->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
             }
             if ($mission->getEnded() <= $mission->getStarted()) {
                 $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de debut !'));
@@ -150,11 +149,11 @@ class MissionController extends AbstractController
 
             if ($dateDebut = $form->get('debut')->getData()) {
                 $dateDebut = str_replace('/', '-', $dateDebut);
-                $mission->setStarted(new \DateTimeImmutable($dateDebut));
+                $mission->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
             }
             if ($dateFin = $form->get('fin')->getData()) {
                 $dateFin = str_replace('/', '-', $dateFin);
-                $mission->setEnded(new \DateTimeImmutable($dateFin));
+                $mission->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
             }
 
             if ($mission->getEnded() <= $mission->getStarted()) {
@@ -218,5 +217,178 @@ class MissionController extends AbstractController
         $notificationService->sendEmailToClientCancel($booking->getUser(), $mission, 'mailing/admin/candidate_cancel.html.twig');
 
         return $this->redirectToRoute('admin_candidat_index');
+    }
+
+    #[Route('/check/terminate/booking', name: 'check_terminate_booking')]
+    public function checkTerminateBooking(EntityManagerInterface $em, NotificationService $notificationService): Response
+    {
+        $bookings = $em->getRepository(Booking::class)->getTerminateBooking();
+
+        foreach ($bookings as $booking) {
+            $notificationService->sendEmailToFreelanceConfirmTime($booking, $booking->getMission(), 'mailing/admin/freelance_confirm_date.html.twig');
+        }
+
+        $this->addFlash('success', sprintf('%d emails envoyés au Freelances', count($bookings)));
+
+        return $this->redirectToRoute('admin_dash_board_index');
+    }
+
+
+    #[Route('/{id}/validate/first/step', name: 'validate_time_first_step')]
+    public function validateTimeFirstStep(Request $request, Booking $booking, EntityManagerInterface $em, NotificationService $notificationService): Response
+    {
+        if (!$booking->getConfirmStarted()) {
+            $booking->setConfirmStarted($booking->getMission()->getStarted());
+            $booking->setConfirmEnded($booking->getMission()->getStarted());
+        }
+        
+        $form = $this->createForm(ValidateTimeType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($dateDebut = $form->get('debut')->getData()) {
+                $dateDebut = str_replace('/', '-', $dateDebut);
+                $booking->setConfirmStarted(new \DateTime($dateDebut, new \DateTimeZone('Europe/Paris')));
+            }
+            if ($dateFin = $form->get('fin')->getData()) {
+                $dateFin = str_replace('/', '-', $dateFin);
+                $booking->setConfirmEnded(new \DateTime($dateFin, new \DateTimeZone('Europe/Paris')));
+            }
+
+            if ($booking->getConfirmEnded() <= $booking->getConfirmStarted()) {
+                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
+
+                return $this->renderForm('back_office/mission/confirm.html.twig', [
+                    'form' => $form,
+                    'booking' => $booking
+                ]);
+            }
+
+            $this->addFlash('success', sprintf('Les dates pour la mission `%s` ont bien été enregistrée !', $booking->getMission()->getTitle()));
+
+            $em->flush();
+
+            $notificationService->sendEmailToClientConfirmTime($booking, $booking->getMission(), 'mailing/admin/confirm_date.html.twig');
+
+            return $this->redirectToRoute('admin_dash_board_index');
+        }
+
+        return $this->renderForm('back_office/mission/confirm.html.twig', [
+            'form' => $form,
+            'booking' => $booking
+        ]);
+    }
+
+    #[Route('/{id}/validate/second/step', name: 'validate_time_second_step')]
+    public function validateTimeSecondStep(Request $request, Booking $booking, EntityManagerInterface $em, NotificationService $notificationService): Response
+    {
+        $form = $this->createForm(ValidateTimeType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $isSame = true;
+            $format = "Y-m-d H";
+
+            if ($dateDebut = $form->get('debut')->getData()) {
+                $dateDebut = str_replace('/', '-', $dateDebut);
+
+                $dateDebut = new \DateTime($dateDebut, new \DateTimeZone('Europe/Paris'));
+
+                if ($dateDebut->format($format) !== $booking->getConfirmStarted()->format($format)) {
+                    $isSame = false;
+                }
+
+            }
+            if ($dateFin = $form->get('fin')->getData()) {
+                $dateFin = str_replace('/', '-', $dateFin);
+
+                $dateFin = new \DateTime($dateFin, new \DateTimeZone('Europe/Paris'));
+
+                if ($dateFin->format($format) !== $booking->getConfirmEnded()->format($format)) {
+                    $isSame = false;
+                }
+            }
+
+            if ($isSame) {
+                $booking->setConfirmStarted($dateDebut);
+                $booking->setConfirmEnded($dateFin);
+                $booking->setValidate(true);
+                $booking->setArchived(true);
+
+                $notificationService->sendEmailToClientConfirmFine($booking, $booking->getMission(), 'mailing/admin/confirm_fine.html.twig');
+            } else {
+
+                $tab = [
+                    'client' => [
+                        'debut' => $dateDebut,
+                        'fin' => $dateFin,
+                    ],
+                    'freelance' => [
+                        'debut' => $booking->getConfirmStarted(),
+                        'fin' => $booking->getConfirmEnded(),
+                    ]
+                ];
+
+                $notificationService->sendEmailAdminConflitValidateTime($booking, $booking->getMission(), $tab);
+            }
+
+            $this->addFlash('success', sprintf('Les dates pour la mission `%s` ont bien été enregistrée !', $booking->getMission()->getTitle()));
+
+            $em->flush();
+
+            return $this->redirectToRoute('admin_dash_board_index');
+        }
+
+        return $this->renderForm('back_office/mission/confirm.html.twig', [
+            'form' => $form,
+            'booking' => $booking
+        ]);
+    }
+
+    #[Route('/{id}/validate/last/step', name: 'validate_time_last_step')]
+    public function validateTimeLastStep(Request $request, Booking $booking, EntityManagerInterface $em, NotificationService $notificationService): Response
+    {
+        $form = $this->createForm(ValidateTimeType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($dateDebut = $form->get('debut')->getData()) {
+                $dateDebut = str_replace('/', '-', $dateDebut);
+                $booking->setConfirmStarted(new \DateTime($dateDebut, new \DateTimeZone('Europe/Paris')));
+            }
+            if ($dateFin = $form->get('fin')->getData()) {
+                $dateFin = str_replace('/', '-', $dateFin);
+                $booking->setConfirmEnded(new \DateTime($dateFin, new \DateTimeZone('Europe/Paris')));
+            }
+
+            if ($booking->getConfirmEnded() <= $booking->getConfirmStarted()) {
+                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
+
+                return $this->renderForm('back_office/mission/confirm.html.twig', [
+                    'form' => $form,
+                    'booking' => $booking
+                ]);
+            }
+
+            $booking->setValidate(true);
+            $booking->setArchived(true);
+
+
+            $this->addFlash('success', sprintf('Les dates pour la mission `%s` ont bien été enregistrée et les emails sont envoyés !', $booking->getMission()->getTitle()));
+
+            $em->flush();
+
+            $notificationService->sendEmailToClientConfirmFine($booking, $booking->getMission());
+
+            return $this->redirectToRoute('admin_dash_board_index');
+        }
+
+        return $this->renderForm('back_office/mission/confirm.html.twig', [
+            'form' => $form,
+            'booking' => $booking
+        ]);
     }
 }

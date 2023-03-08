@@ -1,7 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Accueil ADEPA
+{% block title %}Accueil ADEPA{% endblock %}
+
+{% block description %}
+	Notre plateforme en ligne facilite la mise en relation entre des structures médico-sociales à la recherche de professionnels qualifiés et
+	des freelancers à la recherche d'une mission à court terme.
+	Rejoignez notre communauté dès maintenant et trouvez votre prochaine mission !
+{#	Nous offrons une solution rapide et efficace pour les deux parties afin de répondre aux besoins de main-d'œuvre dans le domaine médico-social.#}
+{#	Nos services sont simples et conviviaux, offrant une expérience utilisateur optimale pour les employeurs et les candidats.#}
+{#	Nous sommes fiers de notre engagement à soutenir les professionnels de la santé en connectant les bons talents avec les bons emplois.#}
+{#	Rejoignez notre communauté dès maintenant et trouvez votre prochaine mission !#}
 {% endblock %}
+
 
 {% block body %}
 
@@ -12,22 +22,23 @@
 				<br>
 				<span>DU MÉDICO SOCIAL</span>
 			</h1>
-			<img src="{{asset('images/banniere1.png')}}" alt=""/>
-			<img src="{{asset('images/banniere2.png')}}" alt=""/>
+
+			{{ form_start(form, {'action': path('front_mission'), 'method': 'POST'}) }}
+			<div class="row">
+				<div class="col-12 col-lg-8 offset-lg-2">
+					<p>
+						Vous pouvez choisir une/plusieurs catégories des missions
+					</p>
+
+					{{ form_widget(form.categories) }}
+					<div class="text-center mt-n5">
+						<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
+					</div>
+				</div>
+			</div>
+			{{ form_end(form) }}
 		</div>
-
-{#		<div class="scroll-arrow">#}
-{#			<a href="#intro1">#}
-{#				<p>Scroll moi</p>#}
-{#				<i class="fa-solid fa-arrow-down"></i>#}
-{#			</a>#}
-{#		</div>#}
-
 	</section>
-
-
-
-	{# {% include "includes/_section_atelier.html.twig" %} #}
 
 	<section class="services" id="intro1">
 		<h2 style="color: #131314">Nos services</h2>
@@ -50,55 +61,6 @@
 				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
 					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à asso.adepa@gmail.com
 				</p>
-			</div>
-		</div>
-	</section>
-
-	{# SECTION MISSION #}
-	<section class="mission">
-		<div class="row">
-			<div class="col-12">
-				<img src="{{asset('images/missions.png')}}" alt="" class="event-main-img">
-			</div>
-		</div>
-		<div>
-			<div id="container" class="row">
-
-				{% for mission in missions %}
-					<div class="col-12 col-md-4">
-						<div class="card bg-light text-center text-dark">
-							<div class="card-header fw-bold fs-5 text-dark">
-								<div class="my-1 text-dark lead" style="color: #131314">
-									{{ mission.title }}
-								</div>
-								<div class="text-center fs-6 badge bg-danger text-white">
-									{{ mission.started|date('d/m/Y à H:i') }}
-									<span class="fa fa-info-circle js-tooltip" title="Début de la mission le {{ mission.started|date('d/m/Y à H:i') }} et la fin de la mission et {{ mission.ended|date('d/m/Y à H:i') }}">
-                            </span>
-								</div>
-							</div>
-							<div class="card-body">
-								<div>
-									<div style="width: 359px;height: 195px!important;font-size: 13px">
-										{{ mission.content|u.truncate(250, '...')|raw }}
-									</div>
-									<div class="my-1">
-										<a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-danger">Voir l'offre</a>
-									</div>
-									<div class="text-small text-muted my-2">
-										{{ mission.createdAt|ago(locale='fr') }}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				{% endfor %}
-
-				{% if all_mission >= 3 %}
-					<div class="col-12 text-center">
-						<a href="{{ path('front_mission') }}" class="btn btn-danger"> Plus des missions...</a>
-					</div>
-				{% endif %}
 			</div>
 		</div>
 	</section>

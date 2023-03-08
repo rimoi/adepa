@@ -17,27 +17,26 @@
         <a class="nav-link" href="{{ path('admin_dash_board_index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
+
     </li>
 
-    {% if is_granted('ROLE_FREELANCE') and not is_granted('ROLE_ADMIN') %}
 
-        <!-- Divider -->
-        <hr class="sidebar-divider">
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Utilisateurs
-        </div>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Utilisateurs
+    </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_profile_index' ? 'active' }}">
-            <a class="nav-link" href="{{ path('admin_profile_index') }}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>Mon profil</span>
-            </a>
-        </li>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_profile_index' ? 'active' }}">
+        <a class="nav-link" href="{{ path('admin_profile_index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Mon profil</span>
+        </a>
+    </li>
 
-    {% endif %}
 
     {% if is_granted('ROLE_ADMIN') %}
         <!-- Divider -->

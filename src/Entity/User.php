@@ -128,6 +128,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname . ' ' . $this->lastname;
     }
 
+    public function hasRole(string $role): bool
+    {
+        return !!in_array($role, $this->roles, true);
+    }
+
+    public function __toString(): string
+    {
+        return $this->email;
+    }
+
+    public function fullAddress(): string
+    {
+        return sprintf('%s, %d %s', $this->adress, $this->zipCode, $this->city);
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAt()
     {
@@ -160,16 +175,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->qualifications = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->sms = new ArrayCollection();
-    }
-
-    public function hasRole(string $role): bool
-    {
-        return !!in_array($role, $this->roles, true);
-    }
-
-    public function __toString(): string
-    {
-        return $this->email;
     }
 
     /**

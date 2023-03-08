@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\Mission;
+use App\Form\SearchType;
 use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,11 +21,26 @@ class MissionFrontController extends AbstractController
     #[Route('/missions', name: 'front_mission')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $missions = $entityManager->getRepository(Mission::class)->findBy([
-            'archived' => false,
-            'published' => true,
-            'booked' => false
-        ], ['started' => 'ASC']);
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        $missions = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categories = $form->get('categories')->getData();
+            if ($categories && $categories->toArray()) {
+                $missions = $entityManager->getRepository(Mission::class)->getMissionByCriteria($categories->toArray());
+            }
+        }
+
+        if (!$missions) {
+            $missions = $entityManager->getRepository(Mission::class)->findBy([
+                'archived' => false,
+                'published' => true,
+                'booked' => false
+            ], ['started' => 'ASC']);
+        }
+
 
         $all_missions = [
             'urgent' => [],
@@ -45,8 +61,9 @@ class MissionFrontController extends AbstractController
             }
         }
 
-        return $this->render('mission_front/index.html.twig', [
+        return $this->renderForm('mission_front/index.html.twig', [
             'missions' => $all_missions,
+            'form' => $form
         ]);
     }
 
@@ -60,7 +77,7 @@ class MissionFrontController extends AbstractController
         } elseif ($slug) {
             $mission = $em->getRepository(Mission::class)->findOneBy(['slug' => $slug]);
         } else {
-            throw $this->createNotFoundException('Impossible de récuperer la mission'); 
+            throw $this->createNotFoundException('Impossible de récupérer la mission');
         }
 
         $userConnectedReserved = '';

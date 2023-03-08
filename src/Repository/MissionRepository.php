@@ -39,20 +39,20 @@ class MissionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Mission[] Returns an array of Mission objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Mission[] Returns an array of Mission objects
+     */
+    public function getMissionByCriteria(array $categories = []): array
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.categories', 'c')
+            ->where('c.id IN (:categories)')
+            ->setParameter('categories', $categories)
+            ->orderBy('m.started', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Mission
 //    {

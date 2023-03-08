@@ -136,7 +136,7 @@ $(document).ready(function() {
         var url = $(this).data('url');
 
         Swal.fire({
-            title: 'Etes-vous sûr de vouloir réserver cette mission ?',
+            title: "Vous acceptez les conditions du contrat en cliquant sur le bouton 'Confirmer'",
             showCancelButton: true,
             confirmButtonText: 'Confirmer',
             cancelButtonText: `Fermer`,

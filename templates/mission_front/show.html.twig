@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}voir mission {{ mission.title }}{% endblock %}
+{% block title %}Voir la mission {{ mission.title }}{% endblock %}
 
+{% block description %}
+    {{ mission.content|u.truncate(200, '...')|raw }}
+{% endblock %}
 
 {% block body %}
 
