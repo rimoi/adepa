@@ -31,7 +31,7 @@
 					</p>
 
 					{{ form_widget(form.categories) }}
-					<div class="text-center mt-n5">
+					<div class="text-center mt-sm-n5">
 						<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
 					</div>
 				</div>
@@ -42,20 +42,20 @@
 
 	<section class="services" id="intro1">
 		<h2 style="color: #131314">Nos services</h2>
-		<div class="services-box">
-			<div class="service1">
+		<div class="row">
+			<div class="col-12 col-md-4 service1">
 				<i class="fa fa-network-wired service-img text-dark"></i>
 				<h3 style="color: #131314" class="my-2">Plateforme
 				</h3>
 				<p>Grace à notre plateforme, vous pourrez en quelques clics proposer vos services, demander un freelance, réserver un atelier éducatif, obtenir du renfort professionnel, et avoir les dernières actualités éducatives dans le sport-médico-social.
 					Nous vous avons créé un espace autonome qui permet de répondre aux besoins simplement et avec efficacité !</p>
 			</div>
-			<div class="service2">
+			<div class="service2 col-12 col-md-4">
 				<span class="fa fa-chalkboard text-dark service-img"></span>
 				<h3 style="color: #131314" class="my-2">Formations</h3>
 				<p>Nous effectuons sur demande des présentations du dispositif de l'association, de la plateforme et son utilisation. Donc demander nous une Extra Présentation et inscrivez-vous à notre newsletter pour recevoir les dates de nos prochaines formations au monde du médico-social. Tous nos adhérents en bénéficient gratuitement.</p>
 			</div>
-			<div class="service3">
+			<div class="service3 col-12 col-md-4">
 				<i class="fa fa-handshake text-dark service-img"></i>
 				<h3 style="color: #131314" class="my-2">Assistance</h3>
 				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
@@ -67,11 +67,13 @@
 
 	<section class="news" id="news">
 		<div class="news-box row ">
-			<div class="col-2">
+			<div class="col-1 col-sm-2 {{ not articles|length ? 'cs-image-actualite' }}">
 				<img src="{{asset('images/news.png')}}" alt="">
 			</div>
-			<div class="col-6 offset-2">
-				{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}
+			<div class="col-11 col-sm-6 offset-sm-2">
+				{% if articles|length %}
+					{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}
+				{% endif %}
 			</div>
 		</div>
 	</section>

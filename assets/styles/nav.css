@@ -37,7 +37,7 @@ nav a, nav li{
 .navbar-header .menu-burger {
     display: none;
     position: absolute;
-    top: 35px;
+    top: 22px;
     right: 50px;
     width: 35px;
 }
@@ -69,12 +69,13 @@ nav a, nav li{
         left: 0;
         background-color: rgba(221, 32, 60, 0.486);
         backdrop-filter: blur(7px);
-        width: 100%;
+        width: 60%;
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         transition : all 0.5s ease;
+        z-index: 1000;
     }
 
     .nav-links ul {

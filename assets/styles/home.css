@@ -76,17 +76,17 @@
     font-size: 3rem;
 }
 
-.services-box {
-    display: flex;
-    margin-bottom : 50px;
-    width: 100vw;
-    justify-content: space-around;
-}
+/*.services-box {*/
+/*    display: flex;*/
+/*    margin-bottom : 50px;*/
+/*    width: 100vw;*/
+/*    justify-content: space-around;*/
+/*}*/
 
 .service1,
 .service2,
 .service3 {
-    border: #ff5751 solid 1px ;
+    border: #ff5751 solid 1px;
     margin: 10px;
     padding: 10px;
     width: 30%;
@@ -99,3 +99,28 @@
 /* .services i {
     color: #fab885;
 } */
+
+
+@media (max-width: 576px) {
+    .banniere {
+        height: 37vh;
+    }
+    .banniere div {
+        padding: 10px 17px;
+    }
+
+    .service1,
+    .service2,
+    .service3 {
+        border: none;
+        margin: 5px;
+        padding: 24px;
+        width: 30%;
+    }
+    #contact {
+        margin-bottom: 36px;
+    }
+    .cs-image-actualite {
+        margin-left: -69px;
+    }
+}

@@ -232,6 +232,23 @@ select.form-control{
     padding-top: 21px;
 }
 
+@media (max-width: 576px) {
+    #register-right {
+        z-index: 1;
+        padding-left: 15px;
+        padding-right: 3rem;
+        height: auto;
+        margin-bottom: 39px;
+        padding-bottom: 13px;
+    }
+    #register-left{
+        display: none;
+    }
+    #register-right .form-control {
+        min-height: 46px;
+        padding-top: 12px;
+    }
+}
 
 
 /*--------select2-css----*/
