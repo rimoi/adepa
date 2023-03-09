@@ -68,8 +68,8 @@ class DashBoardController extends AbstractController
             'freelance_enabled' => $freelanceEnabled,
             'client_not_enabled' =>  $clientNotEnabled,
             'client_enabled' => $clientEnabled,
-            'last_missions' => array_slice($availables, 0, 20),
-            'articles' => array_slice($articles, 0, 20),
+            'last_missions' => count($availables) > 20 ? array_slice($availables, 0, 20) : $availables,
+            'articles' => count($articles) > 20 ? array_slice($articles, 0, 20) : $articles,
             'photo_directory' => $this->getParameter('app.image_directory'),
         ]);
     }
