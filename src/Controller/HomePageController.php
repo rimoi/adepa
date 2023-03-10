@@ -24,7 +24,8 @@ class HomePageController extends AbstractController
 
         return $this->renderForm('homepage/homepage.html.twig', [
             'articles' => $articles,
-            'form' => $form
+            'form' => $form,
+            'photo_directory' => $this->getParameter('app.relative_path.image_directory'),
         ]);
     }
 }

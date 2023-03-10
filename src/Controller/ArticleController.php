@@ -15,7 +15,7 @@ class ArticleController extends AbstractController
     {
         return $this->render('article/index.html.twig', [
             'article' => $article,
-            'photo_directory' => $this->getParameter('app.image_directory'),
+            'photo_directory' => $this->getParameter('app.relative_path.image_directory'),
         ]);
     }
 }

@@ -21,18 +21,21 @@ class ServiceType extends AbstractType
                     'placeholder' => '12 rue chemin de fer',
                 ],
                 'label' => false
+
             ])
             ->add('zipCode', IntegerType::class, [
                 'attr' => [
                     'placeholder' => '75015',
                 ],
                 'label' => false
+
             ])
             ->add('city', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Paris',
                 ],
                 'label' => false
+
             ])
             ->add('phone', TelType::class, [
                 'label' => "Numéro de téléphone",
@@ -41,7 +44,7 @@ class ServiceType extends AbstractType
                 ],
                 'constraints' => [
                     new Regex('/0\d{9}/')
-                ],
+                ]
             ])
             ->add('contactName', TextType::class, [
                 'attr' => [
@@ -53,7 +56,8 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Public...',
                 ],
-                'label' => false
+                'label' => false,
+                'required' => false
             ])
 
         ;

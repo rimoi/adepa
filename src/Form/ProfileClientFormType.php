@@ -20,16 +20,17 @@ class ProfileClientFormType extends AbstractType
                 'label' => "Numéro de téléphone :",
                 'attr' => [
                     'placeholder' => '0606060606'
-                ]
+                ],
+                'required' => false
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom :',
+                'label' => 'Prénom : (*)',
                 'attr' => [
                     'placeholder' => 'Jean'
                 ]
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom :',
+                'label' => 'Nom : (*)',
                 'attr' => [
                     'placeholder' => 'Dupond'
                 ]
@@ -39,7 +40,7 @@ class ProfileClientFormType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => '23 avenue claude monet'
-                ]
+                ],
             ])
             ->add('zipCode',IntegerType::class, [
                 'label' => 'Code postal :',

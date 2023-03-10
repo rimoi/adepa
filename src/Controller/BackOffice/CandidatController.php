@@ -68,7 +68,6 @@ class CandidatController extends AbstractController
         return $this->renderForm('back_office/candidat/show.html.twig', [
             'form' => $form,
             'user' => $user,
-            'path' => $this->getParameter('app.image_directory')
         ]);
     }
 }

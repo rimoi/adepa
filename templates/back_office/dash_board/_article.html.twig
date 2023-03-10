@@ -15,12 +15,16 @@
                                     <div class="row my-2">
                                         <div class="col-sm-6 image">
                                             <div class="item">
-                                                <h1>{{ article.title }}</h1>
-{#                                                {% if article.file %}#}
-{#                                                    <img class="img-fluid" src="{{ photo_directory ~'/'~ article.file.name }}" alt="mission {{ article.title }}">#}
-{#                                                {% else %}#}
-                                                    <img class="img-fluid" src="{{ asset('images/news.jpg') }}" alt="mission {{ article.title }}">
-{#                                                {% endif %}#}
+                                                <h1>
+                                                    <a href="{{ path('app_article', {slug: article.slug}) }}">
+                                                        {{ article.title }}
+                                                    </a>
+                                                </h1>
+                                                {% if article.file %}
+                                                    <img class="img-fluid w-75" src="{{ asset(photo_directory ~'/'~ article.file.name) }}" alt="mission {{ article.title }}">
+                                                {% else %}
+                                                    <img class="img-fluid w-75" src="{{ asset('images/news.jpg') }}" alt="mission {{ article.title }}">
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -47,7 +51,7 @@
     {#                                                <i class="fa fa-star"></i>#}
     {#                                            </div>#}
                                                 <p class="cr10">
-                                                    {{ article.createdAt|ago(locale='fr') }}
+                                                    Publié {{ article.createdAt|ago(locale='fr') }}
                                                 </p>
                                                 <a href="{{ path('app_article', {slug: article.slug}) }}" class="btn btn-food">Voir</a>
                                             </div><!--enddetails-->

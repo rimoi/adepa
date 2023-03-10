@@ -68,7 +68,7 @@
 .services {
     text-align: center;
     background-color: whitesmoke;
-    padding: 1rem 0;
+    padding: 246px 0 28px;
 }
 
 .services h2 {
@@ -87,7 +87,6 @@
 .service2,
 .service3 {
     border: #ff5751 solid 1px;
-    margin: 10px;
     padding: 10px;
     width: 30%;
 }
@@ -109,11 +108,14 @@
         padding: 10px 17px;
     }
 
+    .services {
+        padding: 107px 0 19px;
+    }
+
     .service1,
     .service2,
     .service3 {
         border: none;
-        margin: 5px;
         padding: 24px;
         width: 30%;
     }
@@ -122,5 +124,9 @@
     }
     .cs-image-actualite {
         margin-left: -69px;
+    }
+
+    #news .carousel-item .item h1 {
+        font-size: 1rem;
     }
 }

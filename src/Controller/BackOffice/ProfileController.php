@@ -72,7 +72,6 @@ class ProfileController extends AbstractController
             'form' => $form,
             'errors' => $errors,
             'show_updaded_image' => !!$errors,
-            'path' => $this->getParameter('app.image_directory')
         ];
 
         if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
