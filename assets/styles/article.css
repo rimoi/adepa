@@ -186,7 +186,7 @@
 }
 
 #sliderarticle a.carousel-control-prev {
-    transform: translate(-90%,-60%);
+    transform: translate(-90%,-54%);
 }
 
 .cs-carousel .bg {
@@ -224,4 +224,20 @@
 .cs-mission-front .info-started {
     margin-top: 4rem;
     margin-bottom: 6rem;
+}
+
+@media (max-width: 577px) {
+    #sliderarticle a.carousel-control-next {
+        transform: translate(5%,-107%);
+        height: 40px;
+        width: 40px;
+    }
+    #sliderarticle a.carousel-control-prev {
+        transform: translate(-11%,-114%);
+        height: 40px;
+        width: 40px;
+    }
+    .bg {
+        margin-left: -32px;
+    }
 }

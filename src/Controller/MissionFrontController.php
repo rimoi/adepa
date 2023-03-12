@@ -60,7 +60,7 @@ class MissionFrontController extends AbstractController
                 $all_missions['normal'][] = $mission; 
             }
         }
-
+      
         return $this->renderForm('mission_front/index.html.twig', [
             'missions' => $all_missions,
             'form' => $form

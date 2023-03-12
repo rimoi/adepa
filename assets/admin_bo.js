@@ -9,6 +9,7 @@
 import './admin/scss/sb-admin-2.scss';
 import './admin/vendor/fontawesome-free/css/all.min.css';
 import './styles/bo.css';
+import './styles/footer.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import './styles/carousel.css';
 import 'select2/dist/css/select2.min.css';

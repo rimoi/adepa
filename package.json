@@ -18,6 +18,7 @@
         "@fullcalendar/daygrid": "^6.1.4",
         "@fullcalendar/list": "^6.1.4",
         "@fullcalendar/timegrid": "^6.1.4",
+        "@lottiefiles/lottie-player": "^1.7.1",
         "@popperjs/core": "^2.11.6",
         "bootstrap": "5.2.3",
         "ckeditor4": "^4.13.0",

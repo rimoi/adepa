@@ -22,10 +22,6 @@
             {{ form_start(form, {'action': path('front_mission'), 'method': 'POST'}) }}
             <div class="row">
                 <div class="col-12 col-lg-8 offset-lg-2">
-                    <p>
-                        Vous pouvez choisir une/plusieurs catégories des missions
-                    </p>
-
                     {{ form_widget(form.categories) }}
                     <div class="text-center mt-2">
                         <button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
@@ -82,7 +78,7 @@
             <h1 class="bg-primary text-white p-3 d-inline-block my-4 rounded-2 position-relative">
                 Missions
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gradient-dark">
-                    {{ missions.urgent|length }}
+                    {{ missions.normal|length }}
                 </span>
             </h1>
         </div>

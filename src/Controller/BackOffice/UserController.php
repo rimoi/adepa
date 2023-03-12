@@ -63,14 +63,10 @@ class UserController extends AbstractController
 
                 $user->setRoles($r);
             }
-
             $qualificationService->addElement($form, 'cni');
             $qualificationService->addElement($form, 'permisConduite');
             $qualificationService->addElement($form, 'iban');
             $qualificationService->addElement($form, 'autoentrepriseCertificate');
-
-            $qualificationService->addExperience($form, 'experiences');
-            $qualificationService->addExperience($form, 'qualifications');
 
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -79,9 +75,11 @@ class UserController extends AbstractController
                 )
             );
 
+            $entityManager->persist($user);
+
             $entityManager->flush();
 
-            $this->addFlash('success', 'Les modifications ont bien été enregistrées !');
+            $this->addFlash('success', "L'utilisateur est créé avec succès");
 
             return $this->redirectToRoute('admin_user_index');
         }
@@ -134,9 +132,6 @@ class UserController extends AbstractController
             $qualificationService->addElement($form, 'permisConduite');
             $qualificationService->addElement($form, 'iban');
             $qualificationService->addElement($form, 'autoentrepriseCertificate');
-
-            $qualificationService->addExperience($form, 'experiences');
-            $qualificationService->addExperience($form, 'qualifications');
 
             $entityManager->flush();
 

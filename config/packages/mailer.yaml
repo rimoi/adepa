@@ -7,5 +7,5 @@ when@dev:
     framework:
         mailer:
             envelope:
-                recipients: ['sidi.khalifa@live.fr']
-#                recipients: ['assoc.adepa@gmail.com']
+#                recipients: ['sidi.khalifa@live.fr']
+                recipients: ['assoc.adepa@gmail.com']

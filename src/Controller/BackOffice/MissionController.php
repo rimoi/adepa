@@ -91,12 +91,16 @@ class MissionController extends AbstractController
                 ]);
             }
 
-            $users = $form->get('users')->getData();
+            $users = [];
 
-            if ($users) {
-                 $mission->setEmergency(true);
+            if ($form->has('users')) {
+                $users = $form->get('users')->getData();
 
-                $users = $users->toArray();
+                if ($users) {
+                    $mission->setEmergency(true);
+
+                    $users = $users->toArray();
+                }
             }
 
             $mission->setUser($this->getUser());
@@ -165,15 +169,17 @@ class MissionController extends AbstractController
                 ]);
             }
 
-            $users = $form->get('users')->getData();
+            if ($form->has('users')) {
+                $users = $form->get('users')->getData();
 
-            if ($users) {
-                $mission->setEmergency(true);
+                if ($users) {
+                    $mission->setEmergency(true);
 
-                $users = $users->toArray();
+                    $users = $users->toArray();
 
-                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
-                $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+                    $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
+                    $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+                }
             }
 
             $missionRepository->save($mission, true);

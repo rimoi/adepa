@@ -26,7 +26,7 @@ class QualificationService
 
         $getter = 'get' . ucfirst($type);
         $setter = 'set' . ucfirst($type);
-
+      
         if (
             $form->has($type)
             && $form->get($type)->getData()

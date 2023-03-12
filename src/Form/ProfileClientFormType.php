@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ProfileClientFormType extends AbstractType
 {
@@ -17,11 +18,13 @@ class ProfileClientFormType extends AbstractType
     {
         $builder
             ->add('telephone', TelType::class, [
-                'label' => "Numéro de téléphone :",
+                'label' => "Numéro de téléphone",
                 'attr' => [
                     'placeholder' => '0606060606'
                 ],
-                'required' => false
+                'constraints' => [
+                    new Regex('/0\d{9}/')
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom : (*)',

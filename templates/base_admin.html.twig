@@ -63,10 +63,10 @@
 
 					<!-- Nav Item - Search Dropdown (Visible Only XS) -->
 					<li class="nav-item dropdown no-arrow d-sm-none">
-						<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-						   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fas fa-search fa-fw"></i>
-						</a>
+{#						<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"#}
+{#						   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#							<i class="fas fa-search fa-fw"></i>#}
+{#						</a>#}
 						<!-- Dropdown - Messages -->
 						<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
 							 aria-labelledby="searchDropdown">
@@ -208,7 +208,10 @@
 					<li class="nav-item dropdown no-arrow">
 						<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
 						   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.nickname }}</span>
+							<span class="mr-2 d-lg-inline text-gray-600 small" style="color: black">
+								{{ app.user.nickname|upper }}
+								<i class="fa fa-chevron-down" style="margin-top: 2px;"></i>
+							</span>
 {#							<img class="img-profile rounded-circle"#}
 {#								 src="img/undraw_profile.svg">#}
 						</a>
@@ -257,13 +260,24 @@
 		<!-- End of Main Content -->
 
 		<!-- Footer -->
-		<footer class="sticky-footer bg-white">
-			<div class="container my-auto">
-				<div class="copyright text-center my-auto">
-					<span>Copyright &copy; ADEPA 2023</span>
+{#		<footer class="sticky-footer bg-white">#}
+{#			<div class="container my-auto">#}
+{#				<div class="copyright text-center my-auto">#}
+{#					<span>Copyright &copy; ADEPA 2023</span>#}
+{#				</div>#}
+{#			</div>#}
+{#		</footer>#}
+		<footer>
+			<div id="footer-box">
+				<img src="{{asset('images/logo.png')}}" alt="Logo Workevent" id="logo-footer">
+
+				<div class="my-2">
+					<a href="{{ path('app_contact') }}" class="text-reset" style="color: black!important;">Nous contacter</a>
 				</div>
+				<p style="color: black">&copy LES EXTRAS ADEPA</p>
 			</div>
 		</footer>
+
 		<!-- End of Footer -->
 
 	</div>

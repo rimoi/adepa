@@ -73,8 +73,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: File::class)]
     private ?File $cni = null;
 
-    #[ORM\OneToOne(targetEntity: File::class)]
-    private ?File $permisConduite;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?File $permisConduite = null;
 
     #[ORM\OneToOne(targetEntity: File::class)]
     private ?File $autoentrepriseCertificate = null;
@@ -457,18 +457,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPermisConduite(): ?File
-    {
-        return $this->permisConduite;
-    }
-
-    public function setPermisConduite(?File $permisConduite): self
-    {
-        $this->permisConduite = $permisConduite;
-
-        return $this;
-    }
-
     public function getAutoentrepriseCertificate(): ?File
     {
         return $this->autoentrepriseCertificate;
@@ -747,6 +735,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $service->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPermisConduite(): ?File
+    {
+        return $this->permisConduite;
+    }
+
+    public function setPermisConduite(?File $permisConduite): self
+    {
+        $this->permisConduite = $permisConduite;
 
         return $this;
     }

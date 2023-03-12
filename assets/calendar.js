@@ -2,6 +2,7 @@
 import './styles/calendar.css';
 import './admin/vendor/fontawesome-free/css/all.min.css';
 import './admin/css/sb-admin-2.min.css';
+import './styles/footer.css';
 
 
 import $ from 'jquery';

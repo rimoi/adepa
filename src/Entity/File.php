@@ -17,7 +17,7 @@ class File
     private $name;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt;
 
     public function __construct()
     {

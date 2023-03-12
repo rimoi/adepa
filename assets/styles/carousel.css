@@ -207,3 +207,34 @@
         transform: translate(-97%,-115%);
     }
 }
+
+@media (max-width: 577px) {
+
+    #sliderproduct a.carousel-control-next {
+        transform: translate(69%,-109%);
+        height: 40px;
+        width: 40px;
+    }
+    #sliderproduct a.carousel-control-prev {
+        transform: translate(-76%,-114%);
+        height: 40px;
+        width: 40px;
+    }
+
+    #sliderproduct .top .timer {
+        margin: 17px 8px;
+        font-size: 12px;
+        padding: inherit;
+    }
+
+    #sliderarticle a.carousel-control-next {
+        transform: translate(69%,-109%);
+        height: 40px;
+        width: 40px;
+    }
+    #sliderarticle a.carousel-control-prev {
+        transform: translate(-76%,-114%);
+        height: 40px;
+        width: 40px;
+    }
+}

@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ProfileFormType extends AbstractType
 {
@@ -28,10 +29,13 @@ class ProfileFormType extends AbstractType
     {
         $builder
             ->add('telephone', TelType::class, [
-                'label' => "Numéro de téléphone :",
+                'label' => "Numéro de téléphone",
                 'attr' => [
                     'placeholder' => '0606060606'
-                ]
+                ],
+                'constraints' => [
+                    new Regex('/0\d{9}/')
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom :',

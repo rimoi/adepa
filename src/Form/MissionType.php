@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Constant\MissionTypeConstant;
 use App\Entity\Category;
 use App\Entity\Mission;
 use App\Entity\User;
@@ -11,12 +12,15 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class MissionType extends AbstractType
 {
@@ -35,8 +39,30 @@ class MissionType extends AbstractType
         $builder
             // https://symfony.com/doc/current/form/bootstrap5.html
             ->add('title', TextType::class, [
-                'label' => 'Titre',
+                'label' => 'Public',
                 'attr' => ['placeholder' => 'Ex: Poste'],
+            ])
+            ->add('category', ChoiceType::class, [
+                'choices' => MissionTypeConstant::MAP,
+                'choice_label' => function (?string $category) {
+                    return $category ? strtoupper($category) : '';
+                },
+                'label' => 'Type public',
+                'required' => false,
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'custom-select'
+                ],
+            ])
+            ->add('phone', TelType::class, [
+                'label' => "Numéro de téléphone",
+                'attr' => [
+                    'placeholder' => '0606060606'
+                ],
+                'constraints' => [
+                    new Regex('/0\d{9}/')
+                ],
             ])
             ->add('content', CKEditorType::class, [
                 'required' => 'false',

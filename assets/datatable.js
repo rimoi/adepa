@@ -9,6 +9,7 @@
 import './admin/vendor/fontawesome-free/css/all.min.css';
 import './admin/vendor/datatables/dataTables.bootstrap4.min.css';
 import './admin/css/sb-admin-2.min.css';
+import './styles/footer.css';
 
 
 import './admin/vendor/jquery/jquery.min.js';

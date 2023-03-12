@@ -11,8 +11,14 @@
 {% endblock %}
 
 {% block body %}
-    <div>
 
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">{{ block('title') }}</li>
+    </ol>
+
+    <div>
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Liste des utilisateurs</h1>
         <div class="text-right">

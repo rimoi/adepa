@@ -29,8 +29,8 @@ class SearchType extends AbstractType
                    'multiple' => true,
                    'attr' => [
                        'class' => 'js-select2',
-                       'style' => "width: 100%",
-                       'placeholder' => ''
+                       'style' => "width: 100%;",
+                       'placeholder' => 'Vous pouvez choisir une/plusieurs catégories des missions'
                    ],
                ]);
     }
@@ -39,7 +39,6 @@ class SearchType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'request' => null,
         ]);
     }
 }

@@ -1485,7 +1485,7 @@ pre code {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #858796;
+  color: #1b1b1c;
 }
 
 .table th,
@@ -9976,7 +9976,7 @@ a:focus {
 }
 
 .bg-gray-800 {
-  background-color: #5a5c69 !important;
+  background-color: black !important;
 }
 
 .bg-gray-900 {
@@ -10016,19 +10016,19 @@ a:focus {
 }
 
 .text-gray-600 {
-  color: #858796 !important;
+  color: black !important;
 }
 
 .text-gray-700 {
-  color: #6e707e !important;
+  color: black !important;
 }
 
 .text-gray-800 {
-  color: #5a5c69 !important;
+  color: black !important;
 }
 
 .text-gray-900 {
-  color: #3a3b45 !important;
+  color: black !important;
 }
 
 .icon-circle {

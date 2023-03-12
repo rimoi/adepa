@@ -85,6 +85,12 @@ class Mission
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'missions')]
     private Collection $categories;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $category = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function isPossibleToCancel(): bool
     {
         return $this->started > new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris'));
@@ -348,6 +354,30 @@ class Mission
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

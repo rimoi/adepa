@@ -36,55 +36,6 @@
                 ) }}
             </div>
         </div>
-        {% if 'experiences' in form|keys %}
-            <hr>
-
-            <div class="row">
-                <div class="col">
-                    {{ form_label(form.qualifications, 'Expériences : ') }}
-                    {{ form_errors(form.qualifications) }}
-
-                    <div id="qualification-fields-list"
-                         data-prototype="{{ upload.printExperience(form.qualifications.vars.prototype)|e('html_attr')}}"
-                         data-widget-tags="{{ '<div class="row"></div>'|e }}"
-                         data-widget-counter="{{ form.experiences|length }}">
-                        {% for qualification in form.qualifications %}
-                            {{ upload.printExperience(qualification, true) }}
-                        {% endfor %}
-                    </div>
-
-                    <button type="button"
-                            class="add-another-collection-widget btn-sm btn-default"
-                            data-list-selector="#qualification-fields-list">
-                        <span class="fa fa-plus-square"></span>
-                        Ajout une expérience
-                    </button>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col">
-                    {{ form_label(form.experiences, 'Qualifications : ') }}
-                    {{ form_errors(form.experiences) }}
-
-                    <div id="experience-fields-list"
-                         data-prototype="{{ upload.printExperience(form.experiences.vars.prototype)|e('html_attr')}}"
-                         data-widget-tags="{{ '<div class="row"></div>'|e }}"
-                         data-widget-counter="{{ form.experiences|length }}">
-                        {% for experience in form.experiences %}
-                            {{ upload.printExperience(experience, true) }}
-                        {% endfor %}
-                    </div>
-
-                    <button type="button"
-                            class="add-another-collection-widget btn-sm btn-default"
-                            data-list-selector="#experience-fields-list">
-                        <span class="fa fa-plus-square"></span>
-                        Ajout un diplôme/qualification
-                    </button>
-                </div>
-            </div>
-        {% endif %}
         <hr>
         <div class="row">
             {% set mot_passe_info = '( si vous ne rempplisser pas cette case le mot de passe ne serait pas changer )' %}

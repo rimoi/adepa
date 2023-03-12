@@ -68,7 +68,7 @@
 .services {
     text-align: center;
     background-color: whitesmoke;
-    padding: 246px 0 28px;
+    padding: 0px 0 28px;
 }
 
 .services h2 {
@@ -86,9 +86,13 @@
 .service1,
 .service2,
 .service3 {
-    border: #ff5751 solid 1px;
     padding: 10px;
     width: 30%;
+}
+
+.service2 {
+    border-left: 1px dashed blue;
+    border-right: 1px dashed blue;
 }
 
 .service-img {

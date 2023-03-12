@@ -3,6 +3,15 @@
 {% block title 'Nouveau article' %}
 
 {% block body %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('admin_article_index') }}">Articles</a>
+        </li>
+        <li class="breadcrumb-item active">{{ block('title') }}</li>
+    </ol>
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary text-center">Nouveau article</h6>

@@ -251,6 +251,49 @@ select.form-control{
 }
 
 
+.bg-color-blue {
+    color: #3747c3;
+}
+
+.arrow-right i, .arrow-left i {
+    font-size: 4rem;
+}
+
+/* HOMEPAGE SECTION ACTUALITE */
+
+.news {
+    width: 100%;
+    height: auto;
+    background-color: #263b46;
+    margin-bottom: 100px;
+}
+
+.news-box {
+    display: flex;
+    align-items: center;
+}
+
+.news-box img {
+    min-width: 25%;
+}
+
+.more-news div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.more-news a {
+    color: black;
+    text-decoration: none;
+}
+
+.more-news i {
+    font-size: 100px;
+}
+
 /*--------select2-css----*/
 .select2Part .floating-label{
     opacity: 0;
@@ -390,7 +433,7 @@ select.form-control{
     display: block;
     height: 100%;
     padding-bottom: 0;
-    padding-top: 17px;
+    padding-top: 0;
     padding-left: 17px;
     transition: 240ms;
 }
@@ -399,7 +442,7 @@ select.form-control{
     right: 15px;
 }
 .select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field{
-    line-height: 2.2;
+    line-height: 1.2;
     padding: 0;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered:before {
@@ -471,4 +514,20 @@ select.form-control{
     bottom: 5px;
     right: 0;
     color: red;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+    height: 25px;
+}
+.select2.select2-container.select2-container--default {
+    border: 1px solid #3747c3;
+    border-radius: 3px;
+}
+
+
+
+@media (max-width: 575px) {
+    .select2-container .select2-search--inline .select2-search__field {
+        height: 43px;
+    }
 }
