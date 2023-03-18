@@ -54,10 +54,10 @@
 
               <div class="row">
                         <div class="col-12 col-lg-4">
-                            {{ form_row(form.lastname, {label: 'Nom responsable'}) }}
+                            {{ form_row(form.lastname) }}
                         </div>
                         <div class="col-12 col-lg-4">
-                            {{ form_row(form.firstname, {label: 'Prénom responsable'}) }}
+                            {{ form_row(form.firstname) }}
                         </div>
                       <div class="col-12 col-lg-4">
                           {{ form_row(form.telephone, {label: 'Téléphone'}) }}
@@ -78,13 +78,10 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-12 col-sm-4">
-                        {{ form_row(form.unityName) }}
-                    </div>
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-6">
                         {{ form_row(form.siret) }}
                     </div>
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-6">
                         {{ form_row(form.socialReason) }}
                     </div>
                 </div>

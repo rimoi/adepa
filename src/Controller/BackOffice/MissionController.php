@@ -66,6 +66,12 @@ class MissionController extends AbstractController
         $user = $this->getUser()->hasRole(UserConstant::ROLE_ADMIN) ? $this->getUser() : null;
 
         $mission = new Mission();
+        $mission->setUser($this->getUser());
+        $mission->setAddress($this->getUser()->getAdress());
+        $mission->setZipCode($this->getUser()->getZipCode());
+        $mission->setCity($this->getUser()->getCity());
+        $mission->setPhone($this->getUser()->getTelephone());
+
         $form = $this->createForm(
             MissionType::class,
             $mission,
@@ -102,8 +108,6 @@ class MissionController extends AbstractController
                     $users = $users->toArray();
                 }
             }
-
-            $mission->setUser($this->getUser());
 
             $qualificationService->addElement($form, 'file');
 

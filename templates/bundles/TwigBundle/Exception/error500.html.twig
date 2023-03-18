@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}404 - Page non trouvé{% endblock %}
+{% block title %}500 - Erreur serveur{% endblock %}
 
 {% block _footer '' %}
 
@@ -55,22 +55,23 @@
     <div class="container-fluid">
 
         <!-- 404 Error Text -->
-        <div class="text-center">
-            <div class="error mx-auto" data-text="404">404</div>
-            <p class="lead text-gray-800">Page non trouvé</p>
+        <div class="text-center mb-5">
+            <div class="error mx-auto" data-text="404">500</div>
+            <p class="lead text-gray-800 mb-5">Une erreur du serveur c'est produite 😭 </p>
             <div class="row">
                 <div class="col-12 p-1 p-lg-0 offset-lg-3 text-gray-500 text-left">
-                    Oh oh ! On dirait que cette page a décidé de se cacher pour jouer à cache-cache avec vous.
+                    Oh non ! Notre serveur a décidé de prendre une pause café et a lancé une erreur 500.
                     <br>
-                    Nous avons cherché sous tous les angles, mais nous ne parvenons pas à la trouver.
+                    Il semblerait que même les machines aient besoin d'une petite pause de temps en temps.
                     <br>
-                    Peut-être qu'elle est partie en vacances sur une île tropicale ?
+                    Nous sommes en train de le secouer un peu pour le réveiller, mais si cela ne fonctionne pas, nous pourrions devoir envoyer un message à son patron.
                     <br>
-                    Dans tous les cas, nous sommes désolés pour la confusion et espérons que vous trouverez ce que vous cherchez ailleurs sur notre site.
+                    Nous sommes désolés pour ce petit contretemps, nous avons donc préparé une blague pour vous faire sourire pendant que nous travaillons sur la résolution du problème :
+                    <br>Pourquoi les programmeurs ont-ils du mal à dormir la nuit ? <br>
+                    Parce qu'ils ont besoin de fermer les yeux pour se reposer, mais dès qu'ils les ferment, leur cerveau commence à coder des rêves !
+                    <br>Nous espérons que cette petite blague vous aidera à passer le temps en attendant le retour de notre serveur.
                     <br>
-                    Si vous avez besoin de nous pour jouer à cache-cache avec vous, envoyez-nous un message et nous serons heureux de vous aider à trouver ce que vous cherchez.
-                    <br>
-                    En attendant, bonne chasse et ne vous découragez pas, nous sommes sûrs que vous finirez par trouver ce que vous cherchez !
+                    <br>Merci de votre patience et à bientôt !</p>
                 </div>
             </div>
             <br>
@@ -80,7 +81,5 @@
                 <a href="{{ path('home') }}">&larr; Voulez-vous revenir à la page d'accueil peut être 🤔 ? </a>
             </div>
         </div>
-
     </div>
-
 {% endblock %}

@@ -33,6 +33,12 @@
         </div>
         <hr>
         <div class="row">
+            <div class="col-12">
+                {{ form_row(form.service) }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
             <div class="col-12 col-lg-4">
                 {{ form_row(form.address) }}
             </div>
@@ -59,7 +65,7 @@
 
             </div>
             {% if 'users' in form|keys %}
-                <div class="col-12 col-lg-8 mt-1">
+                <div class="col-12 col-lg-4 mt-1">
                     {{ form_row(form.users) }}
                 </div>
             {% endif %}

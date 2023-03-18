@@ -18,7 +18,7 @@ class ProfileClientFormType extends AbstractType
     {
         $builder
             ->add('telephone', TelType::class, [
-                'label' => "Numéro de téléphone",
+                'label' => "Numéro de téléphone (*)",
                 'attr' => [
                     'placeholder' => '0606060606'
                 ],
@@ -27,7 +27,7 @@ class ProfileClientFormType extends AbstractType
                 ],
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom : (*)',
+                'label' => 'Poste : (*)',
                 'attr' => [
                     'placeholder' => 'Jean'
                 ]
@@ -39,7 +39,7 @@ class ProfileClientFormType extends AbstractType
                 ]
             ])
             ->add('adress',TextType::class, [
-                'label' => 'Adresse :',
+                'label' => 'Adresse siège social :',
                 'required' => false,
                 'attr' => [
                     'placeholder' => '23 avenue claude monet'
@@ -73,13 +73,7 @@ class ProfileClientFormType extends AbstractType
                     'placeholder' => 'Raison sociale'
                 ]
             ])
-            ->add('unityName', TextType::class, [
-                'label' => "Nom de l'unité",
-                'required' => false,
-                'attr' => [
-                    'placeholder' => "Nom de l'unité"
-                ]
-            ])
+
         ;
 
         if ($options['show_service'] ?? false) {

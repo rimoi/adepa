@@ -59,6 +59,12 @@ class ServiceType extends AbstractType
                 'label' => false,
                 'required' => false
             ])
+            ->add('unityName', TextType::class, [
+                'label' => "Nom de l'unité (*) ",
+                'attr' => [
+                    'placeholder' => "Nom de l'unité"
+                ]
+            ])
 
         ;
     }

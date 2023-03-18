@@ -126,9 +126,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $socialReason = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $unityName = null;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $services;
 
@@ -697,17 +694,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUnityName(): ?string
-    {
-        return $this->unityName;
-    }
 
-    public function setUnityName(?string $unityName): self
-    {
-        $this->unityName = $unityName;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Service>

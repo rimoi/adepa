@@ -91,6 +91,9 @@ class Mission
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
+    #[ORM\ManyToOne(inversedBy: 'missions')]
+    private ?Service $service = null;
+
     public function isPossibleToCancel(): bool
     {
         return $this->started > new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris'));
@@ -378,6 +381,18 @@ class Mission
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
@@ -31,9 +33,20 @@ class Service
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $public = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $unityName = null;
+
     #[ORM\ManyToOne(inversedBy: 'services')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Mission::class)]
+    private Collection $missions;
+
+    public function __construct()
+    {
+        $this->missions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +133,48 @@ class Service
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUnityName(): ?string
+    {
+        return $this->unityName;
+    }
+
+    public function setUnityName(?string $unityName): self
+    {
+        $this->unityName = $unityName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mission>
+     */
+    public function getMissions(): Collection
+    {
+        return $this->missions;
+    }
+
+    public function addMission(Mission $mission): self
+    {
+        if (!$this->missions->contains($mission)) {
+            $this->missions->add($mission);
+            $mission->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMission(Mission $mission): self
+    {
+        if ($this->missions->removeElement($mission)) {
+            // set the owning side to null (unless already changed)
+            if ($mission->getService() === $this) {
+                $mission->setService(null);
+            }
+        }
 
         return $this;
     }

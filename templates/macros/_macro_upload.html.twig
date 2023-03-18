@@ -125,6 +125,10 @@
     {% endif %}
 
     <div class="col-12 col-sm-4 my-1">
+        {{ form_errors(service.unityName) }}
+        {{ form_widget(service.unityName) }}
+    </div>
+    <div class="col-12 col-sm-4 my-1">
         {{ form_errors(service.address) }}
         {{ form_widget(service.address) }}
     </div>

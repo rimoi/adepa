@@ -530,4 +530,8 @@ select.form-control{
     .select2-container .select2-search--inline .select2-search__field {
         height: 43px;
     }
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered:before {
+        right: 6px;
+        top: 11px;
+    }
 }

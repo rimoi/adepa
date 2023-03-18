@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Constant\MissionTypeConstant;
 use App\Entity\Category;
 use App\Entity\Mission;
+use App\Entity\Service;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -147,6 +149,11 @@ class MissionType extends AbstractType
     {
         $form = $event->getForm();
 
+        /** @var Mission $mission */
+        $mission = $event->getData();
+
+        $user = $mission->getUser();
+
         $form->add('categories', EntityType::class, [
             'class' => Category::class,
             'query_builder' => static function (CategoryRepository $repository) {
@@ -160,6 +167,27 @@ class MissionType extends AbstractType
             'mapped' => true,
             'label' => 'Type de service ( Vous pourriez choisir plusieurs )',
             'multiple' => true,
+            'attr' => [
+                'class' => 'js-select2',
+                'style' => "width: 100%",
+            ],
+        ]);
+
+        $form->add('service', EntityType::class, [
+            'class' => Service::class,
+            'query_builder' => static function (ServiceRepository $repository) use ($user) {
+                return $repository->createQueryBuilder('s')
+                    ->innerJoin('s.user', 'u')
+                    ->where('u.id = :user_id')
+                    ->setParameter('user_id', $user->getId())
+                    ->addOrderBy('s.unityName', 'ASC');
+            },
+            'choice_label' => static function (Service $choice) {
+                return $choice->getUnityName();
+            },
+            'label' => 'Type de service ( Vous pourriez choisir plusieurs )',
+            'multiple' => false,
+            'required' => false,
             'attr' => [
                 'class' => 'js-select2',
                 'style' => "width: 100%",

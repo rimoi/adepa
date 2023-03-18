@@ -7,6 +7,8 @@
 		<meta name="author" content="ADEPA">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta name="description" content="{% block description '' %}"/>
+		{% block meta_robots '' %}
+
 		<title>
 			{% block title %}{% endblock %} - ADEPA
 		</title>
@@ -22,7 +24,9 @@
 		{% block body %}
 		{% endblock %}
 
-		{% include "includes/_footer.html.twig" %}
+		{% block _footer %}
+			{% include "includes/_footer.html.twig" %}
+		{% endblock %}
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
