@@ -25,7 +25,7 @@ class Category
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
+    #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $parent = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'categories')]

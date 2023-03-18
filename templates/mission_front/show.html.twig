@@ -68,7 +68,7 @@
                 </div>
             {% elseif app.user and not app.user.enabled  %}
                 <div class="alert alert-danger text-center" role="alert">
-                    Votre compte n'est pas encore activé par un adminisatreur afin que vous puissiez postulez à des missions.
+                    Votre compte n'est pas encore activé par un administrateur afin que vous puissiez postuler à des missions.
                 </div>
             {% elseif app.user %}
                 {% if user_connected_reserved|default %}

@@ -18,21 +18,21 @@ class ServiceType extends AbstractType
         $builder
             ->add('address', TextType::class, [
                 'attr' => [
-                    'placeholder' => '12 rue chemin de fer',
+                    'placeholder' => 'Adresse (*) : (Ex : 12 rue chemin de fer)',
                 ],
                 'label' => false
 
             ])
             ->add('zipCode', IntegerType::class, [
                 'attr' => [
-                    'placeholder' => '75015',
+                    'placeholder' => 'Code postal (*) : (Ex : 75012)',
                 ],
                 'label' => false
 
             ])
             ->add('city', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Paris',
+                    'placeholder' => 'Ville (*) : (Ex : Paris)',
                 ],
                 'label' => false
 
@@ -40,7 +40,7 @@ class ServiceType extends AbstractType
             ->add('phone', TelType::class, [
                 'label' => "Numéro de téléphone",
                 'attr' => [
-                    'placeholder' => '0606060606'
+                    'placeholder' => 'Tél (*) : (Ex : 0606060606)'
                 ],
                 'constraints' => [
                     new Regex('/0\d{9}/')
@@ -48,7 +48,7 @@ class ServiceType extends AbstractType
             ])
             ->add('contactName', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Référence ( Ex: Jean dupond )',
+                    'placeholder' => 'Référent a appeler  (*) ( Ex: Jean dupond )',
                 ],
                 'label' => false
             ])
@@ -62,7 +62,7 @@ class ServiceType extends AbstractType
             ->add('unityName', TextType::class, [
                 'label' => "Nom de l'unité (*) ",
                 'attr' => [
-                    'placeholder' => "Nom de l'unité"
+                    'placeholder' => "Nom de l'unité (*) : (Ex: Service logistique)"
                 ]
             ])
 

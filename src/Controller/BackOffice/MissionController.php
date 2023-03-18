@@ -6,6 +6,7 @@ use App\Constant\NotificationConstant;
 use App\Constant\UserConstant;
 use App\Entity\Booking;
 use App\Entity\Mission;
+use App\Entity\Service;
 use App\Form\MissionType;
 use App\Form\ValidateTimeType;
 use App\Repository\BookingRepository;
@@ -15,6 +16,7 @@ use App\Service\QualificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,19 +65,11 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_mission_index');
         }
 
-        $user = $this->getUser()->hasRole(UserConstant::ROLE_ADMIN) ? $this->getUser() : null;
-
         $mission = new Mission();
-        $mission->setUser($this->getUser());
-        $mission->setAddress($this->getUser()->getAdress());
-        $mission->setZipCode($this->getUser()->getZipCode());
-        $mission->setCity($this->getUser()->getCity());
-        $mission->setPhone($this->getUser()->getTelephone());
 
         $form = $this->createForm(
             MissionType::class,
-            $mission,
-            compact('user')
+            $mission
         );
         $form->handleRequest($request);
 
@@ -108,6 +102,7 @@ class MissionController extends AbstractController
                     $users = $users->toArray();
                 }
             }
+            $mission->setUser($this->getUser());
 
             $qualificationService->addElement($form, 'file');
 
@@ -129,6 +124,17 @@ class MissionController extends AbstractController
         ]);
     }
 
+    #[Route('/get-info/service/{id}', name: 'get_info_service', methods: ['GET'], options: ['expose' => true])]
+    public function getInfoMission(Service $service): Response
+    {
+        return new JsonResponse([
+           'address' => $service->getAddress(),
+           'zipCode' => $service->getZipCode(),
+           'city' => $service->getCity(),
+           'phone' => $service->getPhone(),
+        ]);
+    }
+
     #[Route('/{slug}/show', name: 'show', methods: ['GET'])]
     public function show(Mission $mission): Response
     {
@@ -146,9 +152,7 @@ class MissionController extends AbstractController
         NotificationService $notificationService
     ): Response
     {
-        $user = $this->getUser()->hasRole(UserConstant::ROLE_ADMIN) ? $this->getUser() : null;
-
-        $form = $this->createForm(MissionType::class, $mission, compact('user'));
+        $form = $this->createForm(MissionType::class, $mission);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

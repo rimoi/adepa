@@ -72,7 +72,7 @@
 				</div>
 				<h3 class="my-2 bg-color-blue">Assistance</h3>
 				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
-					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à asso.adepa@gmail.com
+					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à assoc.adepa@gmail.com
 				</p>
 			</div>
 		</div>
@@ -80,10 +80,10 @@
 
 	<section class="news" id="news">
 		<div class="news-box row ">
-			<div class="col-1 col-sm-2 {{ not articles|length ? 'cs-image-actualite' }}">
-				<img src="{{asset('images/news.png')}}" alt="">
-			</div>
-			<div class="col-11 col-sm-6 offset-sm-2">
+{#			<div class="col-1 col-sm-2 {{ not articles|length ? 'cs-image-actualite' }}">#}
+{#				<img src="{{asset('images/news.png')}}" alt="">#}
+{#			</div>#}
+			<div class="col-11 col-sm-6 offset-sm-3">
 				{% if articles|length %}
 					{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}
 				{% endif %}

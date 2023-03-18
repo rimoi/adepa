@@ -183,5 +183,41 @@ $(document).ready(function() {
             }
         })
     });
+
+    if ($('.js-event-change-service').length) {
+
+
+       var $service = $('.js-event-change-service');
+
+        $service.on('change', function () {
+
+            $('.js-toggle-spiner').toggleClass('d-none');
+
+            var data = {};
+            $.ajax({
+                url : window.Routing.generate('admin_mission_get_info_service', {'id':  $service.val()}),
+                type: 'GET',
+                complete: function(data) {
+
+                    let service = data.responseJSON;
+
+                    $('#mission_address').val(
+                        service.address
+                    );
+                    $('#mission_zipCode').val(
+                        service.zipCode
+                    );
+                    $('#mission_city').val(
+                        service.city
+                    );
+                    $('#mission_phone').val(
+                        service.phone
+                    );
+
+                    $('.js-toggle-spiner').toggleClass('d-none');
+                }
+            });
+        });
+    }
 });
 

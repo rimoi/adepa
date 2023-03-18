@@ -129,6 +129,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $services;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $public = null;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -734,6 +737,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPermisConduite(?File $permisConduite): self
     {
         $this->permisConduite = $permisConduite;
+
+        return $this;
+    }
+
+    public function getPublic(): ?string
+    {
+        return $this->public;
+    }
+
+    public function setPublic(?string $public): self
+    {
+        $this->public = $public;
 
         return $this;
     }

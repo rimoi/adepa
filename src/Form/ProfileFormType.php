@@ -49,6 +49,13 @@ class ProfileFormType extends AbstractType
                     'placeholder' => 'Dupond'
                 ]
             ])
+            ->add('public', TextType::class, [
+                'label' => 'Public ',
+                'attr' => [
+                    'placeholder' => 'personne agée',
+                ],
+                'required' => false
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => GenderConstant::MAP,
                 'label' => 'Civilité :',
