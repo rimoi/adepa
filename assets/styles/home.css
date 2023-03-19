@@ -6,7 +6,7 @@
 }
 
 .banniere div {
-    padding: 5rem;
+    padding: 1rem;
 }
 
 .banniere div h1 {
@@ -68,7 +68,8 @@
 .services {
     text-align: center;
     background-color: whitesmoke;
-    padding: 0px 0 28px;
+    padding: 0 0 28px;
+    margin-top: 0;
 }
 
 .services h2 {
@@ -103,13 +104,31 @@
     color: #fab885;
 } */
 
+.js-form-search {
+    margin-top: -2rem;
+}
+
+@media (max-width: 913px) {
+    .js-form-search {
+        margin-top: -1rem;
+    }
+
+    .banniere {
+        height: 44vh;
+    }
+
+    .banniere div {
+        padding: 12px;
+    }
+}
 
 @media (max-width: 576px) {
     .banniere {
-        height: 37vh;
+        height: 30vh;
     }
     .banniere div {
-        padding: 10px 17px;
+        /*padding: 86px 21px 0;*/
+        padding: 9px;
     }
 
     .services {
@@ -132,5 +151,13 @@
 
     #news .carousel-item .item h1 {
         font-size: 1rem;
+    }
+
+    .js-form-search {
+        margin-top: -1rem;
+    }
+    #intro1 h2 {
+        font-size: calc(12px + 2.3vw);
+        font-weight: bold;
     }
 }

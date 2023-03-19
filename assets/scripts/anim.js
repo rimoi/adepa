@@ -3,6 +3,7 @@ import "@lottiefiles/lottie-player";
 import data_plateform from './animations/plateform.json';
 import data_formation from './animations/formation.json';
 import data_assistance from './animations/assistance.json';
+import data_relationship from './animations/relation.json';
 import $ from "jquery";
 
 // const player = document.querySelector("lottie-player");
@@ -25,6 +26,10 @@ $(document).ready(function() {
     const assistance = document.querySelector(".js-assistance");
     //Load via URL
     assistance.load(data_assistance);
+
+    const relationship = document.querySelector(".js-relationship");
+    //Load via URL
+    relationship.load(data_relationship);
 });
 
 

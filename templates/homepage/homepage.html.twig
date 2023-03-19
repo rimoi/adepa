@@ -17,31 +17,39 @@
 
 	<section class="banniere">
 		<div>
-			<h1 class="bg-color-blue">
-				LES EXTRAS FREELANCES
-				<br>
-				<span>DU MÉDICO SOCIAL</span>
-			</h1>
-
-			{{ form_start(form, {'action': path('front_mission'), 'method': 'POST'}) }}
-			<div class="row" id="js-animation">
-
-{#				<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>#}
-{#				<lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ecvwbhww.json"  background="transparent"  speed="1"#}
-{#							   style="width: 300px; height: 300px;" hover loop autoplay></lottie-player>#}
-
-				<div class="col-12 col-lg-8 offset-lg-2">
-					{{ form_widget(form.categories) }}
-					<div class="text-center mt-sm-n5">
-						<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
-					</div>
+			<div class="row">
+				<div class="col-12 col-lg-6">
+					<h1 class="bg-color-blue">
+						LES EXTRAS FREELANCES
+						<br>
+						<span>DU MÉDICO SOCIAL</span>
+					</h1>
+				</div>
+				<div class="col-lg-6 d-none d-lg-block">
+					<lottie-player class="js-relationship mt-lg-n4"  background="transparent"  speed="1"
+								   style="height: 214px;" loop autoplay>
+					</lottie-player>
 				</div>
 			</div>
-			{{ form_end(form) }}
+
+			<div class="row">
+				<div class="col-12">
+					{{ form_start(form, {'action': path('front_mission'), 'method': 'POST', 'attr': {'class': 'js-form-search'}}) }}
+					<div class="row" id="js-animation">
+						<div class="col-12 col-lg-8 offset-lg-2">
+							{{ form_widget(form.categories) }}
+							<div class="text-center">
+								<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
+							</div>
+						</div>
+					</div>
+					{{ form_end(form) }}
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<section class="services" id="intro1">
+	<section class="services mt-lg-n3" id="intro1">
 		<h2 style="color: #131314">Nos services</h2>
 		<div class="row">
 			<div class="col-12 col-md-4 service1">
@@ -83,7 +91,7 @@
 {#			<div class="col-1 col-sm-2 {{ not articles|length ? 'cs-image-actualite' }}">#}
 {#				<img src="{{asset('images/news.png')}}" alt="">#}
 {#			</div>#}
-			<div class="col-11 col-sm-6 offset-sm-3">
+			<div class="col-12 col-sm-6 offset-sm-3">
 				{% if articles|length %}
 					{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}
 				{% endif %}

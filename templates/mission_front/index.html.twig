@@ -42,27 +42,32 @@
         <br>
         <div class="row">
             {% for mission in missions.urgent %}
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6">
                     <div class="card border-danger bg-light text-center text-dark">
-                        <div class="card-header fw-bold fs-5 text-dark">
-                            <div class="my-1">
-                                {{ mission.title }}
-                            </div>
-                            <div class="text-center fs-6 badge bg-danger">
-                                {{ mission.started|date('d/m/Y à H:i') }}
-                                <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
-                            </span>
+                        <div class="card-header fw-bold fs-5 bg-danger text-white">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ mission.title }}
+                                    <span class="badge badge-dark">
+                                         {{ mission.started|date('d/m/Y à H:i') }}
+                                        <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div>
-                                <div style="width: 266px;height: 142px!important;">
-                                    {{ mission.content|u.truncate(150, '...')|raw }}
+                            <div class="row">
+                                <div class="col-10"  style="height: 57px">
+                                    {{ mission.content|u.truncate(52, '...')|raw }}
                                 </div>
-                                <div class="my-1">
-                                    <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-danger">Voir l'offre</a>
+                                <div class="col-2 align-self-center">
+                                    <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="" title="Voir l'offre">
+                                        <span class="fa fa-chevron-right fa-2x">
+                                        </span>
+                                    </a>
                                 </div>
-                                <div class="text-small text-muted my-2">
+                                <div class="text-small text-muted my-1">
                                     {{ mission.createdAt|ago(locale='fr') }}
                                 </div>
                             </div>
@@ -86,27 +91,44 @@
         <div class="row">
             <br />
             {% for mission in missions.normal %}
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-6">
                 <div class="card border-primary bg-light text-center text-dark">
-                    <div class="card-header fw-bold fs-5 text-dark">
-                        <div class="my-1">
-                            {{ mission.title }}
-                        </div>
-                        <div class="text-center fs-6 badge bg-primary">
-                            {{ mission.started|date('d/m/Y à H:i') }}
-                            <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
-                            </span>
+
+                    <div class="card-header fw-bold fs-5 bg-primary text-white">
+                        <div class="row">
+                            <div class="col-12">
+                                {{ mission.title }}
+                                <span class="badge badge-dark">
+                                     {{ mission.started|date('d/m/Y à H:i') }}
+                                    <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
+                                    </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
+
+{#                    <div class="card-header fw-bold fs-5 text-dark">#}
+{#                        <div class="my-1">#}
+{#                            {{ mission.title }}#}
+{#                        </div>#}
+{#                        <div class="text-center fs-6 badge bg-primary">#}
+{#                            {{ mission.started|date('d/m/Y à H:i') }}#}
+{#                            <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">#}
+{#                            </span>#}
+{#                        </div>#}
+{#                    </div>#}
                     <div class="card-body">
-                        <div>
-                            <div style="width: 266px;height: 142px!important;">
-                                {{ mission.content|u.truncate(150, '...')|raw }}
+                        <div class="row">
+                            <div class="col-10" style="height: 57px">
+                                {{ mission.content|u.truncate(52, '...')|raw }}
                             </div>
-                            <div class="my-1">
-                                <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" class="btn btn-outline-primary">Voir l'offre</a>
+                            <div class="col-2 align-self-center">
+                                <a href="{{ path('front_mission_show', {'slug': mission.slug}) }}" title="Voir l'offre">
+                                    <span class="fa fa-chevron-right fa-2x">
+                                    </span>
+                                </a>
                             </div>
-                            <div class="text-small text-muted my-2">
+                            <div class="text-small text-muted my-1">
                                 {{ mission.createdAt|ago(locale='fr') }}
                             </div>
                         </div>
