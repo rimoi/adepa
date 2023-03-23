@@ -212,7 +212,7 @@ class ProfileFormType extends AbstractType
                 return $choice->getParent()->getTitle();
             },
             'mapped' => true,
-            'label' => 'Vous êtes interessé par quelle type de mission ? ( Vous pourriez choisir plusieurs )',
+            'label' => 'Vous êtes interessés par quelle type de mission ? ( Vous pourriez choisir plusieurs )',
             'multiple' => true,
             'attr' => [
                 'class' => 'js-select2',

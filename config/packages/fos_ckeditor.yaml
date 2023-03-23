@@ -1,4 +1,8 @@
-#fos_ck_editor:
+fos_ck_editor:
+  configs:
+    my_config:
+      toolbar: [ [ 'Bold', 'Italic', '-', 'Link', '-', 'Source' ]]
 #    # ...
 #    base_path: "build/ckeditor"
 #    js_path:   "bundles/fosckeditor/ckeditor.js"
+

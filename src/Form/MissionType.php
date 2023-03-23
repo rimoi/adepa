@@ -52,8 +52,8 @@ class MissionType extends AbstractType
         $builder
             // https://symfony.com/doc/current/form/bootstrap5.html
             ->add('title', TextType::class, [
-                'label' => 'Public: (*)',
-                'attr' => ['placeholder' => 'Ex: Poste'],
+                'label' => 'Poste de la mission: (*)',
+                'attr' => ['placeholder' => 'Ex: Éducateur'],
             ])
             ->add('content', CKEditorType::class, [
                 'required' => 'false',
@@ -166,7 +166,7 @@ class MissionType extends AbstractType
                 return $choice->getParent()->getTitle();
             },
             'mapped' => true,
-            'label' => 'Poste ( Vous pourriez choisir plusieurs ) (*)',
+            'label' => 'Choisir les critères pour filtrer les candidats (*)',
             'multiple' => true,
             'attr' => [
                 'class' => 'js-select2',
