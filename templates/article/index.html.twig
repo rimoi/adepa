@@ -9,8 +9,7 @@
 
 {% block body %}
 
-
-    <div class="container cs-article-front">
+    <div class="container cs-article-front mb-5">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
             <li class="breadcrumb-item active">
@@ -23,7 +22,7 @@
                 <img class="img-fluid w-75" src="{{ asset(photo_directory ~'/'~ article.file.name) }}" alt="photo '{{ article.title }}' indisponible">
             </div>
         {% endif %}
-        <div class="text-center my-2">
+        <div class="text-center text-muted my-2">
             Publié {{ article.createdAt|ago(locale='fr') }}
         </div>
         <p class="my-4 text-dark">

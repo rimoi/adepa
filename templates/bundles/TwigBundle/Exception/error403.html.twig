@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}500 - Erreur serveur{% endblock %}
+{% block title %}403 - Page non trouvé{% endblock %}
 
 {% block _footer '' %}
 
@@ -52,26 +52,17 @@
 
 
     </style>
-    <div class="container-fluid">
+    <div class="container-fluid mb-5">
 
         <!-- 404 Error Text -->
-        <div class="text-center mb-5">
-            <div class="error mx-auto" data-text="500">500</div>
-            <p class="lead text-gray-800 mb-5">Une erreur du serveur c'est produite 😭 </p>
+        <div class="text-center">
+            <div class="error mx-auto" data-text="403">403</div>
+            <p class="lead text-gray-800">Vous n'êtes pas autorisé à accèder à cette ressource</p>
             <div class="row">
                 <div class="col-12 p-1 p-lg-0 offset-lg-3 text-gray-500 text-left">
-                    Oh non ! Notre serveur a décidé de prendre une pause café et a lancé une erreur 500.
+                    Oh oh ! On dirait que cette page a décidé de vous bloquez l'accès.
                     <br>
-                    Il semblerait que même les machines aient besoin d'une petite pause de temps en temps.
-                    <br>
-                    Nous sommes en train de le secouer un peu pour le réveiller, mais si cela ne fonctionne pas, nous pourrions devoir envoyer un message à son patron.
-                    <br>
-                    Nous sommes désolés pour ce petit contretemps, nous avons donc préparé une blague pour vous faire sourire pendant que nous travaillons sur la résolution du problème :
-                    <br>Pourquoi les programmeurs ont-ils du mal à dormir la nuit ? <br>
-                    Parce qu'ils ont besoin de fermer les yeux pour se reposer, mais dès qu'ils les ferment, leur cerveau commence à coder des rêves !
-                    <br>Nous espérons que cette petite blague vous aidera à passer le temps en attendant le retour de notre serveur.
-                    <br>
-                    <br>Merci de votre patience et à bientôt !</p>
+                    Si vous avez besoin de nous, envoyez-nous un message et nous serons heureux de vous aider à trouver ce que vous cherchez.
                 </div>
             </div>
             <br>
@@ -81,5 +72,7 @@
                 <a href="{{ path('home') }}">&larr; Voulez-vous revenir à la page d'accueil peut être 🤔 ? </a>
             </div>
         </div>
+
     </div>
+
 {% endblock %}

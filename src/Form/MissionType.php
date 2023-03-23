@@ -55,19 +55,6 @@ class MissionType extends AbstractType
                 'label' => 'Public: (*)',
                 'attr' => ['placeholder' => 'Ex: Poste'],
             ])
-            ->add('category', ChoiceType::class, [
-                'choices' => MissionTypeConstant::MAP,
-                'choice_label' => function (?string $category) {
-                    return $category ? strtoupper($category) : '';
-                },
-                'label' => 'Type public',
-                'required' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => [
-                    'class' => 'custom-select'
-                ],
-            ])
             ->add('content', CKEditorType::class, [
                 'required' => 'false',
                 'label' => 'false',
@@ -179,7 +166,7 @@ class MissionType extends AbstractType
                 return $choice->getParent()->getTitle();
             },
             'mapped' => true,
-            'label' => 'Type de service ( Vous pourriez choisir plusieurs )',
+            'label' => 'Poste ( Vous pourriez choisir plusieurs ) (*)',
             'multiple' => true,
             'attr' => [
                 'class' => 'js-select2',

@@ -77,7 +77,11 @@ class MissionFrontController extends AbstractController
         } elseif ($slug) {
             $mission = $em->getRepository(Mission::class)->findOneBy(['slug' => $slug]);
         } else {
-            throw $this->createNotFoundException('Impossible de récupérer la mission');
+            throw $this->createNotFoundException('Mission non trouvé');
+        }
+
+        if (!$mission) {
+            throw $this->createNotFoundException('Mission non trouvé');
         }
 
         $userConnectedReserved = '';

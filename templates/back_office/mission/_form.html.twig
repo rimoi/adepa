@@ -6,16 +6,13 @@
         {{ form_start(form, {'attr': {'class': 'user'}}) }}
 
         <div class="row">
-            <div class="col-12 col-sm-6">
-                 {{ form_row(form.title) }}
-            </div>
-            <div class="col-12 col-sm-6">
-                {{ form_row(form.category) }}
+            <div class="col-12">
+                {{ form_row(form.categories) }}
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                {{ form_row(form.categories) }}
+                 {{ form_row(form.title) }}
             </div>
         </div>
         <div class="row my-3">

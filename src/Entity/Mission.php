@@ -86,9 +86,6 @@ class Mission
     private Collection $categories;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $category = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
@@ -357,18 +354,6 @@ class Mission
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
