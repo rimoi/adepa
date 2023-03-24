@@ -121,10 +121,18 @@
         padding: 12px;
     }
 }
+@media (min-width: 576px) and (max-width: 922px) {
+    .services {
+        padding: 145px 0 19px;
+    }
+    .banniere {
+        height: 51vh;
+    }
+}
 
 @media (max-width: 576px) {
     .banniere {
-        height: 30vh;
+        height: 36vh;
     }
     .banniere div {
         /*padding: 86px 21px 0;*/
@@ -132,7 +140,7 @@
     }
 
     .services {
-        padding: 107px 0 19px;
+        padding: 277px 0 19px;
     }
 
     .service1,
