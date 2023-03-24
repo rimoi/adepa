@@ -294,6 +294,11 @@ select.form-control{
     font-size: 100px;
 }
 
+.cs-highlight {
+    background-color: yellow;
+    color: black;
+}
+
 /*--------select2-css----*/
 .select2Part .floating-label{
     opacity: 0;

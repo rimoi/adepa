@@ -22,6 +22,8 @@
             {{ form_start(form, {'action': path('front_mission'), 'method': 'POST'}) }}
             <div class="row">
                 <div class="col-12 col-lg-8 offset-lg-2">
+                    {{ form_widget(form.q) }}
+                    <br>
                     {{ form_widget(form.categories) }}
                     <div class="text-center mt-2">
                         <button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
@@ -47,7 +49,7 @@
                         <div class="card-header fw-bold fs-5 bg-danger text-white">
                             <div class="row">
                                 <div class="col-12">
-                                    {{ mission.title }}
+                                    {{ mission.title|raw }}
                                     <span class="badge badge-dark">
                                          {{ mission.started|date('d/m/Y à H:i') }}
                                         <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
@@ -97,7 +99,7 @@
                     <div class="card-header fw-bold fs-5 bg-primary text-white">
                         <div class="row">
                             <div class="col-12">
-                                {{ mission.title }}
+                                {{ mission.title|raw }}
                                 <span class="badge badge-dark">
                                      {{ mission.started|date('d/m/Y à H:i') }}
                                     <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">
@@ -106,17 +108,6 @@
                             </div>
                         </div>
                     </div>
-
-{#                    <div class="card-header fw-bold fs-5 text-dark">#}
-{#                        <div class="my-1">#}
-{#                            {{ mission.title }}#}
-{#                        </div>#}
-{#                        <div class="text-center fs-6 badge bg-primary">#}
-{#                            {{ mission.started|date('d/m/Y à H:i') }}#}
-{#                            <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ mission.ended|date('d/m/Y à H:i') }}</u>">#}
-{#                            </span>#}
-{#                        </div>#}
-{#                    </div>#}
                     <div class="card-body">
                         <div class="row">
                             <div class="col-10" style="height: 57px">

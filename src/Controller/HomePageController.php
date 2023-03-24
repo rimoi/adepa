@@ -13,6 +13,7 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'home')]
     public function home(EntityManagerInterface $entityManager)
     {
+
         $form = $this->createForm(SearchType::class);
 
         $filter = [

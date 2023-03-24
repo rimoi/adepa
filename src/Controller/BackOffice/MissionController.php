@@ -9,6 +9,7 @@ use App\Entity\Mission;
 use App\Entity\Service;
 use App\Form\MissionType;
 use App\Form\ValidateTimeType;
+use App\Indexation\MissionIndexation;
 use App\Repository\BookingRepository;
 use App\Repository\MissionRepository;
 use App\Service\NotificationService;
@@ -57,7 +58,13 @@ class MissionController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, QualificationService $qualificationService, MissionRepository $missionRepository, NotificationService $notificationService): Response
+    public function new(
+        Request $request,
+        QualificationService $qualificationService,
+        MissionRepository $missionRepository,
+        NotificationService $notificationService,
+        MissionIndexation $missionIndexation
+    ): Response
     {
         if (!$this->getUser()->isEnabled()) {
             $this->addFlash('danger', "Vous ne pouvez pas proposer une mission tant que votre profil n'est pas validé par un administrateur !");
@@ -113,6 +120,9 @@ class MissionController extends AbstractController
             }
             $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
 
+            // ajout index pour meilysearch
+            $missionIndexation->create($mission);
+
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
 
             return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
@@ -149,7 +159,8 @@ class MissionController extends AbstractController
         Mission $mission,
         MissionRepository $missionRepository,
         QualificationService $qualificationService,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        MissionIndexation $missionIndexation
     ): Response
     {
         $form = $this->createForm(MissionType::class, $mission);
@@ -192,6 +203,9 @@ class MissionController extends AbstractController
 
             $missionRepository->save($mission, true);
 
+            // mise à jour index pour meilysearch
+            $missionIndexation->update($mission);
+
             $this->addFlash('success', sprintf('Mission `%s` modifiée !', $mission->getTitle()));
 
             return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
@@ -204,10 +218,18 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{slug}/archived', name: 'archived', methods: ['POST', 'GET'])]
-    public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
+    public function delete(
+        Request $request,
+        Mission $mission,
+        EntityManagerInterface $entityManager,
+        MissionIndexation $missionIndexation
+    ): Response
     {
         $mission->setArchived(!$mission->isArchived());
         $entityManager->flush();
+
+        // suppression de l'index de meilysearch
+        $missionIndexation->delete($mission);
 
         $this->addFlash('success', sprintf('Mission `%s` archivée !', $mission->getTitle()));
 

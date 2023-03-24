@@ -12,18 +12,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MissionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Mission
+class Mission implements IndexSearchInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['planning'])]
+    #[Groups(['planning', 'search'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['planning'])]
+    #[Groups(['planning', 'search'])]
     private ?string $title = null;
 
+    #[Groups(['search'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
@@ -34,11 +35,11 @@ class Mission
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['planning'])]
+    #[Groups(['planning', 'search'])]
     private ?\DateTimeInterface $started = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['planning'])]
+    #[Groups(['planning', 'search'])]
     private ?\DateTimeInterface $ended = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -90,6 +91,9 @@ class Mission
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
     private ?Service $service = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tasks = null;
 
     public function isPossibleToCancel(): bool
     {
@@ -378,6 +382,18 @@ class Mission
     public function setService(?Service $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getTasks(): ?string
+    {
+        return $this->tasks;
+    }
+
+    public function setTasks(?string $tasks): self
+    {
+        $this->tasks = $tasks;
 
         return $this;
     }
