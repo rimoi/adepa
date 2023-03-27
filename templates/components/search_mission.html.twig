@@ -1,0 +1,30 @@
+<div {{ attributes }}>
+    <input type="search"
+           class="form-control search-field"
+           placeholder="Rechercher"
+           autocomplete="off"
+           data-model="query"
+           autofocus
+    >
+
+    <div class="mt-2 mt-md-5 mb-5">
+        <div class="row">
+
+            {% for mission in this.missions %}
+
+                {{ component('mission', {
+                    id: mission.id
+                }) }}
+
+            {% else %}
+
+                <div class="alert alert-info">
+                    Pas de résultat trouvé !
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+

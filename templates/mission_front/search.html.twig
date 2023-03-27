@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche des missions{% endblock %}
+
+{% block description 'Recherche mission' %}
+
+
+{% block body %}
+    <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+                <li class="breadcrumb-item active">Recherche mission</li>
+            </ol>
+        </nav>
+
+        {{ component('search_mission', {
+            query: query
+        }) }}
+    </div>
+
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('front-mission') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('front-mission') }}
+{% endblock %}

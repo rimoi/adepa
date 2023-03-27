@@ -1,0 +1,33 @@
+<div class="col-12 col-md-6">
+    <div class="card border-primary bg-light text-center text-dark">
+
+        <div class="card-header fw-bold fs-5 bg-primary text-white">
+            <div class="row">
+                <div class="col-12">
+                    {{ this.mission.title|raw }}
+                    <span class="badge badge-dark">
+                         {{ this.mission.started|date('d/m/Y à H:i') }}
+                        <span class="fa fa-info-circle js-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<b>Début de la mission</b> le <u>{{ this.mission.started|date('d/m/Y à H:i') }}</u> et la fin de la mission et <u>{{ this.mission.ended|date('d/m/Y à H:i') }}</u>">
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10" style="height: 57px">
+                    {{ this.mission.content|u.truncate(52, '...')|raw }}
+                </div>
+                <div class="col-2 align-self-center">
+                    <a href="{{ path('front_mission_show', {'slug': this.mission.slug}) }}" title="Voir l'offre">
+                        <span class="fa fa-chevron-right fa-2x">
+                        </span>
+                    </a>
+                </div>
+                <div class="text-small text-muted my-1">
+                    {{ this.mission.createdAt|ago(locale='fr') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

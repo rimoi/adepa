@@ -25,3 +25,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.all';
 window.Swal = global.Swal = Swal;
 
 import './scripts/my';
+
+
+import './bootstrap';
