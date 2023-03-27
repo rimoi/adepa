@@ -37,6 +37,7 @@
 					{{ form_start(form, {'action': path('front_mission'), 'method': 'POST', 'attr': {'class': 'js-form-search'}}) }}
 					<div class="row" id="js-animation">
 						<div class="col-12 col-lg-8 offset-lg-2">
+							{{ form_widget(form.q, {'attr': {'class': 'd-none'}}) }}
 							{{ form_widget(form.categories) }}
 							<div class="text-center">
 								<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>

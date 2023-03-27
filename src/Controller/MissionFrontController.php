@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Mission;
 use App\Form\SearchType;
+use App\helper\ArrayHelper;
+use App\Indexation\MissionIndexation;
 use App\Service\NotificationService;
+use App\Service\SearchService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -19,21 +22,30 @@ use App\Entity\File as FileEntity;
 class MissionFrontController extends AbstractController
 {
     #[Route('/missions', name: 'front_mission')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SearchService $searchService
+    ): Response
     {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
         $missions = [];
 
+        $search = false;
+
         if ($form->isSubmitted() && $form->isValid()) {
             $categories = $form->get('categories')->getData();
-            if ($categories && $categories->toArray()) {
-                $missions = $entityManager->getRepository(Mission::class)->getMissionByCriteria($categories->toArray());
+            $term = $form->get('q')->getData();
+
+            if ($categories->toArray() || $term) {
+                $search = true;
+                $missions = $searchService->search($categories->toArray(), $term);
             }
         }
 
-        if (!$missions) {
+        if (!$missions && !$search) {
             $missions = $entityManager->getRepository(Mission::class)->findBy([
                 'archived' => false,
                 'published' => true,
@@ -129,7 +141,12 @@ class MissionFrontController extends AbstractController
     }
 
     #[Route('/{slug}/candidate', name: 'front_mission_candidate')]
-    public function candidate(Request $request, Mission $mission, EntityManagerInterface $em, NotificationService $notificationService): Response
+    public function candidate(
+        Mission $mission,
+        EntityManagerInterface $em,
+        NotificationService $notificationService,
+        MissionIndexation $missionIndexation
+    ): Response
     {
         $booking = $em->getRepository(Booking::class)->findOneBy([
             'archived' => false,
@@ -156,13 +173,21 @@ class MissionFrontController extends AbstractController
         $notificationService->sendEmailToFreelanceCandidate($this->getUser(), $mission);
         $notificationService->sendEmailToClient($this->getUser(), $mission);
 
+        // suppression de l'index de meilysearch
+        $missionIndexation->delete($mission);
+
         $this->addFlash('success', sprintf('Réservation mission `%s` à bien été effectuée !', $mission->getTitle()));
 
         return $this->redirectToRoute('front_mission');
     }
 
     #[Route('/{slug}/cancel-booking', name: 'front_mission_cancel_booking')]
-    public function cancelBooking(Mission $mission, EntityManagerInterface $em, NotificationService $notificationService): Response
+    public function cancelBooking(
+        Mission $mission,
+        EntityManagerInterface $em,
+        NotificationService $notificationService,
+        MissionIndexation $missionIndexation
+    ): Response
     {
         $mission->setBooked(false);
 
@@ -180,6 +205,9 @@ class MissionFrontController extends AbstractController
 
         $notificationService->sendEmailToFreelanceCancel($this->getUser(), $mission);
         $notificationService->sendEmailToClientCancel($this->getUser(), $mission);
+
+        // création de l'index pour meilysearch
+        $missionIndexation->create($mission);
 
 //        $this->addFlash('danger',
 //            sprintf("La mission n'a pas pu être libérée ( Veuillez contactez votre administrateur en renseignant le numéro suivante : %d )", $mission->getId())

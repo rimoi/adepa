@@ -9,9 +9,13 @@ $(document).ready(function() {
 
     if ($('.js-select2').length) {
         let input_select2 = $('.js-select2');
+
+        const tags = input_select2.data('addSelect2') ? true : false;
         input_select2.select2({
             allowClear: true,
             placeholder: input_select2.attr('placeholder'),
+            tags: tags,
+            tokenSeparators: [",", ";"]
         });
     }
 

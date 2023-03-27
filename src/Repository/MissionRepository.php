@@ -44,7 +44,7 @@ class MissionRepository extends ServiceEntityRepository
      */
     public function getMissionByCriteria(array $categories = []): array
     {
-        return $this->createQueryBuilder('m')
+        return  $this->createQueryBuilder('m')
             ->join('m.categories', 'c')
             ->where('c.id IN (:categories)')
             ->setParameter('categories', $categories)
