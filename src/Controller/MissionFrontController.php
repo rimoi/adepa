@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Mission;
 use App\Form\SearchType;
-use App\helper\ArrayHelper;
 use App\Indexation\MissionIndexation;
 use App\Service\NotificationService;
 use App\Service\SearchService;
@@ -122,6 +121,12 @@ class MissionFrontController extends AbstractController
             'user_connected_reserved' => $userConnectedReserved,
             'retraction' => $mission->getStarted() > (new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris')))
         ]);
+    }
+
+    #[Route('/search/mission', name: 'front_mission_search')]
+    public function searchMission(Request $request): Response
+    {
+        return $this->render('mission_front/search.html.twig', ['query' => $request->get('query', '')]);
     }
 
     #[Route('/{slug}/download', name: 'front_mission_download')]
