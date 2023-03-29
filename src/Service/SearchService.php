@@ -36,9 +36,8 @@ class SearchService
         // Response de ce type
         //  Ex:
         //  return = [
-        //      0 =>  Mission {
-        //              // ...,
-        //            }
+        //      0 => App\Entity\Mission {#522 ▶}
+        //      1 => App\Entity\Mission {#652 ▶}
         //  ];
         //
         //

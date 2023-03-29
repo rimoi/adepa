@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Constant\GenderConstant;
 use App\Constant\UserConstant;
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Entity\Mission;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -48,6 +49,22 @@ class UserFixture extends Fixture
 
         $manager->persist($admin);
 
+
+        $subCategorie = new Category();
+        $subCategorie->setTitle('Aide personne agée');
+        $manager->persist($subCategorie);
+
+        $this->addReference('sub-category', $subCategorie);
+
+        $subC = $this->getReference('sub-category');
+
+        $categorie = new Category();
+        $categorie->setTitle('Public');
+        $categorie->setParent($subC);
+
+        $manager->persist($categorie);
+
+
         for($usr = 1; $usr <= 100; $usr++){
 
             $genres = GenderConstant::MAP;
@@ -79,6 +96,8 @@ class UserFixture extends Fixture
 
             $manager->persist($user);
 
+            $user->addCategory($subC);
+
             $mission = new Mission();
             $mission->setTitle($faker->words(3, true));
             $mission->setContent($faker->words(200, true));
@@ -97,6 +116,8 @@ class UserFixture extends Fixture
             $t = $this->getReference('user-'.$usr);
 
             $mission->setUser($t);
+
+            $mission->addCategory($subC);
 
             $manager->persist($mission);
 
