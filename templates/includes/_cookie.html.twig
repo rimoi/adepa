@@ -1,0 +1,52 @@
+{% set cookie_exist = app.request.cookies.get('session-cookie-condition') %}
+<header class="py-2 js-show-cookie bg-primary {{ cookie_exist ? 'd-none' }}">
+	<div class="d-flex flex-column flex-md-row">
+		<div class="pl-1 pl-lg-2 mt-1 mt-2">
+			En poursuivant votre navigation, vous acceptez l'utilisation de services tiers pouvant installer des cookies
+			<a href="{{ path('app_private_politics') }}" class="text-white mx-1 mx-lg-2">Plus d'infos</a>
+		</div>
+		<div class="ml-1 mx-md-2 mt-1">
+			<a href="#" class="btn btn-success js-save-cookie">OK, tout accepter</a>
+		</div>
+		<div class="ml-1 mt-1">
+			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalCookie">
+				Personnaliser
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCookie" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Gestion des cookies</h1>
+				<button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Nous utilisons des cookies pour sauvegarder votre session utilisateur et collecter des statistiques d'utilisation.
+					<br>
+					En cliquant sur "Accepter", vous acceptez l'utilisation de tous les cookies.
+					<br>
+					Vous pouvez modifier vos préférences à tout moment en cliquant sur "Personnaliser".</p>
+				<div class="cookie-preferences">
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="flexSwitchCheckChecked" checked disabled>
+						<label class="custom-control-label" for="flexSwitchCheckChecked">Cookies nécessaires (Obligatoire)</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="cookie-stats">
+						<label class="custom-control-label" for="cookie-stats">Cookies de statistiques</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary js-close-modal" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-primary js-save-cookie-modal">Accepter</button>
+			</div>
+		</div>
+	</div>
+</div>

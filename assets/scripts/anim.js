@@ -16,20 +16,23 @@ import $ from "jquery";
 
 $(document).ready(function() {
     const plateform = document.querySelector(".js-plateforme");
+
+    if (plateform) {
         //Load via URL
-    plateform.load(data_plateform);
+        plateform.load(data_plateform);
 
-    const formation = document.querySelector(".js-formation");
-    //Load via URL
-    formation.load(data_formation);
+        const formation = document.querySelector(".js-formation");
+        //Load via URL
+        formation.load(data_formation);
 
-    const assistance = document.querySelector(".js-assistance");
-    //Load via URL
-    assistance.load(data_assistance);
+        const assistance = document.querySelector(".js-assistance");
+        //Load via URL
+        assistance.load(data_assistance);
 
-    const relationship = document.querySelector(".js-relationship");
-    //Load via URL
-    relationship.load(data_relationship);
+        const relationship = document.querySelector(".js-relationship");
+        //Load via URL
+        relationship.load(data_relationship);
+    }
 });
 
 

@@ -36,18 +36,4 @@
 	<img src="{{asset('images/burger.png')}}" class="menu-burger" alt="menu burger">
 </nav>
 
-<style>
-
-
-</style>
-
-<script>
-
-	const menuHamburger = document.querySelector(".menu-burger")
-	const navLinks = document.querySelector(".nav-links")
-
-	menuHamburger.addEventListener('click', () => {
-		navLinks.classList.toggle('mobile-menu')
-	})
-
-</script>
+{% include 'includes/_cookie.html.twig' %}

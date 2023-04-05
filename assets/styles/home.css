@@ -72,10 +72,12 @@
     margin-top: 0;
 }
 
-.services h2 {
+.actualites h2, .services h2 {
     margin: 50px;
     font-size: 3rem;
 }
+
+
 
 /*.services-box {*/
 /*    display: flex;*/
@@ -164,7 +166,7 @@
     .js-form-search {
         margin-top: -1rem;
     }
-    #intro1 h2 {
+    #intro1 h2, .actualites h2 {
         font-size: calc(12px + 2.3vw);
         font-weight: bold;
     }

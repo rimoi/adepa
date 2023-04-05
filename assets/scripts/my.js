@@ -7,6 +7,13 @@ import French from "flatpickr/dist/l10n/fr";
 // button suppression
 $(document).ready(function() {
 
+    const menuHamburger = document.querySelector(".menu-burger")
+    const navLinks = document.querySelector(".nav-links")
+
+    menuHamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('mobile-menu')
+    });
+
     if ($('.js-select2').length) {
         let input_select2 = $('.js-select2');
         input_select2.select2({
@@ -218,6 +225,50 @@ $(document).ready(function() {
                 }
             });
         });
+    }
+
+    if ($('.js-show-cookie').length) {
+        $('.js-save-cookie-modal').on('click', function (e) {
+            e.preventDefault();
+
+            setCookie("session-cookie-condition", "123456789", 7);
+
+            $('.js-close-modal').trigger('click');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cookie sauvegardé',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $('.js-show-cookie').fadeOut('slow');
+        });
+
+        $('.js-save-cookie').on('click', function (e) {
+            e.preventDefault();
+
+            setCookie("session-cookie-condition", "123456789", 7);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cookie sauvegardé',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            $('.js-show-cookie').fadeOut('slow');
+        });
+    }
+
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 });
 

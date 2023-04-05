@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-		<meta name="keywords" content="ADEPA">
+		<meta name="keywords" content="ADEPA, médico-sociales, plateforme médico-sociales">
 		<meta name="author" content="ADEPA">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="{% block description '' %}"/>
 		<link rel="icon" href="{{ asset('images/favicon.ico') }}">
 		{% block meta_robots '' %}
@@ -13,22 +13,6 @@
 		<title>
 			{% block title %}{% endblock %} - ADEPA
 		</title>
-		<script src="{{ asset('js/rgpd/tarteaucitron.min.js') }}">
-		</script>
-		<script>
-			tarteaucitron.init({
-				"orientation": "middle",
-				"showAlertSmall": false,
-				"removeCredit": true
-			});
-
-			{% block tarte_au_citron_items %}
-			(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
-			(tarteaucitron.job = tarteaucitron.job || []).push('facebook');
-			(tarteaucitron.job = tarteaucitron.job || []).push('twitter');
-			//(tarteaucitron.job = tarteaucitron.job || []).push('disqus');
-			{% endblock %}
-		</script>
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		
 		{% block stylesheets %}
@@ -44,8 +28,6 @@
 		{% block _footer %}
 			{% include "includes/_footer.html.twig" %}
 		{% endblock %}
-
-		<div id="tarteaucitron"></div>
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
