@@ -22,8 +22,24 @@ class UserController extends AbstractController
     #[Route('/users', name: 'index')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $users = [
+            'clients' => [],
+            'freelances' => []
+        ];
+
+        $allUsers = $entityManager->getRepository(User::class)->findBy(['archived' => false], ['id' => 'DESC']);
+        foreach ($allUsers as $user) {
+            if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
+                $users['clients'][] = $user;
+            }
+            if ($user->hasRole(UserConstant::ROLE_FREELANCE)) {
+                $users['freelances'][] = $user;
+            }
+        }
+
         return $this->render('back_office/user/index.html.twig', [
-            'users' => $entityManager->getRepository(User::class)->findBy(['archived' => false], ['id' => 'DESC']),
+            'users' => $users,
         ]);
     }
 
@@ -64,6 +80,7 @@ class UserController extends AbstractController
                 $user->setRoles($r);
             }
             $qualificationService->addElement($form, 'cni');
+            $qualificationService->addElement($form, 'criminalRecord');
             $qualificationService->addElement($form, 'permisConduite');
             $qualificationService->addElement($form, 'iban');
             $qualificationService->addElement($form, 'autoentrepriseCertificate');
@@ -129,6 +146,7 @@ class UserController extends AbstractController
             }
 
             $qualificationService->addElement($form, 'cni');
+            $qualificationService->addElement($form, 'criminalRecord');
             $qualificationService->addElement($form, 'permisConduite');
             $qualificationService->addElement($form, 'iban');
             $qualificationService->addElement($form, 'autoentrepriseCertificate');

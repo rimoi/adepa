@@ -76,6 +76,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $permisConduite = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?File $criminalRecord = null;
+
     #[ORM\OneToOne(targetEntity: File::class)]
     private ?File $autoentrepriseCertificate = null;
 
@@ -129,6 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $services;
 
+    // à supprimer il n'est plus utilisé
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $public = null;
 
@@ -751,5 +755,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->public = $public;
 
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getCriminalRecord(): ?File
+    {
+        return $this->criminalRecord;
+    }
+
+    public function setCriminalRecord(?File $criminalRecord): void
+    {
+        $this->criminalRecord = $criminalRecord;
     }
 }

@@ -45,6 +45,7 @@ class ProfileController extends AbstractController
             if (!$user->hasRole(UserConstant::ROLE_CLIENT)) {
                 $qualificationService->addElement($form, 'cni');
                 $qualificationService->addElement($form, 'permisConduite');
+                $qualificationService->addElement($form, 'criminalRecord');
                 $qualificationService->addElement($form, 'iban');
                 $qualificationService->addElement($form, 'autoentrepriseCertificate');
 

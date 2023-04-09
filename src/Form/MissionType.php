@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Constant\MissionTypeConstant;
+use App\Constant\UserConstant;
+use App\Entity\Booking;
 use App\Entity\Category;
 use App\Entity\Mission;
 use App\Entity\Service;
@@ -10,6 +12,7 @@ use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -29,10 +32,12 @@ use Symfony\Component\Validator\Constraints\Regex;
 class MissionType extends AbstractType
 {
     private Security $security;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
         $this->security = $security;
+        $this->entityManager = $entityManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -45,6 +50,13 @@ class MissionType extends AbstractType
         $mission = $options['data'];
 
         $user = $this->security->getUser();
+
+        // Liste des utilisateurs auquel elle a déjà travaillé avec
+        if ($user->hasRole(UserConstant::ROLE_ADMIN)) {
+            $userFreelances = $this->entityManager->getRepository(User::class)->getFreelances();
+        } else {
+            $userFreelances = $this->entityManager->getRepository(Booking::class)->getUserMatch($user);
+        }
 
         $started = $mission->getStarted() ? $mission->getStarted()->format('d/m/Y H:i') : '';
         $ended = $mission->getEnded() ? $mission->getEnded()->format('d/m/Y H:i') : '';
@@ -120,17 +132,21 @@ class MissionType extends AbstractType
 
         $builder->add('users', EntityType::class, [
             'class' => User::class,
-            'query_builder' => static function (UserRepository $repository) {
+            'query_builder' => static function (UserRepository $repository) use ($userFreelances) {
                 return $repository->createQueryBuilder('u')
-                    ->where('u.enabled = :enabled')
-                    ->setParameter('enabled', true);
+                    ->where('u.id IN (:freelances)')
+                    ->setParameter('freelances', $userFreelances)
+                    ->andWhere('u.enabled = :enabled')
+                    ->andWhere('u.roles LIKE :roles')
+                    ->setParameter('roles', '%'.UserConstant::ROLE_FREELANCE.'%')
+                    ->setParameter('enabled', true)
+                    ;
             },
             'mapped' => false,
-            'label' => 'Envoie une notification a ces personnes ',
+            'label' => 'Envoie une notification a ces personnes avec lesquelles vous avez déjà travaillé',
             'choice_label' => function (User $user) {
-                return sprintf('%s ( %s )',
-                    $user->nickname(),
-                    $user->getEmail()
+                return sprintf('%s',
+                    $user->nickname()
                 );
             },
             'multiple' => true,
@@ -160,6 +176,8 @@ class MissionType extends AbstractType
             'query_builder' => static function (CategoryRepository $repository) {
                 return $repository->createQueryBuilder('t')
                     ->innerJoin('t.parent', 'p')
+                    ->where('t.archived = :archived')
+                    ->setParameter('archived', false)
                     ->addOrderBy('t.title', 'ASC');
             },
             'group_by' => static function (Category $choice) {

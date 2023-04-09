@@ -7,12 +7,14 @@ import French from "flatpickr/dist/l10n/fr";
 // button suppression
 $(document).ready(function() {
 
-    const menuHamburger = document.querySelector(".menu-burger")
-    const navLinks = document.querySelector(".nav-links")
+    const menuHamburger = document.querySelector(".menu-burger");
+    const navLinks = document.querySelector(".nav-links");
 
-    menuHamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('mobile-menu')
-    });
+    if (menuHamburger) {
+        menuHamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-menu')
+        });
+    }
 
     if ($('.js-select2').length) {
         let input_select2 = $('.js-select2');

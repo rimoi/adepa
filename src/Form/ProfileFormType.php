@@ -49,13 +49,6 @@ class ProfileFormType extends AbstractType
                     'placeholder' => 'Dupond'
                 ]
             ])
-            ->add('public', TextType::class, [
-                'label' => 'Public ',
-                'attr' => [
-                    'placeholder' => 'personne agée',
-                ],
-                'required' => false
-            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => GenderConstant::MAP,
                 'label' => 'Civilité :',
@@ -112,6 +105,11 @@ class ProfileFormType extends AbstractType
             ])
             ->add('permisConduite', FileType::class, [
                 'label' => 'Permis de conduire :',
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('criminalRecord', FileType::class, [
+                'label' => 'Extrait casier judiciaire ( Bulletin n°3 ):',
                 'required' => false,
                 'mapped' => false
             ])
@@ -206,13 +204,15 @@ class ProfileFormType extends AbstractType
             'query_builder' => static function (CategoryRepository $repository) {
                 return $repository->createQueryBuilder('t')
                     ->innerJoin('t.parent', 'p')
+                    ->where('t.archived = :archived')
+                    ->setParameter('archived', false)
                     ->addOrderBy('t.title', 'ASC');
             },
             'group_by' => static function (Category $choice) {
                 return $choice->getParent()->getTitle();
             },
             'mapped' => true,
-            'label' => 'Vous êtes interessés par quelle type de mission ? ( Vous pourriez choisir plusieurs )',
+            'label' => 'Vous êtes intéressés par quel type de mission ? ( Vous pouvez en choisir plusieurs )',
             'multiple' => true,
             'attr' => [
                 'class' => 'js-select2',

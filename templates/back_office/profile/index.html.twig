@@ -70,20 +70,26 @@
             </div>
                 <hr>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                         {{ form_row(form.categories) }}
-                    </div>
-                    <div class="col-6">
-                        {{ form_row(form.public) }}
                     </div>
                 </div>
                 <hr>
-                <div class="col-12 col-lg-4">
-                    {{ form_label(form.permisConduite) }}
-                     {{ upload.image(
-                        form.permisConduite,
-                        app.user.permisConduite
-                    ) }}
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        {{ form_label(form.permisConduite) }}
+                        {{ upload.image(
+                            form.permisConduite,
+                            app.user.permisConduite
+                        ) }}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {{ form_label(form.criminalRecord) }}
+                        {{ upload.image(
+                            form.criminalRecord,
+                            app.user.criminalRecord
+                        ) }}
+                    </div>
                 </div>
                 {% if 'experiences' in form|keys %}
                     <hr>

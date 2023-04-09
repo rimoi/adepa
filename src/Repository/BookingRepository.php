@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Booking;
+use App\Entity\User;
+use App\helper\ArrayHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -55,6 +57,23 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function getUserMatch(User $user): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('u.id')
+            ->join('b.mission', 'm')
+            ->join('b.user', 'u')
+            ->join('m.user', 'user')
+            ->where('user.id = :user_id')
+            ->andWhere('u.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->setParameter('user_id', $user->getId());
+
+        $res = $qb->getQuery()->getResult();
+
+        return ArrayHelper::columnize($res, '[id]');
     }
 
 //    public function findOneBySomeField($value): ?Booking

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Constant\UserConstant;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -113,4 +114,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+
+    public function getFreelances(): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->where('u.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->andWhere('u.roles LIKE :freelance')
+            ->setParameter('freelance', '%'.UserConstant::ROLE_FREELANCE.'%');
+
+        return $qb->getQuery()->getResult();
+    }
 }

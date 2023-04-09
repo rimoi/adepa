@@ -19,6 +19,8 @@ class SearchType extends AbstractType
                    'query_builder' => static function (CategoryRepository $repository) {
                        return $repository->createQueryBuilder('t')
                            ->innerJoin('t.parent', 'p')
+                           ->where('t.archived = :archived')
+                           ->setParameter('archived', false)
                            ->addOrderBy('t.title', 'ASC');
                    },
                    'group_by' => static function (Category $choice) {

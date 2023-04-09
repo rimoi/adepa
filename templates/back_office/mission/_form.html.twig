@@ -39,19 +39,19 @@
                 <div class="spinner-border spinner-border-sm text-right d-none js-toggle-spiner" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
-                {{ form_row(form.address) }}
+                {{ form_row(form.address, {'label': 'Adresse'}) }}
             </div>
             <div class="col-12 col-lg-4">
                 <div class="spinner-border spinner-border-sm text-right d-none js-toggle-spiner" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
-                {{ form_row(form.zipCode) }}
+                {{ form_row(form.zipCode, {'label': 'Code postal'}) }}
             </div>
             <div class="col-12 col-lg-4">
                 <div class="spinner-border spinner-border-sm text-right d-none js-toggle-spiner" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
-                {{ form_row(form.city) }}
+                {{ form_row(form.city, {'label': 'Ville'}) }}
             </div>
         </div>
         <div class="row">
@@ -64,7 +64,7 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-12 col-lg-4">
+            <div class="col-12">
                 {{ form_label(form.file) }}
                 {{ upload.image(
                     form.file,
@@ -73,7 +73,7 @@
 
             </div>
             {% if 'users' in form|keys %}
-                <div class="col-12 col-lg-4 mt-1">
+                <div class="col-12">
                     {{ form_row(form.users) }}
                 </div>
             {% endif %}

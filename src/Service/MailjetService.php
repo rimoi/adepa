@@ -34,7 +34,7 @@ class MailjetService
                 [
                     'From' => [
                         'Email' => $this->mailerSender,
-                        'Name' => "ADEPA"
+                        'Name' => "LES EXTRAS"
                     ],
                     'To' => [
                         [
