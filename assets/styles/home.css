@@ -9,9 +9,17 @@
     padding: 1rem;
 }
 
+.js-plateforme {
+    height: 224px;
+}
+
 .cs-video {
     margin-top: 107px;
     margin-bottom: 150px;
+}
+.cs-iframe {
+    height: 41rem;
+    width: 111rem;
 }
 
 .banniere div h1 {
@@ -130,8 +138,18 @@
         height: 44vh;
     }
 
+    .banniere div h1 {
+        font-size:calc(15px + 2.3vw);
+    }
+
+
     .banniere div {
         padding: 12px;
+    }
+
+    .cs-iframe {
+        height: 29rem;
+        width: 53rem;
     }
 }
 @media (min-width: 576px) and (max-width: 922px) {
@@ -182,7 +200,24 @@
         margin-top: -1rem;
     }
     #intro1 h2, .actualites h2 {
-        font-size: calc(12px + 2.3vw);
+        font-size: calc(16px + 2.3vw);
         font-weight: bold;
+    }
+    .js-plateforme {
+        height: 140px;
+    }
+
+    .cs-video {
+        margin-top: 80px;
+        margin-bottom: 88px;
+    }
+    .cs-iframe {
+        height: auto;
+        width: auto;
+    }
+}
+@media (max-width: 375px) {
+    .banniere {
+        height: 48vh;
     }
 }
