@@ -32,17 +32,10 @@ class UserFixture extends Fixture
 
         $admin = new User();
         $admin->setEmail('admin@demo.fr');
-        $admin->setGender(GenderConstant::MONSIEUR);
-        $admin->setLastname($faker->lastName);
-        $admin->setFirstname($faker->firstName);
-        $admin->setAdress($faker->streetAddress);
-        $admin->setTelephone('0606060606');
-        $admin->setZipcode((int) str_replace(' ', '', $faker->postcode));
-        $admin->setCity($faker->city);
         $admin->setIsVerified(true);
         $admin->setEnabled(true);
         $admin->setPassword(
-            $this->passwordEncoder->hashPassword($admin, 'toto')
+            $this->passwordEncoder->hashPassword($admin, 'admin')
         );
         $admin->setRoles(['ROLE_ADMIN']);
 

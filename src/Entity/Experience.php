@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ExperienceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+// Ici c'est la qualification
+// j'ai inverser exeperience et qualification
 #[ORM\Entity(repositoryClass: ExperienceRepository::class)]
 class Experience
 {
