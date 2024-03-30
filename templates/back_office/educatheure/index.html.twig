@@ -1,0 +1,111 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste ÉDUCAT'HEURES{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">ÉDUCAT'HEURE</li>
+    </ol>
+
+    <div class="mt-3">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">ÉDUCAT'HEURE</h1>
+
+        {% if is_granted('ROLE_CLIENT') %}
+            <div class="text-right">
+                <a class="btn btn-outline-primary my-3" href="{{ path('admin_educatheure_new') }}">
+                    <span class="fa fa-plus"></span>
+                    Nouvelle ÉDUCAT'HEURE
+                </a>
+            </div>
+        {% endif %}
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Crée</th>
+                            <th>Publiée</th>
+                            <th>Durée Min</th>
+                            <th>Durée Max</th>
+                            <th>Jours</th>
+{#                            <th>Réservé</th>#}
+                            <th>Auteur</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for educatheure in educatheures %}
+                            <tr>
+                                <td>{{ educatheure.title }}</td>
+                                <td>{{ educatheure.createdAt ? educatheure.createdAt|date('Y-m-d H:i') : '' }}</td>
+                                <td>
+                                    {% if educatheure.published %}
+                                        <span class="badge badge-info">
+                            Oui
+                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                          Non
+                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ educatheure.minDuration  }}</td>
+                                <td>{{ educatheure.maxDuration }}</td>
+                                <td>
+                                    {% for day in educatheure.days %}
+                                        <span class="badge rounded-pill bg-success">{{ day }}</span>&nbsp;
+                                    {% endfor %}
+{#                                <td>#}
+{#                                    {% if educatheure.booked %}#}
+{#                                        <span class="badge badge-info">#}
+{#                                         Oui#}
+{#                                        </span>#}
+{#                                    {% else %}#}
+{#                                        <span class="badge badge-secondary">#}
+{#                                          Non#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+                                <td>
+                                    <span class="badge badge-dark">{{ educatheure.user ? educatheure.user.nickname }}</span>
+                                </td>
+                                <td align="center">
+                                    <a href="{{ path('admin_educatheure_show', {'id': educatheure.id}) }}">
+                                        <span class="fa fa-eye"></span>
+                                        Voir
+                                    </a>
+                                    |
+                                    <a href="{{ path('admin_educatheure_edit', {'id': educatheure.id}) }}">
+                                        <span class="fa fa-pencil-alt"></span>
+                                        Modifier
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

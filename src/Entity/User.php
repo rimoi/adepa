@@ -136,6 +136,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $public = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Educatheure::class)]
+    private Collection $educatheures;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -189,6 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->categories = new ArrayCollection();
         $this->sms = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->educatheures = new ArrayCollection();
     }
 
     /**
@@ -768,5 +772,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCriminalRecord(?File $criminalRecord): void
     {
         $this->criminalRecord = $criminalRecord;
+    }
+
+    /**
+     * @return Collection<int, Educatheure>
+     */
+    public function getEducatheures(): Collection
+    {
+        return $this->educatheures;
+    }
+
+    public function addEducatheure(Educatheure $educatheure): self
+    {
+        if (!$this->educatheures->contains($educatheure)) {
+            $this->educatheures->add($educatheure);
+            $educatheure->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEducatheure(Educatheure $educatheure): self
+    {
+        if ($this->educatheures->removeElement($educatheure)) {
+            // set the owning side to null (unless already changed)
+            if ($educatheure->getUser() === $this) {
+                $educatheure->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -99,27 +99,30 @@
         </li>
     {% endif %}
 
-    <!-- Divider -->
-{#    <hr class="sidebar-divider">#}
+    {% if is_granted('ROLE_FREELANCE') %}
+        <hr class="sidebar-divider">
 
-{#    <!-- Heading -->#}
-{#    <div class="sidebar-heading">#}
-{#        Offres#}
-{#    </div>#}
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            ÉDUCAT'HEURES
+        </div>
 
-{#    <li class="nav-item">#}
-{#        <a class="nav-link" href="#">#}
-{#            <i class="fas fa-fw fa-plus-circle"></i>#}
-{#            <span>Proposer une offre</span>#}
-{#        </a>#}
-{#    </li>#}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_educatheure_new') }}">
+                <i class="fas fa-fw fa-plus-circle"></i>
+                <span>Proposer un service</span>
+            </a>
+        </li>
 
-{#    <li class="nav-item">#}
-{#        <a class="nav-link" href="#">#}
-{#            <i class="fas fa-fw fa-folder"></i>#}
-{#            <span>Mes offres</span>#}
-{#        </a>#}
-{#    </li>#}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_educatheure_index') }}">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Mes Services</span>
+            </a>
+        </li>
+    {% endif %}
+
+
 
     {% if is_granted('ROLE_ADMIN') %}
         <!-- Divider -->

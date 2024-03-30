@@ -1,0 +1,112 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Voir {{ educatheure.title }}{% endblock %}
+
+{% block body %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('admin_educatheure_index') }}">ÉDUCAT'HEURS</a>
+        </li>
+        <li class="breadcrumb-item active">Voir {{ educatheure.title }}</li>
+    </ol>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Description</h6>
+        </div>
+        <div class="card-body">
+            {{ educatheure.description|raw }}
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Note pour la réservation</h6>
+        </div>
+        <div class="card-body">
+            {{ educatheure.noteBooking|raw }}
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <a href="{{ path('admin_educatheure_index') }}" class="btn btn-secondary">
+                <span class="fa fa-arrow-left"></span>
+                Liste des ÉDUCAT'HEURES
+            </a>
+            <a href="{{ path('admin_educatheure_edit', {id: educatheure.id}) }}" class="btn btn-success">
+                <span class="fa fa-pencil-alt"></span>
+                Modifier
+            </a>
+        </div>
+
+        <div class="col">
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th>Référence</th>
+                    <td>{{ educatheure.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ educatheure.title }}</td>
+                </tr>
+                <tr>
+                    <th>prix</th>
+                    <td>{{ educatheure.price }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse postal</th>
+                    <td>{{ educatheure.zipCode }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ educatheure.city }}</td>
+                </tr>
+                <tr>
+                    <th>Durée Min</th>
+                    <td>{{ educatheure.minDuration }}</td>
+                </tr>
+                <tr>
+                    <th>Durée Max</th>
+                    <td>{{ educatheure.maxDuration }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de participant</th>
+                    <td>{{ educatheure.numberParticipant }}</td>
+                </tr>
+                <tr>
+                    <th>Type de public</th>
+                    <td>{{ educatheure.publicType }}</td>
+                </tr>
+                <tr>
+                    <th>Création</th>
+                    <td>{{ educatheure.createdAt ? educatheure.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Mise à jour</th>
+                    <td>{{ educatheure.updatedAt ? educatheure.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Jours</th>
+                    <td>{{ educatheure.days ? educatheure.days|json_encode : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Archivé ?</th>
+                    <td>{{ educatheure.archived ? 'Oui' : 'Non' }}</td>
+                </tr>
+                <tr>
+                    <th>Publié ?</th>
+                    <td>{{ educatheure.published ? 'Oui' : 'Non' }}</td>
+                </tr>
+                <tr>
+                    <th>Slug</th>
+                    <td>{{ educatheure.slug }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

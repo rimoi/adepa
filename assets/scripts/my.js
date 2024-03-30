@@ -6,7 +6,6 @@ import French from "flatpickr/dist/l10n/fr";
 
 // button suppression
 $(document).ready(function() {
-
     const menuHamburger = document.querySelector(".menu-burger");
     const navLinks = document.querySelector(".nav-links");
 
@@ -116,6 +115,22 @@ $(document).ready(function() {
         dateFormat: "d/m/Y H:i",
         defaultHour: '09',
         locale: French.fr
+    });
+
+    flatpickr(".datepicker-hours", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H\\hi", // Utilisation de \\ pour échapper les caractères spéciaux
+        time_24hr: true,
+        locale: French.fr,
+        onClose: function(selectedDates, dateStr, instance) {
+            // Formater l'heure sélectionnée
+            var selectedTime = instance.selectedDates[0];
+            var formattedTime = ("0" + selectedTime.getHours()).slice(-2) + "h" + ("0" + selectedTime.getMinutes()).slice(-2);
+
+            // Afficher l'heure formatée dans le champ
+            instance.input.value = formattedTime;
+        }
     });
 
     // Front
