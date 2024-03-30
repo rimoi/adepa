@@ -93,9 +93,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($user->getEmail())
-            ->subject('ADEPA - Une nouvelle mission qui match avec votre profil 🎁')
+            ->subject('LES EXTRAS - Une nouvelle mission qui match avec votre profil 🎁')
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -127,9 +127,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($mission->getUser()->getEmail())
-            ->subject('ADEPA - Nouvelle candidature pour le poste : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Nouvelle candidature pour le poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -161,9 +161,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($user->getEmail())
-            ->subject('ADEPA - Accusé réception de votre candidature')
+            ->subject('LES EXTRAS - Accusé réception de votre candidature')
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -197,9 +197,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($user->getEmail())
-            ->subject('ADEPA - Annulation : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Annulation : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -234,7 +234,7 @@ class NotificationService
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
             ->to($mission->getUser()->getEmail())
-            ->subject('ADEPA - Annulation du poste : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Annulation du poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $user,
@@ -254,9 +254,9 @@ class NotificationService
         $template = 'mailing/contact.html.twig';
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($this->mailerSender)
-            ->subject('ADEPA - Prise de contact ')
+            ->subject('LES EXTRAS - Prise de contact ')
             ->htmlTemplate($template)
             ->context([
                 'contact' => $contact,
@@ -285,9 +285,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to($mission->getUser()->getEmail())
-            ->subject('ADEPA - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $booking->getUser(),
@@ -321,9 +321,9 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to('assoc.adepa@gmail.com')
-            ->subject('ADEPA - Merci de générer la facture pour la mission : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Merci de générer la facture pour la mission : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $booking->getUser(),
@@ -350,9 +350,9 @@ class NotificationService
         $template = 'mailing/admin/conflit.html.twig';
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
             ->to('assoc.adepa@gmail.com')
-            ->subject('ADEPA - Conflit entre client et freelance pour les heures de la mission : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Conflit entre client et freelance pour les heures de la mission : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $booking->getUser(),
@@ -382,7 +382,7 @@ class NotificationService
         $templateEmail = (new TemplatedEmail())
             ->from(new Address($this->mailerSender, 'ADEPA'))
             ->to($booking->getUser()->getEmail())
-            ->subject('ADEPA - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
+            ->subject('LES EXTRAS - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
             ->htmlTemplate($template)
             ->context([
                 'user' => $booking->getUser(),
