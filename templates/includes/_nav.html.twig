@@ -3,13 +3,13 @@
 	<div class="nav-links">
 		<ul>
 			<li><a href="{{path('home')}}">Accueil</a></li>
-			<li>
-				<a href="{{path('front_mission')}}">
-					<i class="fa fa-briefcase"></i>&nbsp;
-					Missions
-				</a>
-			</li>
 			{% if app.user %}
+				<li>
+					<a href="{{path('front_mission')}}">
+						<i class="fa fa-briefcase"></i>&nbsp;
+						Missions
+					</a>
+				</li>
 				<li>
 				<a href="{{path('admin_dash_board_index')}}">
 					<i class="fa fa-user user"></i>
