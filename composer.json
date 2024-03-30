@@ -12,7 +12,6 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
-        "easycorp/easyadmin-bundle": "^4.3",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "friendsofsymfony/jsrouting-bundle": "^3.2",
         "fzaninotto/faker": "^1.5",
@@ -63,7 +62,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "php-http/discovery": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
