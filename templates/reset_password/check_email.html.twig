@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block _footer '' %}
+
+{% block title %}
+    E-mail de réinitialisation envoyé | Les Extras
+{% endblock %}
+
+{% block body %}
+
+<div class="container mb-4" id="contact">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item active">E-mail de réinitialisation envoyé</li>
+    </ol>
+
+    <h2 class="text-dark text-center my-5">E-mail de réinitialisation envoyé</h2>
+    <div>
+        <p>
+            Si un compte avec cette adresse e-mail existe, alors un message contenant un lien de réinitialisation de mot de passe vient d'être envoyé à cette adresse email.
+            Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <p>
+            Si vous ne recevez pas d'e-mail, veuillez regarder dans vos indésirables ou
+            <a href="{{ path('app_forgot_password_request') }}" class="link">
+                refaire une demande.
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}

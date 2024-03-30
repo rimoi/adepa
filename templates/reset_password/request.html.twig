@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block _footer '' %}
+
+{% block title %}
+    Nouveau mot de passe | Les Extras
+{% endblock %}
+
+{% block body %}
+
+<div class="container mb-4" id="contact">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item active">Mot de passe oublié ?</li>
+    </ol>
+
+    <h2 class="text-dark text-center my-5">Mot de passe oublié ?</h2>
+    <div>
+
+        {{ form_start(requestForm) }}
+
+            {{ form_errors(requestForm.email) }}
+            {{ form_widget(requestForm.email) }}
+            <div class="text-muted mb-4">
+                {{ form_help(requestForm.email) }}
+            </div>
+
+            <button class="btn btn-primary">
+                Envoyer
+            </button>
+        {{ form_end(requestForm) }}
+    </div>
+</div>
+{% endblock %}

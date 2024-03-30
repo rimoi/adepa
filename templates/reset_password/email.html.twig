@@ -1,0 +1,27 @@
+<section style="max-width: 500px;">
+
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+        Pour réinitialiser le mot de passe de votre compte Les-Extras, cliquez svp sur le lien suivant :
+    </p>
+
+    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">
+        {{ url('app_reset_password', {token: resetToken.token}) }}
+    </a>
+
+    <p>
+        Vous pouvez aussi le copier/coller dans votre navigateur internet.
+    </p>
+
+    <p>
+        Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+
+    <p>
+        A bientôt !
+    </p>
+
+</section>
