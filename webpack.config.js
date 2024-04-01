@@ -27,7 +27,8 @@ Encore
     .addEntry('datatable', './assets/datatable.js')
     .addEntry('front-mission', './assets/front-mission.js')
     .addEntry('calendar', './assets/calendar.js')
-    .addStyleEntry('admin', './assets/styles/admin.css') // à enlver après
+    .addEntry('educateur', './assets/educateur.js')
+    .addStyleEntry('admin', './assets/styles/admin.css') //
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

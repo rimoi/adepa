@@ -18,9 +18,7 @@ use App\Entity\File as FileEntity;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * @IsGranted("ROLE_USER")
- */
+#[IsGranted('ROLE_USER')]
 class MissionFrontController extends AbstractController
 {
     #[Route('/missions', name: 'front_mission')]

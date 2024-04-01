@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir L'ÉDUCAT'HEURE {{ educatheure.title }}{% endblock %}
+
+{% block description %}
+    {{ educatheure.description|u.truncate(200, '...')|raw }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('educateur') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('educateur') }}
+{% endblock %}
+
+
+{% block body %}
+    <div class="container cs-article-front mb-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">
+                {{ educatheure.title }}
+            </li>
+        </ol>
+        <div>
+            <div class="d-flex justify-content-center">
+                {% for category in educatheure.categories %}
+                    <div>
+                        <span class="badge rounded-pill bg-primary text-light">{{ category }}</span>&nbsp;
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <h2 class="edito text-center text-dark">{{ educatheure.title }}</h2>
+
+        <div class="text-center mb-5">
+            <div class="cs-small-homepage">
+                <i class="fas fa-map-marker-alt text-danger"></i>
+                <span title="{{ educatheure.zipCode }}">{{ educatheure.city|upper }}</span>
+            </div>
+        </div>
+
+        {% if educatheure.image %}
+            <div class="my-2 text-center">
+                <img class="img-fluid w-50" src="{{ asset(photo_directory ~'/'~ educatheure.image.name) }}" alt="photo '{{ educatheure.title }}' indisponible">
+            </div>
+        {% endif %}
+        <div class="text-center text-muted my-2">
+            Publié {{ educatheure.createdAt|ago(locale='fr') }}
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-8">
+                <div class="my-4">
+                    <div class="row">
+                        <div class="col-6 cs-space-col">
+                            <div class="lead cs-font-weight">
+                                <i class="fas fa-fw fa-clock text-success"></i>
+                                Durée Min : <span class="text-muted">{{ educatheure.minDuration }}</span>
+                            </div>
+                            <div class="lead cs-font-weight mt-2" title="Nombre des participants">
+                                <i class="fas fa-people-arrows text-primary"></i>
+                                Participants : <span class="text-muted">{{ educatheure.numberParticipant }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 cs-space-col">
+                            <div class="lead cs-font-weight">
+                                <i class="fas fa-fw fa-arrow-circle-right text-success"></i>
+                                Durée Max : <span class="text-muted">{{ educatheure.maxDuration }}</span>
+                            </div>
+                            <div class="lead cs-font-weight mt-2" title="Type public">
+                                <i class="fas fa-fw fa-bullhorn text-primary"></i>
+                                Public : <span class="text-muted">{{ educatheure.publicType|transType }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Demande de réservation
+                </button>
+
+                <!-- Modal -->
+                <form action="{{ path('app_educatheure_new_booking', {slug: educatheure.slug}) }}" method="POST">
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Demande de réservation</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <blockquote class="blockquote">
+                                        <h6 class="filter-form-small-title my-2">Note sur la réservation :</h6>
+                                        <p class="mb-0">
+                                            {{ educatheure.noteBooking|raw }}
+                                        </p>
+                                        <div class="blockquote-footer">
+                                            Note de <cite title="Source Title">l'auteur</cite>
+                                        </div>
+                                    </blockquote>
+                                    <div class="my-3">
+                                        <div>
+                                            <h6 class="filter-form-small-title">Choisissez une date (*) : </h6>
+                                            <div class="input-group mb-3">
+                                                <input type="text" name="dateSlot" class="form-control js-datepicker" required>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="filter-form-small-title">Choisissez un créneau (*) : </h6>
+                                            <select class="form-select form-control" name="publics" id="search-public" data-show-subtext="true" data-live-search="true" required>
+                                                <option value="{{ educatheure.minDuration }}">{{ educatheure.minDuration }}</option>
+                                                <option value="{{ educatheure.maxDuration }}">{{ educatheure.maxDuration }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="filter-form-small-title">Une remarque : </h6>
+                                        <div class="mb-3">
+                                            <textarea class="form-control" name="note" id="message-text" placeholder="Si vous avez des informations à partager concernant votre réservation"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary">Faire la demande</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p class="my-4 text-dark">
+            {{ educatheure.description|raw }}
+        </p>
+    </div>
+{% endblock %}
