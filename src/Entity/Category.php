@@ -37,6 +37,9 @@ class Category
     #[ORM\Column(options: ['default' => 0])]
     private ?bool $archived = false;
 
+    #[ORM\ManyToMany(targetEntity: Educatheure::class, mappedBy: 'categories')]
+    private Collection $educatheures;
+
     public function __toString(): string
     {
         return $this->title;
@@ -47,6 +50,7 @@ class Category
         $this->createdAt = new \DateTimeImmutable();
         $this->users = new ArrayCollection();
         $this->missions = new ArrayCollection();
+        $this->educatheures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +168,33 @@ class Category
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Educatheure>
+     */
+    public function getEducatheures(): Collection
+    {
+        return $this->educatheures;
+    }
+
+    public function addEducatheure(Educatheure $educatheure): self
+    {
+        if (!$this->educatheures->contains($educatheure)) {
+            $this->educatheures->add($educatheure);
+            $educatheure->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEducatheure(Educatheure $educatheure): self
+    {
+        if ($this->educatheures->removeElement($educatheure)) {
+            $educatheure->removeCategory($this);
+        }
 
         return $this;
     }

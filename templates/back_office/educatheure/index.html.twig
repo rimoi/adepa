@@ -48,7 +48,11 @@
                             <th>Durée Max</th>
                             <th>Jours</th>
 {#                            <th>Réservé</th>#}
-                            <th>Auteur</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>Auteur</th>
+                            {% endif %}
+                            <th>Catégories</th>
+                            <th>Type public</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -72,7 +76,7 @@
                                 <td>{{ educatheure.maxDuration }}</td>
                                 <td>
                                     {% for day in educatheure.days %}
-                                        <span class="badge rounded-pill bg-success">{{ day }}</span>&nbsp;
+                                        <span class="badge rounded-pill bg-success text-light">{{ day }}</span>&nbsp;
                                     {% endfor %}
 {#                                <td>#}
 {#                                    {% if educatheure.booked %}#}
@@ -85,8 +89,20 @@
 {#                                        </span>#}
 {#                                    {% endif %}#}
 {#                                </td>#}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <td>
+                                        {% for user in educatheure.users %}
+                                            <span class="badge badge-dark">{{ user.nickname }}</span>&nbsp;
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
                                 <td>
-                                    <span class="badge badge-dark">{{ educatheure.user ? educatheure.user.nickname }}</span>
+                                    {% for category in educatheure.categories %}
+                                        <span class="badge badge-info">{{ category.title }}</span>&nbsp;
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <span class="badge badge-primary">{{ educatheure.publicType|transType }}</span>
                                 </td>
                                 <td align="center">
                                     <a href="{{ path('admin_educatheure_show', {'id': educatheure.id}) }}">

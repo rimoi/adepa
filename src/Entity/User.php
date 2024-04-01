@@ -136,8 +136,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $public = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Educatheure::class)]
-    private Collection $educatheures;
+
+    #[ORM\ManyToMany(targetEntity: Educatheure::class, mappedBy: 'users', cascade: ['persist'])]
+    private Collection $elements;
 
     public function nickname(): string
     {
@@ -193,6 +194,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sms = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->educatheures = new ArrayCollection();
+        $this->elements = new ArrayCollection();
     }
 
     /**
@@ -777,28 +779,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Educatheure>
      */
-    public function getEducatheures(): Collection
+    public function getElements(): Collection
     {
-        return $this->educatheures;
+        return $this->elements;
     }
 
-    public function addEducatheure(Educatheure $educatheure): self
+    public function addElement(Educatheure $element): self
     {
-        if (!$this->educatheures->contains($educatheure)) {
-            $this->educatheures->add($educatheure);
-            $educatheure->setUser($this);
+        if (!$this->elements->contains($element)) {
+            $this->elements->add($element);
+            $element->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeEducatheure(Educatheure $educatheure): self
+    public function removeElement(Educatheure $element): self
     {
-        if ($this->educatheures->removeElement($educatheure)) {
-            // set the owning side to null (unless already changed)
-            if ($educatheure->getUser() === $this) {
-                $educatheure->setUser(null);
-            }
+        if ($this->elements->removeElement($element)) {
+            $element->removeUser($this);
         }
 
         return $this;

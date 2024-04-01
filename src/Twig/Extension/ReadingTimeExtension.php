@@ -2,6 +2,7 @@
 
 namespace App\Twig\Extension;
 
+use App\Constant\PublicType;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -15,6 +16,7 @@ class ReadingTimeExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('readtime', [$this, 'readtime']),
+            new TwigFilter('transType', [$this, 'transType']),
         ];
     }
 
@@ -25,5 +27,10 @@ class ReadingTimeExtension extends AbstractExtension
         $return = ($min < 1 ? '1' : $min);
 
         return $return;
+    }
+
+    public function transType(string $value): string
+    {
+        return PublicType::REVERSE_MAP[$value] ?? '';
     }
 }

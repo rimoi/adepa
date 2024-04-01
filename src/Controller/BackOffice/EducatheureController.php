@@ -2,6 +2,7 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Constant\UserConstant;
 use App\Entity\Educatheure;
 use App\Form\EducatheureType;
 use App\Repository\EducatheureRepository;
@@ -17,8 +18,14 @@ class EducatheureController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(EducatheureRepository $educatheureRepository): Response
     {
+        if ($this->isGranted(UserConstant::ROLE_ADMIN)) {
+            $educatheures = $educatheureRepository->findBy(['archived' => false], ['id' => 'DESC']);
+        } else {
+            $educatheures = $educatheureRepository->getEducatheureByUser($this->getUser());
+        }
+
         return $this->render('back_office/educatheure/index.html.twig', [
-            'educatheures' => $educatheureRepository->findAll(),
+            'educatheures' => $educatheures,
         ]);
     }
 
@@ -37,7 +44,9 @@ class EducatheureController extends AbstractController
 
             $qualificationService->addElement($form, 'image');
 
-            $educatheure->setUser($this->getUser());
+            if (!$form->has('users')) {
+                $educatheure->addUser($this->getUser());
+            }
             
             $educatheureRepository->save($educatheure, true);
 
@@ -72,6 +81,10 @@ class EducatheureController extends AbstractController
                 $educatheure->setDays($days);
             }
 
+            if (!$form->has('users')) {
+                $educatheure->addUser($this->getUser());
+            }
+
             $qualificationService->addElement($form, 'image');
 
             $educatheureRepository->save($educatheure, true);
@@ -92,7 +105,12 @@ class EducatheureController extends AbstractController
     public function delete(Request $request, Educatheure $educatheure, EducatheureRepository $educatheureRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$educatheure->getId(), $request->request->get('_token'))) {
-            $educatheureRepository->remove($educatheure, true);
+
+            $educatheure->setArchived(!$educatheure->isArchived());
+
+            $educatheureRepository->save($educatheure, true);
+
+            $this->addFlash('success', sprintf('Service `%s` à bien été archivé !', $educatheure->getTitle()));
         }
 
         return $this->redirectToRoute('admin_educatheure_index', [], Response::HTTP_SEE_OTHER);

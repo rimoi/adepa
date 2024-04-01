@@ -1,0 +1,140 @@
+.content-title.has-text-align-center::before {
+    left: 50%;
+    margin-left: -25px;
+    background-color: #1e73be;
+}
+
+.content-title::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 50px;
+    display: block;
+    content: '';
+    background-color: #f1bd6c;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .2));
+    border-radius: 9999px;
+}
+
+.content-title {
+    font-size: 2.625rem;
+}
+.has-text-align-center {
+    text-align: center;
+}
+
+
+.card {
+    box-shadow: 2px 2px 5px rgb(143 139 139);
+    border-radius: 30px;
+    background: #FFFFFF;
+}
+.card:hover {
+    box-shadow: 5px 5px 10px rgb(0 0 0);
+}
+
+.card-body {
+    background: #FFFFFF;
+}
+
+.card-footer {
+    background: #FFFFFF;
+    border-bottom-left-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+}
+
+.card-header {
+    border-radius: 30px !important;
+    border: 0px;
+    background: #FFFFFF;
+}
+
+.card-header img {
+    border-radius: 30px;
+}
+
+.card.cs-educ {
+    margin: 17px 19px 10px 19px;
+}
+
+.cs-small-homepage {
+    font-size: small;
+    font-weight: 800;
+}
+
+.cs-space-col {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.slick-arrow.slick-prev:before, .slick-arrow.slick-next:before {
+    color: #DD203C;
+    font-size: 28px;
+}
+
+/****           PAGE LISTING DES EDUCATHEURS       */
+
+.header-listing {
+    margin-bottom: 4rem;
+}
+
+.cs-bar-filter {
+    border-left: 1px solid gray;
+}
+
+.header-listing .select2-container--focus.select2-container--default .select2-selection--single {
+    border: none;
+}
+
+.header-listing .select2.select2-container.select2-container--default {
+    border: none;
+}
+
+.header-listing .select2-container--default .select2-selection--single {
+    border: 0;
+}
+
+.header-listing .select2-container--default .select2-selection--single .select2-selection__clear {
+    display: none;
+}
+
+.bg-border {
+    border: 1px solid #EAECF4;
+    border-radius: 20px;
+    background: #EAECF4;
+    padding: 41px;
+}
+
+
+.filter-form-small-title {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-left: 10px;
+    font-size: 22px;
+    color: #000000;
+}
+
+.custom-form button[type="submit"] {
+    background: #f65129;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    transition: all 0.3s;
+    margin-bottom: 0;
+}
+
+.custom-form button[type="submit"]:hover, .custom-form button[type="submit"]:focus {
+    background: #ffd74f;
+    border-color: transparent;
+}
+
+.filter-form .form-check-label {
+    color: #717275;
+}
+
+#cs-list-educ {
+    margin-bottom: 250px;
+}

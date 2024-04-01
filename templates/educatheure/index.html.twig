@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des ÉDUCAT'HEURES{% endblock %}
+
+{% block description %}
+    Liste des ÉDUCAT'HEURE - LES EXTRAS
+{% endblock %}
+
+{% block _footer '' %}
+
+{% block body %}
+
+    <div class="container" id="cs-list-educ">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">Liste des ÉDUCAT'HEURES</li>
+        </ol>
+
+        <header class="header-listing mt-5 mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <form>
+
+                        <input type="hidden" name="other_queries" value="{{ queries }}">
+
+                        <div class="input-group mb-4 border rounded-pill p-1">
+                            <input type="search" name="search" placeholder="Mots clèfs" aria-describedby="button-addon1" class="form-control border-0 bg-light" value="{{ app.request.get('search') }}">
+                            <span class="cs-bar-filter"></span>
+                            <select class="js-select2" name="zipCode" data-show-subtext="true" data-live-search="true" style="width: 50%;">
+                                <option value=""></option>
+                                {% for zip_code, city in cities %}
+                                    <option
+                                            data-subtext="{{ city }}"
+                                            value="{{ zip_code }}"
+                                            {{ app.request.get('zipCode') == zip_code ? 'selected' }}
+                                    >
+                                        {{ city }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-group-append border-0">
+                                <button id="button-addon3" type="submit" class="btn btn-link text-success" title="Rechercher"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <div class="row">
+            <div class="col-md-5 col-12">
+                <div class="bg-border">
+                    <form class="custom-form">
+
+                        <input type="hidden" name="other_queries" value="{{ queries }}">
+
+                       <div>
+
+                           <h6 class="filter-form-small-title">Catégories :</h6>
+                           <select class="js-select2" name="category[]" id="search-category" data-show-subtext="true" data-live-search="true" style="width: 100%;" multiple="multiple">
+                               <option value=""></option>
+                               {% for id, category in categories %}
+                                   <option
+                                           data-subtext="{{ category }}"
+                                           value="{{ id }}"
+                                           {{ id in app.request.get('category')  ? 'selected' }}
+                                   >
+                                       {{ category }}
+                                   </option>
+                               {% endfor %}
+                           </select>
+                       </div>
+                        <div class="my-4">
+                            <div class="row">
+                                <div class="col-6 cs-space-col">
+                                    <h6 class="filter-form-small-title">Prix Min : </h6>
+                                    <div class="input-group mb-3">
+                                        <input type="number" name="priceMin" class="form-control" placeholder="50" value="{{ app.request.get('priceMin') }}">
+                                    </div>
+                                </div>
+                                <div class="col-6 cs-space-col">
+                                    <h6 class="filter-form-small-title">Prix Max : </h6>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="priceMax" placeholder="200" value="{{ app.request.get('priceMax') }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="filter-form-small-title">Nombre de participants : </h6>
+                            <div class="input-group mb-3">
+                                <input type="number" name="participant" class="form-control" placeholder="2" value="{{ app.request.get('participant') }}">
+                            </div>
+                        </div>
+                        <div class="my-4">
+                            <h6 class="filter-form-small-title">Type public :</h6>
+
+                            <select class="form-select form-control" name="publics[]" id="search-public" data-show-subtext="true" data-live-search="true">
+                                <option value=""></option>
+                                {% for id, public in publics %}
+                                    <option
+                                            data-subtext="{{ public }}"
+                                            value="{{ id }}"
+                                            {{ id in app.request.get('publics') ? 'selected' }}
+                                    >
+                                        {{ public }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="text-center mt-5 mb-2">
+                            <button type="submit" class="form-control"> <i class="fas fa-filter"></i> Appliquer le Filtrer</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-md-7 col-12">
+                <div class="row">
+                    {% for educateur in educatheures %}
+                            <div class="card col-md-5 col-12 text-center mt-3 p-0 cs-educ">
+                                <div class="card-header p-0">
+                                    {% if educateur.image %}
+                                        <img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Educatheur {{ educateur.title }}">
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4">{{ educateur.title }}</h5>
+                                    {#							<p class="card-text">#}
+                                    {#								<bloquote>#}
+                                    {#									{{ educateur.description|u.truncate(100, '...')|raw }}#}
+                                    {#								</bloquote>#}
+
+                                    {#							</p>#}
+                                    <div class="my-2">
+                                        <div class="row">
+                                            <div class="col-6 cs-space-col">
+                                                <div class="cs-small-homepage">
+                                                    <i class="fas fa-fw fa-clock text-success"></i>
+                                                    Durée Min : {{ educateur.minDuration }}
+                                                </div>
+                                                <div class="cs-small-homepage mt-2" title="Nombre des participants">
+                                                    <i class="fas fa-people-arrows text-primary"></i>
+                                                    Participants : {{ educateur.numberParticipant }}
+                                                </div>
+                                            </div>
+                                            <div class="col-6 cs-space-col">
+                                                <div class="cs-small-homepage">
+                                                    <i class="fas fa-fw fa-arrow-circle-right text-success"></i>
+                                                    Durée Max : {{ educateur.maxDuration }}
+                                                </div>
+                                                <div class="cs-small-homepage mt-2" title="Type public">
+                                                    <i class="fas fa-fw fa-bullhorn text-primary"></i>
+                                                    Public : {{ educateur.publicType|transType }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-4">
+                                            <div class="col-12 text-center">
+                                                <div class="cs-small-homepage">
+                                                    <i class="fas fa-map-marker-alt text-danger"></i>
+                                                    <span title="{{ educateur.zipCode }}">{{ educateur.city|upper }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="text-danger lead">
+                                            {{ educateur.price }} €
+                                        </div>
+                                        <div>
+                                            <a href="#" title="Réserver ce service">
+                                                <i class="fas fa-handshake"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -17,4 +17,12 @@ class PublicType
       'Mineur non accompagné' => self::MINOR,
       'Sénior' => self::SENIOR,
     ];
+
+    public const REVERSE_MAP = [
+        self::ADOLESCENT => 'Adolescent',
+        self::CHILD => 'Enfant',
+        self::DISABILITY => 'Handicapé',
+        self::MINOR => 'Mineur non accompagné',
+        self::SENIOR => 'Sénior',
+    ];
 }

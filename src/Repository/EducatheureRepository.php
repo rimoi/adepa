@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Educatheure;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,68 @@ class EducatheureRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getEducatheureByUser(User $user): array
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->join('e.users', 'u')
+            ->where('u.id = :currentUser')
+            ->andWhere('u.archived = :archived')
+            ->setParameter('currentUser', $user->getId())
+            ->setParameter('archived', false)
+            ->orderBy('e.id', 'DESC')
+            ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function search(array $args): array
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->andWhere('e.archived = :archived')
+            ->andWhere('e.published = :published')
+            ->setParameter('archived', false)
+            ->setParameter('published', true);
+
+        if ($args['zipCode'] ?? false) {
+            $qb->andWhere('e.zipCode = :zipCode')
+                ->setParameter('zipCode', $args['zipCode']);
+        }
+        if ($args['search'] ?? false) {
+            $qb->andWhere('e.title LIKE :search')
+                ->setParameter('search', '%'.$args['search'].'%');
+        }
+        if ($args['category'] ?? false) {
+            $qb->join('e.categories', 'c')
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $args['category']);
+        }
+        if (
+            ($args['publics'] ?? false)
+            && array_filter($args['publics'])
+        ) {
+            $qb
+                ->andWhere('e.publicType IN (:publics)')
+                ->setParameter('publics', $args['publics']);
+        }
+
+        if ($args['priceMin'] ?? false) {
+            $qb->andWhere('e.price >= :priceMin')
+                ->setParameter('priceMin', (int) $args['priceMin']);
+        }
+        if ($args['priceMax'] ?? false) {
+            $qb->andWhere('e.price <= :priceMax')
+                ->setParameter('priceMax', (int) $args['priceMax']);
+        }
+        if ($args['participant'] ?? false) {
+            $qb->andWhere('e.numberParticipant = :participant')
+                ->setParameter('participant', (int) $args['participant']);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

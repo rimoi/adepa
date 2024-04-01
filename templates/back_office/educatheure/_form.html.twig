@@ -10,6 +10,11 @@
         </div>
         <div class="row">
             <div class="col-12">
+                {{ form_row(form.categories) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 {{ form_row(form.price) }}
             </div>
         </div>
@@ -70,8 +75,18 @@
 
             </div>
         </div>
-        <hr class="my-3">
 
+        {% if 'users' in form|keys %}
+            <hr class="my-3">
+
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.users) }}
+                </div>
+            </div>
+        {% endif %}
+
+        <hr class="my-3">
         {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
         <div class="row">
@@ -79,6 +94,7 @@
                 {{ form_row(form.published) }}
             </div>
         </div>
+
     </div>
 
     <div class="row">

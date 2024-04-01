@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EducatheureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -67,8 +69,17 @@ class Educatheure
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'educatheures')]
-    private ?User $user = null;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'educatheures')]
+    private Collection $categories;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'elements', cascade: ['persist'])]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setSlug()
@@ -274,14 +285,50 @@ class Educatheure
         $this->image = $image;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
     {
-        return $this->user;
+        return $this->categories;
     }
 
-    public function setUser(?User $user): self
+    public function addCategory(Category $category): self
     {
-        $this->user = $user;
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

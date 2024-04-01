@@ -121,8 +121,9 @@ $(document).ready(function() {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H\\hi", // Utilisation de \\ pour échapper les caractères spéciaux
-        time_24hr: true,
+        // time_24hr: true,
         locale: French.fr,
+        defaultHour: '02',
         onClose: function(selectedDates, dateStr, instance) {
             // Formater l'heure sélectionnée
             var selectedTime = instance.selectedDates[0];

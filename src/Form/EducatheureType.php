@@ -4,8 +4,14 @@ namespace App\Form;
 
 use App\Constant\Days;
 use App\Constant\PublicType;
+use App\Constant\UserConstant;
+use App\Entity\Category;
 use App\Entity\Educatheure;
+use App\Entity\User;
+use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,10 +19,17 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class EducatheureType extends AbstractType
 {
+    public function __construct(private Security $security)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -102,6 +115,58 @@ class EducatheureType extends AbstractType
                 'label_attr' => ['class' => 'switch-custom'],
             ])
         ;
+
+        if ($this->security->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
+            $builder->add('users', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => static function (UserRepository $repository) {
+                    return $repository->createQueryBuilder('u')
+                        ->andWhere('u.roles LIKE :roles')
+                        ->setParameter('roles', '%'.UserConstant::ROLE_FREELANCE.'%')
+                        ;
+                },
+                'label' => 'Affecter ce service à des freelances.',
+                'choice_label' => function (User $user) {
+                    return sprintf('%s',
+                        $user->nickname()
+                    );
+                },
+                'multiple' => true,
+                'required' => false,
+                'attr' => [
+                    'class' => 'js-select2',
+                    'style' => "width: 100%",
+                ],
+            ]);
+        }
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+    }
+
+    public function onPreSetData(FormEvent $event): void
+    {
+        $form = $event->getForm();
+
+        $form->add('categories', EntityType::class, [
+            'class' => Category::class,
+            'query_builder' => static function (CategoryRepository $repository) {
+                return $repository->createQueryBuilder('t')
+                    ->innerJoin('t.parent', 'p')
+                    ->where('t.archived = :archived')
+                    ->setParameter('archived', false)
+                    ->addOrderBy('t.title', 'ASC');
+            },
+            'group_by' => static function (Category $choice) {
+                return $choice->getParent()->getTitle();
+            },
+            'mapped' => true,
+            'label' => 'Choisir les sous catégories (*)',
+            'multiple' => true,
+            'attr' => [
+                'class' => 'js-select2',
+                'style' => "width: 100%",
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

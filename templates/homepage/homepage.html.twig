@@ -6,10 +6,6 @@
 	Notre plateforme en ligne facilite la mise en relation entre des structures médico-sociales à la recherche de professionnels qualifiés et
 	des freelancers à la recherche d'une mission à court terme.
 	Rejoignez notre communauté dès maintenant et trouvez votre prochaine mission !
-{#	Nous offrons une solution rapide et efficace pour les deux parties afin de répondre aux besoins de main-d'œuvre dans le domaine médico-social.#}
-{#	Nos services sont simples et conviviaux, offrant une expérience utilisateur optimale pour les employeurs et les candidats.#}
-{#	Nous sommes fiers de notre engagement à soutenir les professionnels de la santé en connectant les bons talents avec les bons emplois.#}
-{#	Rejoignez notre communauté dès maintenant et trouvez votre prochaine mission !#}
 {% endblock %}
 
 
@@ -91,6 +87,83 @@
 			</div>
 		</div>
 	</section>
+
+	<section class="cs-educatheurs container">
+		<h2 class="wp-block-heading has-text-align-center content-title" id="h-les-educat-heures">LES ÉDUCAT’HEURES</h2>
+		<p class="text-muted text-center"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
+
+		<div class=" js-slick-educatheur">
+			{% for educateur in educatheurs %}
+				<div>
+					<div class="card text-center mt-3 p-0 cs-educ">
+						<div class="card-header p-0">
+							{% if educateur.image %}
+								<img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Educatheur {{ educateur.title }}">
+							{% endif %}
+						</div>
+						<div class="card-body">
+							<h5 class="card-title mb-4">{{ educateur.title }}</h5>
+							<div class="my-2">
+								<div class="row">
+									<div class="col-6 cs-space-col">
+										<div class="cs-small-homepage">
+											<i class="fas fa-fw fa-clock text-success"></i>
+											Durée Min : {{ educateur.minDuration }}
+										</div>
+										<div class="cs-small-homepage mt-2" title="Nombre des participants">
+											<i class="fas fa-people-arrows text-primary"></i>
+											Participants : {{ educateur.numberParticipant }}
+										</div>
+									</div>
+									<div class="col-6 cs-space-col">
+										<div class="cs-small-homepage">
+											<i class="fas fa-fw fa-arrow-circle-right text-success"></i>
+											Durée Max : {{ educateur.maxDuration }}
+										</div>
+										<div class="cs-small-homepage mt-2" title="Type public">
+											<i class="fas fa-fw fa-bullhorn text-primary"></i>
+											Public : {{ educateur.publicType|transType }}
+										</div>
+									</div>
+								</div>
+								<div class="row my-4">
+									<div class="col-12 text-center">
+										<div class="cs-small-homepage">
+											<i class="fas fa-map-marker-alt text-danger"></i>
+											<span title="{{ educateur.zipCode }}">{{ educateur.city|upper }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="card-footer">
+							<div class="d-flex justify-content-between">
+								<div class="text-danger lead">
+									{{ educateur.price }} €
+								</div>
+								<div>
+									<a href="#" title="Réserver ce service">
+										<i class="fas fa-handshake"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div>
+			<div class="mb-5 mt-2 text-right">
+				<small>
+					<a class="btn btn-primary" href="{{ path('app_educatheure_list') }}">
+						TOUS LES ÉDUCAT’HEURES <i class="fas fa-arrow-right"></i>
+					</a>
+				</small>
+			</div>
+		</div>
+	</section>
+
 	<section class="text-center cs-video ">
 		<div class="cs-iframe-main embed-responsive embed-responsive-16by9">
 			<iframe class="cs-iframe" src="https://www.youtube.com/embed/mtluaN-KRL0" title="YouTube video player" frameborder="0" allow="" allowfullscreen></iframe>

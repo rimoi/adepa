@@ -17,14 +17,24 @@ import './admin/scss/sb-admin-2.scss';
 import './admin/vendor/fontawesome-free/css/all.min.css';
 import './styles/bo.css';
 import 'flatpickr/dist/themes/material_blue.css';
+import './styles/educateur.css';
 import './styles/article.css';
 import 'select2/dist/css/select2.min.css';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 
 import $ from 'jquery';
 import "./admin/vendor/bootstrap/js/bootstrap.bundle.min.js";
 import "./admin/vendor/jquery-easing/jquery.easing.min.js";
 import "./admin/js/sb-admin-2.min.js";
+import slick from "slick-carousel";
+
+import * as Turbo from '@hotwired/turbo';
+
+// Disabled Turbo
+Turbo.session.drive = 0;
 
 import 'select2';
 import 'select2/dist/js/i18n/fr';
@@ -39,4 +49,5 @@ window.Swal = global.Swal = Swal;
 
 
 import './scripts/my';
+import './scripts/slick';
 import './scripts/anim';
