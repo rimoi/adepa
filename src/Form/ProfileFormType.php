@@ -54,6 +54,7 @@ class ProfileFormType extends AbstractType
                 'label' => 'Civilité :',
                 'expanded' => true,
                 'multiple' => false,
+                'required' => false,
                 'attr'=> [
                     'class' => 'd-flex cs-gender-bo'
                 ]
@@ -212,6 +213,7 @@ class ProfileFormType extends AbstractType
                 return $choice->getParent()->getTitle();
             },
             'mapped' => true,
+            'required' => false,
             'label' => 'Vous êtes intéressés par quel type de mission ? ( Vous pouvez en choisir plusieurs )',
             'multiple' => true,
             'attr' => [
