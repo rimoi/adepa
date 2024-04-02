@@ -189,3 +189,40 @@
 .blockquote-footer:before {
     content: "— ";
 }
+.cs-booking-price {
+    color: #dd3333;
+    padding: 0;
+    font-size: 1.25rem;
+    background-color: transparent;
+    padding: 0;
+    font-size: 1.25rem;
+    padding: 0;
+    font-size: 1.25rem;
+    word-wrap: break-word;
+}
+
+.cs-booking-price-header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 5px 30px rgba(7,36,86,.075);
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.cs-form-educatheur {
+    margin-bottom: 2rem;
+    padding: 2rem;
+    box-shadow: 0 5px 30px rgba(7,36,86,.075);
+    background-color: #fff;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.cs-published {
+    margin-bottom: 3rem;
+}

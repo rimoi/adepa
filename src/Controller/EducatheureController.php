@@ -75,7 +75,7 @@ class EducatheureController extends AbstractController
     public function newBooking(Educatheure $educatheur, Request $request, EntityManagerInterface $entityManager): Response
     {
 
-        $reservation = $entityManager->getRepository(Reservation::class)->findBy([
+        $reservation = $entityManager->getRepository(Reservation::class)->findOneBy([
             'educatheure' => $educatheur,
             'owner' => $this->getUser()
         ]);
@@ -87,6 +87,7 @@ class EducatheureController extends AbstractController
 
             $entityManager->persist($reservation);
         }
+
         $reservation->setNote($request->get('note'));
         $reservation->setTimeSlot($request->get('publics'));
 
