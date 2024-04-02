@@ -90,7 +90,7 @@
 
 	<section class="cs-educatheurs container">
 		<h2 class="wp-block-heading has-text-align-center content-title" id="h-les-educat-heures">LES ÉDUCAT’HEURES</h2>
-		<p class="text-muted text-center"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
+		<p class="text-muted text-center mb-5"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
 
 		<div class=" js-slick-educatheur">
 			{% for educateur in educatheurs %}
@@ -149,8 +149,8 @@
 									{{ educateur.price }} €
 								</div>
 								<div>
-									<a href="#" title="Réserver ce service">
-										<i class="fas fa-handshake"></i>
+									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" title="Voir le service">
+										<i class="fas fa-eye"></i>
 									</a>
 								</div>
 							</div>
@@ -162,7 +162,7 @@
 		<div>
 			<div class="mb-5 mt-2 text-right">
 				<small>
-					<a class="btn btn-primary" href="{{ path('app_educatheure_list') }}">
+					<a class="btn btn-primary btn-sm rounded-pill" href="{{ path('app_educatheure_list') }}">
 						TOUS LES ÉDUCAT’HEURES <i class="fas fa-arrow-right"></i>
 					</a>
 				</small>

@@ -99,11 +99,20 @@
     display: none;
 }
 
+.select2.select2-container.select2-container--default {
+    border: none;
+}
+
+
 .bg-border {
     border: 1px solid #EAECF4;
     border-radius: 20px;
     background: #EAECF4;
     padding: 41px;
+}
+
+.cs-educatheurs {
+    margin-top: 5rem;
 }
 
 

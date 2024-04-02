@@ -22,67 +22,63 @@
         {% include 'back_office/dash_board/_statistic.html.twig' %}
     {% endif %}
 
-    {% if is_granted('ROLE_ADMIN') and freelance_not_enabled|length %}
-        <div class="row">
-            <div class="col-12 col-lg-9">
-                <div class="card shadow mb-4">
+    <div class="row">
+        <div class="col-12">
+
+            {% if is_granted('ROLE_ADMIN') and reservations %}
+                {% include 'back_office/dash_board/_reservation.html.twig' with  {'reservations': reservations } only %}
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') and freelance_not_enabled|length %}
+                <div class="card shadow mb-4 card-info">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Nouveau Freelanceur à valider</h6>
+                        <h6 class="m-0 font-weight-bold">Nouveau Freelanceur à valider</h6>
                     </div>
                     <div class="card-body">
                         {% include 'back_office/freelance/_freelance.html.twig' with {'users': freelance_not_enabled} %}
                     </div>
                 </div>
-            </div>
-        </div>
-    {% endif %}
-
-    {% if is_granted('ROLE_ADMIN') and client_not_enabled|length %}
-        <div class="row">
-            <div class="col-12 col-lg-9">
-                <div class="card shadow mb-4">
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') and client_not_enabled|length %}
+                <div class="card shadow mb-4 card-success">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Nouveau Client à valider</h6>
+                        <h6 class="m-0 font-weight-bold">Nouveau Client à valider</h6>
                     </div>
                     <div class="card-body">
                         {% include 'back_office/freelance/_freelance.html.twig' with {'users': client_not_enabled} %}
                     </div>
                 </div>
-            </div>
-        </div>
-    {% endif %}
-
-    {% if is_granted('ROLE_FREELANCE') %}
-        {% if last_missions|length %}
-            <div class="row">
-                <div class="col-12 col-lg-9">
-                    <div class="card shadow mb-4">
+            {% endif %}
+            {% if is_granted('ROLE_FREELANCE') %}
+                {% if last_missions|length %}
+                    <div class="card shadow mb-4 card-primary">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Les missions à la date la plus proche</h6>
+                            <h6 class="m-0 font-weight-bold">Les missions à la date la plus proche</h6>
                         </div>
                         <div class="card-body">
                             {% include 'back_office/dash_board/_mission.html.twig' with {'missions': last_missions} %}
                         </div>
                     </div>
-                </div>
-            </div>
-        {% endif %}
-    {% endif %}
+                {% endif %}
+            {% endif %}
 
-    {% if articles|length %}
-        <div class="row">
-            <div class="col-12 col-lg-9">
-                <div class="card shadow mb-4">
+            {% if articles|length %}
+                <div class="card shadow mb-4 card-warning">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Les dernières actualités</h6>
+                        <h6 class="m-0 font-weight-bold">Les dernières actualités</h6>
                     </div>
                     <div class="card-body">
                         {% include 'back_office/dash_board/_article.html.twig' with {'articles': articles, 'photo_directory': photo_directory} %}
                     </div>
                 </div>
-            </div>
+            {% endif %}
+
         </div>
-    {% endif %}
+        <div class="col-12 col-lg-3">
+
+        </div>
+    </div>
+
 {% endblock %}
 
 

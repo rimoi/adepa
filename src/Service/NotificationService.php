@@ -232,7 +232,7 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'Les Extras'))
             ->to($mission->getUser()->getEmail())
             ->subject('LES EXTRAS - Annulation du poste : ' . $mission->getTitle())
             ->htmlTemplate($template)
@@ -380,7 +380,7 @@ class NotificationService
         $this->entityManager->flush();
 
         $templateEmail = (new TemplatedEmail())
-            ->from(new Address($this->mailerSender, 'ADEPA'))
+            ->from(new Address($this->mailerSender, 'Les Extras'))
             ->to($booking->getUser()->getEmail())
             ->subject('LES EXTRAS - Merci de confirmer les heures de travails pour la mission : ' . $mission->getTitle())
             ->htmlTemplate($template)

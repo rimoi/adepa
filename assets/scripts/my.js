@@ -180,7 +180,7 @@ $(document).ready(function() {
         var element = $(this).data('element');
 
         Swal.fire({
-            title: 'Etes-vous sûr de vouloir activer cet utilisateur ?',
+            title: 'Êtes-vous sûr de vouloir activer cet utilisateur ?',
             showCancelButton: true,
             confirmButtonText: 'Confirmer',
             cancelButtonText: `Fermer`,
@@ -196,12 +196,55 @@ $(document).ready(function() {
                             Swal.fire({
                                 // position: 'top-end',
                                 icon: 'success',
-                                title: 'Utilisateur activé avec succés',
+                                title: 'Utilisateur activé avec succès',
                                 showConfirmButton: false,
                                 timer: 1500
                             })
 
                             $('.'+element).fadeOut('slow');
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    $('.js-validate-reservation').on('click', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        var element = $(this).data('element');
+
+        Swal.fire({
+            title: 'Êtes-vous sûr de vouloir activer ce service ?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: `Fermer`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: window.Routing.generate('admin_reservation_validate', {id}),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire({
+                                // position: 'top-end',
+                                icon: 'success',
+                                title: 'Réservation activée avec succès.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            $('.'+element).fadeOut('slow');
+                            $('.'+element).remove();
+
+                            if (!$('#dashboard-reservation table tbody tr').length) {
+                                $('#dashboard-reservation').fadeOut('slow');
+                                $('#dashboard-reservation').remove();
+                            }
+
                         }
                     }
                 });

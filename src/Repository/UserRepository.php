@@ -67,7 +67,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('role', '%'.$role.'%');
 
         $qb->andWhere('u.enabled = :enabled')
-            ->setParameter('enabled', $enabled);
+            ->setParameter('enabled', $enabled)
+            ;
 
         return $qb->getQuery()->getResult();
     }

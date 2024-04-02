@@ -62,3 +62,22 @@
 body {
     color: #0f172a;
 }
+
+.card-primary:not(.card-outline)>.card-header {
+    background-color: #007bff;
+    color: white;
+}
+.card-warning:not(.card-outline)>.card-header {
+    background-color: #ffc107;
+    color: #1f2d3d;
+}
+
+.card-success:not(.card-outline)>.card-header {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.card-info:not(.card-outline)>.card-header {
+    background-color: #17a2b8;
+    color: #fff;
+}

@@ -40,6 +40,29 @@ class Reservation
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $timeSlot = null;
 
+    public function isTerminated(): bool
+    {
+        if ($this->status === ReservationType::CONFIRMED) {
+
+            $stringDate = sprintf('%s %s', $this->dateSlot->format('d/m/Y'), $this->timeSlot);
+
+            try {
+                $dateObj = date_create_from_format('d/m/Y H\\hi', $stringDate);
+            } catch (\Exception $e) {
+                $dateObj = null;
+            }
+
+            if (
+                $dateObj
+                && ($dateObj <= new \DateTime()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAt()
     {

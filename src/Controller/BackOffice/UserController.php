@@ -190,6 +190,7 @@ class UserController extends AbstractController
     ): Response
     {
         $user->setEnabled(true);
+        $user->setIsVerified(true);
 
         $entityManager->flush();
 

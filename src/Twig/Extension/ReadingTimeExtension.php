@@ -3,6 +3,7 @@
 namespace App\Twig\Extension;
 
 use App\Constant\PublicType;
+use App\Constant\ReservationType;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -17,6 +18,7 @@ class ReadingTimeExtension extends AbstractExtension
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('readtime', [$this, 'readtime']),
             new TwigFilter('transType', [$this, 'transType']),
+            new TwigFilter('reservationStatus', [$this, 'reservationStatus']),
         ];
     }
 
@@ -32,5 +34,10 @@ class ReadingTimeExtension extends AbstractExtension
     public function transType(string $value): string
     {
         return PublicType::REVERSE_MAP[$value] ?? '';
+    }
+
+    public function reservationStatus(string $value): string
+    {
+        return ReservationType::MAP[$value] ?? '';
     }
 }

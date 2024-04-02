@@ -55,6 +55,22 @@
         </li>
     {% endif %}
 
+    {% if app.user.enabled %}
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Réservation
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_reservation_index') }}">
+                <i class="fas fa-fw fa-cart-plus"></i>
+                <span>Mes réservations</span>
+            </a>
+        </li>
+    {% endif %}
+
     {% if is_granted('ROLE_CLIENT') %}
         <!-- Divider -->
         <hr class="sidebar-divider">

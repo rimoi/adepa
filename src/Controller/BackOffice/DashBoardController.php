@@ -2,10 +2,13 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Constant\ReservationType;
 use App\Constant\UserConstant;
+use App\Entity\Reservation;
 use App\Repository\ArticleRepository;
 use App\Repository\MissionRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +25,7 @@ class DashBoardController extends AbstractController
         MissionRepository $missionRepository, 
         UserRepository $userRepository,
         ArticleRepository $articleRepository,
+        EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator
     ): Response
     {
@@ -61,6 +65,8 @@ class DashBoardController extends AbstractController
 
         $articles = $articleRepository->findBy(['archived' => false, 'published' => true], ['id' => 'DESC']);
 
+        $reservations = $entityManager->getRepository(Reservation::class)->findBy(['status' => ReservationType::PENDING]);
+
         return $this->render('back_office/dash_board/index.html.twig', [
             'total' => count($allMissions),
             'availables' => count($availables),
@@ -71,6 +77,7 @@ class DashBoardController extends AbstractController
             'last_missions' => count($availables) > 20 ? array_slice($availables, 0, 20) : $availables,
             'articles' => count($articles) > 20 ? array_slice($articles, 0, 20) : $articles,
             'photo_directory' => $this->getParameter('app.relative_path.image_directory'),
+            'reservations' => $reservations
         ]);
     }
 }
