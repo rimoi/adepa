@@ -27,6 +27,9 @@ class Facture
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reference = null;
+
     #[ORM\PrePersist]
     public function setCreatedAt()
     {
@@ -75,6 +78,18 @@ class Facture
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }

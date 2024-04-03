@@ -1,0 +1,127 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste factures{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+
+    <script>
+
+        var elements = document.querySelectorAll('.glyphicon-record');
+
+        // Parcourez tous les éléments sélectionnés
+        elements.forEach(function(element) {
+            // Récupérez la valeur de l'attribut data-info pour chaque élément
+            var month = element.getAttribute('data-info');
+            // Générez dynamiquement le CSS pour chaque élément
+            var css = '.glyphicon-record[data-info="' + month + '"]:before { content: "' + month + '"; color: #4e73df; font-weight: 900 }';
+            // Créez un élément style pour chaque élément
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(css));
+            // Ajoutez le style à l'en-tête de la page
+            document.head.appendChild(style);
+        });
+
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Factures</li>
+    </ol>
+
+    <div class="mt-3">
+        <!-- Page Heading -->
+        <div class="container">
+            <div class="page-header text-center">
+                <h1 id="timeline">Factures</h1>
+            </div>
+            <ul class="timeline">
+                {% for month, invoices in factures %}
+                    <li class="timeline-inverted">
+                        <div class="timeline-badge primary">
+                            <a>
+                                <i class="glyphicon glyphicon-record" rel="tooltip" title="Facture générée le {{ month }}" id="" data-info="{{ month }}"></i>
+                            </a>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+
+                                {#                            <img class="img-responsive" src="http://lorempixel.com/1600/500/sports/2" />#}
+
+                            </div>
+                            <div class="timeline-body">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary"> Génération du mois de {{ month }}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                <tr>
+                                                    <th>#Facture</th>
+                                                    <th>Nom</th>
+                                                    <th>Crée le</th>
+                                                    <th>Type client</th>
+                                                    <th>Client</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for invoice in invoices %}
+                                                    <tr>
+                                                        <td>{{ invoice.reference }}</td>
+                                                        <td>{{ invoice.name }}</td>
+                                                        <td>{{ invoice.createdAt ? invoice.createdAt|date('d/m/Y H:i') : '' }}</td>
+                                                        <td>
+                                                            {% if invoice.user.hasRole('ROLE_FREELANCE') %}
+                                                                <span class="badge rounded-pill bg-primary text-light">Freelance</span>
+                                                            {% elseif invoice.user.hasRole('ROLE_CLIENT') %}
+                                                                <span class="badge rounded-pill bg-success text-white">Client</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            {{ invoice.user.nickname }}
+                                                        </td>
+                                                        <td align="center">
+                                                            <a target="_blank" href="{{ path('admin_invoice_show_pdf', {'id': invoice.id}) }}" title="Voir la facture" class="btn btn-warning btn-icon-split">
+                                                                <span class="icon text-white-50">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </span>
+                                                                <span class="text">Voir</span>
+                                                            </a>
+                                                            |
+                                                            <a href="{{ path('admin_invoice_download_pdf', {'id': invoice.id}) }}" title="Télécharger la facture" class="btn btn-info btn-icon-split">
+                                                                <span class="icon text-white-50">
+                                                                    <i class="fas fa-download"></i>
+                                                                </span>
+                                                                <span class="text">Télécharger</span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+
+
+                <li class="clearfix"></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
