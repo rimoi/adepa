@@ -24,6 +24,9 @@ class Facture
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?Invoice $invoice = null;
 
+    #[ORM\ManyToOne(inversedBy: 'factures')]
+    private ?User $user = null;
+
     #[ORM\PrePersist]
     public function setCreatedAt()
     {
@@ -60,6 +63,18 @@ class Facture
     public function setInvoice(?Invoice $invoice): self
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

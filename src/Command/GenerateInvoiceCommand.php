@@ -189,6 +189,7 @@ class GenerateInvoiceCommand extends Command
 
             $facture = new Facture();
             $facture->setName($filename);
+            $facture->setUser($invoiceDTO->getCustomer());
 
             $this->entityManager->persist($facture);
 
@@ -235,6 +236,7 @@ class GenerateInvoiceCommand extends Command
 
             $facture = new Facture();
             $facture->setName($filename);
+            $facture->setUser($invoiceDTO->getCustomer());
 
             $this->entityManager->persist($facture);
 

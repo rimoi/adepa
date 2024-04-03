@@ -143,6 +143,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Facture::class)]
+    private Collection $factures;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -199,6 +202,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->educatheures = new ArrayCollection();
         $this->elements = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->factures = new ArrayCollection();
     }
 
     /**
@@ -831,6 +835,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($reservation->getOwner() === $this) {
                 $reservation->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(Facture $facture): self
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): self
+    {
+        if ($this->factures->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getUser() === $this) {
+                $facture->setUser(null);
             }
         }
 
