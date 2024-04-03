@@ -81,7 +81,9 @@
                                 <td>{{ reservation.createdAt|date('Y-m-d H:i') }}</td>
                                 <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i') : '' }}</td>
                                 <td align="center">
-                                    {{ include('back_office/reservation/_delete_form.html.twig') }}
+                                    {% if not reservation.isTerminated() %}
+                                        {{ include('back_office/reservation/_delete_form.html.twig') }}
+                                    {% endif %}
                                 </td>
                                 {% include 'back_office/reservation/_reservation_note.html.twig' %}
                             </tr>

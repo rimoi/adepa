@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Constant\UserConstant;
 use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,6 +40,21 @@ class ReservationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getTerminateReservated(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.educatheure', 'e')
+            ->join('r.owner', 'o')
+            ->andWhere('r.dateSlot < :now')
+            ->andWhere('o.roles NOT LIKE :role')
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('Europe/Paris')))
+            ->setParameter('role', '%'.UserConstant::ROLE_ADMIN.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
 
 //    /**

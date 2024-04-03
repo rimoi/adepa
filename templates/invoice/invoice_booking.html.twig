@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture {{ facture.numero }}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .collapsible {
+            background-color: #595e6e;
+            color: white;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            margin-top: 100px;
+        }
+
+        .active, .collapsible:hover {
+            background-color: #555;
+        }
+
+        .content {
+            padding: 5px 18px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<h1>Facture #{{ facture.numero }}</h1>
+<p>Date : {{ facture.invoiceDate|date('d/m/Y H:i') }}</p>
+<p>Client : {{ facture.customer.nickname }}</p>
+<p>Téléphone : {{ facture.customer.telephone }}</p>
+<p>Email : {{ facture.customer.email }}</p>
+<p style="margin-bottom: 50px;">Adresse : {{ facture.customer.fullAddress }}</p>
+
+<table >
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Prix unitaire (€)</th>
+        <th>Quantité</th>
+        <th>Total (€)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set total_ht = 0 %}
+    {% for booking in facture.bookings %}
+        {% set total_ht = total_ht + booking.mission.price %}
+        <tr>
+            <td>{{ reservation.mission.title }}</td>
+            <td>{{ reservation.mission.price }} €</td>
+            <td>1</td>
+            <td>{{ reservation.mission.price }} €</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3">Total HT</td>
+        <td>{{ total_ht }}</td>
+    </tr>
+    <tr>
+        {% set montant_tva = total_ht * (20 / 100) %}
+        <td colspan="3">TVA ( 20% )</td>
+        <td>{{ montant_tva }}</td>
+    </tr>
+    <tr>
+        {% set total_ttc = total_ht + montant_tva %}
+        <td colspan="3">Total TTC</td>
+        <td>{{ total_ttc }}</td>
+    </tr>
+    <tr>
+        <td colspan="3">Net à payer</td>
+        <td>{{ total_ttc }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<p class="collapsible">Information complémentaire du client</p>
+<div class="content">
+    <p>SIRET : {{ facture.customer.siret }}</p>
+    <p>Numéro TVA : {{ facture.customer.tva }}</p>
+</div>
+
+
+
+</body>
+</html>

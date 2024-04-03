@@ -253,7 +253,7 @@ class MissionController extends AbstractController
     {
         if (!$booking->getConfirmStarted()) {
             $booking->setConfirmStarted($booking->getMission()->getStarted());
-            $booking->setConfirmEnded($booking->getMission()->getStarted());
+            $booking->setConfirmEnded($booking->getMission()->getEnded());
         }
         
         $form = $this->createForm(ValidateTimeType::class, $booking);
