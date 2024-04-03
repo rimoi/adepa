@@ -133,9 +133,9 @@ class GenerateInvoiceCommand extends Command
                 $reserveds[] = $booking;
             }
 
-            // A supprimé 👇
-//            $booking->getMission()->setPrice(1253);
-            // A supprimé 👆
+            $booking->getMission()->setPrice(28);
+            // Une mission est tjrs 28 Une mission c’est 28€/ heure
+            // Et éducateur c’est 30€/heure
 
             $invoiceDTO = new InvoiceDTO();
             $invoiceDTO->setNumero(sprintf('%s-%s', $mount, $this->numberInvoice));
