@@ -39,7 +39,7 @@
 </head>
 <body>
 <h1>Facture #{{ facture.numero }}</h1>
-<p>Date : {{ facture.invoiceDate|date('d/m/Y H:i') }}</p>
+<p>Date : {{ facture.invoiceDate|date('d/m/Y à H:i') }}</p>
 <p>Client : {{ facture.customer.nickname }}</p>
 <p>Téléphone : {{ facture.customer.telephone }}</p>
 <p>Email : {{ facture.customer.email }}</p>
@@ -59,10 +59,10 @@
     {% for booking in facture.bookings %}
         {% set total_ht = total_ht + booking.mission.price %}
         <tr>
-            <td>{{ reservation.mission.title }}</td>
-            <td>{{ reservation.mission.price }} €</td>
+            <td>{{ booking.mission.title }}</td>
+            <td>{{ booking.mission.price }} €</td>
             <td>1</td>
-            <td>{{ reservation.mission.price }} €</td>
+            <td>{{ booking.mission.price }} €</td>
         </tr>
     {% endfor %}
     <tr>

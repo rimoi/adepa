@@ -52,6 +52,7 @@
                             <th>Réservé</th>
                             <th>Début mission</th>
                             <th>Fin mission</th>
+                            <th>Status</th>
                             <th>Offre</th>
                         </tr>
                         </thead>
@@ -63,6 +64,17 @@
 
                                 <td>{{ mission.started ? mission.started|date('Y-m-d H:i') : '' }}</td>
                                 <td>{{ mission.ended ? mission.ended|date('Y-m-d H:i') : '' }}</td>
+                                <td>
+                                    {% set maintenant =  date('now') %}
+
+                                    {% if mission.started > maintenant  %}
+                                        <span class="badge rounded-pill bg-secondary">Bientôt</span>
+                                    {% elseif mission.started <= maintenant and mission.ended >= maintenant %}
+                                        <span class="badge rounded-pill bg-primary">En cours</span>
+                                    {% elseif mission.ended < maintenant %}
+                                        <span class="badge rounded-pill bg-success">Terminé</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{{ path('front_mission_show', {slug: mission.slug }) }}">
                                         Voir l'offre

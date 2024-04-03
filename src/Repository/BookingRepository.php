@@ -59,6 +59,23 @@ class BookingRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Booking[] Returns an array of Booking objects
+     */
+    public function getFinishedBooking(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.mission', 'm')
+            ->where('b.archived = :archived')
+            ->andWhere('m.ended <= :now')
+            ->andWhere('b.validate = :archived')
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('Europe/Paris')))
+            ->setParameter('archived', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function getUserMatch(User $user): array
     {
         $qb = $this->createQueryBuilder('b')

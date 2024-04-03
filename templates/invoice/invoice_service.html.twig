@@ -39,7 +39,7 @@
 </head>
 <body>
 <h1>Facture #{{ facture.numero }}</h1>
-<p>Date : {{ facture.invoiceDate|date('d/m/Y H:i') }}</p>
+<p>Date : {{ facture.invoiceDate|date('d/m/Y à H:i') }}</p>
 <p>Client : {{ facture.customer.nickname }}</p>
 <p>Téléphone : {{ facture.customer.telephone }}</p>
 <p>Email : {{ facture.customer.email }}</p>

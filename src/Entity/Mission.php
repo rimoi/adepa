@@ -96,6 +96,19 @@ class Mission
         return $this->started > new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris'));
     }
 
+    private $price;
+    // a supprimé 👇
+    public function getPrice()
+    {
+        return $this->price;
+    }
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    // a supprimé 👆
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();

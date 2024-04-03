@@ -58,27 +58,26 @@ class GenerateInvoiceCommand extends Command
             // créer les factures services
             $services = $this->entityManager->getRepository(Reservation::class)->getTerminateReservated();
 
-            $invoiceDTOs = $this->createInvoiceDTO($services);
+            $invoiceDTOs = $this->createInvoiceDTO($services, $mount);
 
             if ($invoiceDTOs) {
                 $this->createInvoice($invoiceDTOs, $invoice);
                 $io->note(sprintf('%d factures services ont été créer', count($invoiceDTOs)));
             }
 
-//            // créer les factures mission
-            $bookings = $this->entityManager->getRepository(Booking::class)->getTerminateBooking();
-
-            $invoiceDTOs = $this->createInvoiceDTOBooking($bookings);
+            // créer les factures mission
+            $bookings = $this->entityManager->getRepository(Booking::class)->getFinishedBooking();
+           
+            $invoiceDTOs = $this->createInvoiceDTOBooking($bookings, $mount);
 
             if ($invoiceDTOs) {
                 $this->createInvoiceBooking($invoiceDTOs, $invoice);
                 $io->note(sprintf('%d factures réservation ont été créer', count($invoiceDTOs)));
             }
 
+            $invoice->setNumberInvoice($this->numberInvoice);
 
-
-
-//            $this->entityManager->flush();
+            $this->entityManager->flush();
         }
 
 
@@ -87,7 +86,7 @@ class GenerateInvoiceCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function createInvoiceDTO(array $services): ?array
+    private function createInvoiceDTO(array $services, string $mount): ?array
     {
         $services = ArrayHelper::groupBy($services, 'owner.id');
 
@@ -104,7 +103,7 @@ class GenerateInvoiceCommand extends Command
                 $reservations[] = $service;
             }
             $invoiceDTO = new InvoiceDTO();
-            $invoiceDTO->setNumero(sprintf('%s-%s', $service->getDateSlot()->format(self::FORMAT_INVOICE), $this->numberInvoice));
+            $invoiceDTO->setNumero(sprintf('%s-%s', $mount, $this->numberInvoice));
             $invoiceDTO->setCustomer($service->getOwner());
             $invoiceDTO->setReservations($reservations);
 
@@ -117,7 +116,7 @@ class GenerateInvoiceCommand extends Command
         return $invoiceDTOs;
     }
 
-    private function createInvoiceDTOBooking(array $bookings): ?array
+    private function createInvoiceDTOBooking(array $bookings, string $mount): ?array
     {
         $bookings = ArrayHelper::groupBy($bookings, 'user.id');
 
@@ -133,8 +132,13 @@ class GenerateInvoiceCommand extends Command
             foreach ($services as $booking) {
                 $reserveds[] = $booking;
             }
+
+            // A supprimé 👇
+//            $booking->getMission()->setPrice(1253);
+            // A supprimé 👆
+
             $invoiceDTO = new InvoiceDTO();
-            $invoiceDTO->setNumero(sprintf('%s-%s', $booking->confirmEnded()->format(self::FORMAT_INVOICE), $this->numberInvoice));
+            $invoiceDTO->setNumero(sprintf('%s-%s', $mount, $this->numberInvoice));
             $invoiceDTO->setCustomer($booking->getUser());
             $invoiceDTO->setBookings($reserveds);
 

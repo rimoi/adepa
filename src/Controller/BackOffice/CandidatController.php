@@ -3,10 +3,12 @@
 namespace App\Controller\BackOffice;
 
 use App\Constant\UserConstant;
+use App\Entity\Booking;
 use App\Entity\User;
 use App\Form\ProfileFormType;
 use App\Repository\BookingRepository;
 use App\Repository\MissionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +51,7 @@ class CandidatController extends AbstractController
         ]);
     }
 
+    // Pour les freelances de voir leurs reservation des extras
     #[Route('/{slug}/show', name: 'show')]
     public function show(
         Request $request,
