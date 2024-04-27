@@ -15,7 +15,7 @@
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item active">{{ block('title') }}</li>
     </ol>
 
@@ -40,6 +40,7 @@
                         <tr>
                             <th>Titre</th>
                             <th>Crée</th>
+                            <th>Type</th>
                             <th>Parent ( GROUPE ) </th>
                             <th>actions</th>
                         </tr>
@@ -49,11 +50,31 @@
                             <tr>
                                 <td>{{ category.title }}</td>
                                 <td>{{ category.createdAt ? category.createdAt|date('d/m/Y') : '' }}</td>
+                                <td>
+                                    {% if category.type == 'Mission' %}
+                                        <span class="badge badge-pill badge-warning">
+                                          {{ category.type }}
+                                        </span>
+                                    {% elseif category.type == 'Service' %}
+                                        <span class="badge badge-pill badge-primary">
+                                          {{ category.type }}
+                                        </span>
+                                    {% elseif category.type == 'Public' %}
+                                        <span class="badge badge-pill badge-success">
+                                          {{ category.type }}
+                                        </span>
+                                    {% endif %}
+
+                                </td>
                                 <td align="center">
                                     {% if category.parent %}
-                                        <span class="badge badge-info">
+                                        <a href="{{ path('admin_category_show', {id: category.parent.id}) }}">
+                                             <span class="badge badge-dark badge-pill">
+
                                             {{ category.parent.title }}
                                         </span>
+                                        </a>
+
                                     {% endif %}
                                 </td>
                                 <td align="center">

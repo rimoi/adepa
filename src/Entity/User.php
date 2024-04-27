@@ -146,6 +146,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Facture::class)]
     private Collection $factures;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $minDuration = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $maxDuration = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $days = [];
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Exclusive::class, cascade: ['persist'])]
+    private Collection $exclusives;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -203,6 +215,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->elements = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->factures = new ArrayCollection();
+        $this->exclusives = new ArrayCollection();
     }
 
     /**
@@ -865,6 +878,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($facture->getUser() === $this) {
                 $facture->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMinDuration(): ?string
+    {
+        return $this->minDuration;
+    }
+
+    public function setMinDuration(?string $minDuration): void
+    {
+        $this->minDuration = $minDuration;
+    }
+
+    public function getMaxDuration(): ?string
+    {
+        return $this->maxDuration;
+    }
+
+    public function setMaxDuration(?string $maxDuration): void
+    {
+        $this->maxDuration = $maxDuration;
+    }
+
+    public function getDays(): array
+    {
+        return $this->days;
+    }
+
+    public function setDays(array $days): void
+    {
+        $this->days = $days;
+    }
+
+    /**
+     * @return Collection<int, Exclusive>
+     */
+    public function getExclusives(): Collection
+    {
+        return $this->exclusives;
+    }
+
+    public function addExclusife(Exclusive $exclusife): self
+    {
+        if (!$this->exclusives->contains($exclusife)) {
+            $this->exclusives->add($exclusife);
+            $exclusife->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExclusife(Exclusive $exclusife): self
+    {
+        if ($this->exclusives->removeElement($exclusife)) {
+            // set the owning side to null (unless already changed)
+            if ($exclusife->getUser() === $this) {
+                $exclusife->setUser(null);
             }
         }
 

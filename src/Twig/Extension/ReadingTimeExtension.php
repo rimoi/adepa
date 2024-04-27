@@ -17,7 +17,6 @@ class ReadingTimeExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('readtime', [$this, 'readtime']),
-            new TwigFilter('transType', [$this, 'transType']),
             new TwigFilter('reservationStatus', [$this, 'reservationStatus']),
         ];
     }
@@ -29,11 +28,6 @@ class ReadingTimeExtension extends AbstractExtension
         $return = ($min < 1 ? '1' : $min);
 
         return $return;
-    }
-
-    public function transType(string $value): string
-    {
-        return PublicType::REVERSE_MAP[$value] ?? '';
     }
 
     public function reservationStatus(string $value): string

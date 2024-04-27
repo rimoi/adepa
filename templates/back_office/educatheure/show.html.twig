@@ -5,7 +5,7 @@
 {% block body %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item">
             <a href="{{ path('admin_educatheure_index') }}">ÉDUCAT'HEURS</a>
         </li>
@@ -65,12 +65,12 @@
                     <td>{{ educatheure.city }}</td>
                 </tr>
                 <tr>
-                    <th>Durée Min</th>
-                    <td>{{ educatheure.minDuration }}</td>
+                    <th>Début de service</th>
+                    <td>{{ educatheure.started|date('d/m/Y H:i') }}</td>
                 </tr>
                 <tr>
-                    <th>Durée Max</th>
-                    <td>{{ educatheure.maxDuration }}</td>
+                    <th>Fin de service</th>
+                    <td>{{ educatheure.ended|date('d/m/Y H:i') }}</td>
                 </tr>
                 <tr>
                     <th>Nombre de participant</th>
@@ -87,7 +87,9 @@
                 <tr>
                     <th>Type de public</th>
                     <td>
-                        <span class="badge badge-primary">{{ educatheure.publicType|transType }}</span>
+                        {% for public in educatheure.getEducatheureTags %}
+                            <span class="badge badge-pill badge-success">{{ public.category.title }}</span>
+                        {% endfor %}
                    </td>
                 </tr>
                 <tr>

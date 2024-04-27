@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Constant\Days;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -27,7 +29,7 @@ class ProfileClientFormType extends AbstractType
                 ],
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Poste : (*)',
+                'label' => 'Prénom : (*)',
                 'attr' => [
                     'placeholder' => 'Jean'
                 ]
@@ -36,6 +38,13 @@ class ProfileClientFormType extends AbstractType
                 'label' => 'Nom : (*)',
                 'attr' => [
                     'placeholder' => 'Dupond'
+                ]
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'Email :',
+                'attr' => [
+                    'readonly' => true,
+                    'Title' => 'Vous ne pouvez pas modifier votre adresse e-mail. Veuillez contacter votre administrateur si vous souhaitez la changer.'
                 ]
             ])
             ->add('adress',TextType::class, [
@@ -73,6 +82,24 @@ class ProfileClientFormType extends AbstractType
                     'placeholder' => 'Raison sociale'
                 ]
             ])
+//            ->add('minDuration', TextType::class, [
+//                'label' => 'De tel heure: (*)',
+//                'attr' => ['placeholder' => 'Ex: 02h00', 'class' => 'datepicker-hours'],
+//            ])
+//            ->add('maxDuration', TextType::class, [
+//                'label' => 'A tel heure: (*)',
+//                'attr' => ['placeholder' => 'Ex: 06h00', 'class' => 'datepicker-hours'],
+//            ])
+//            ->add('days', ChoiceType::class, [
+//                'label' => 'Jours de disponibilité : ',
+//                'help' => 'Sélectionnez les jours de la semaine disponibles pour la réservation.',
+//                'choices' => Days::MAP,
+//                'expanded' => true,
+//                'multiple' => true,
+//                'attr' => [
+//                    'class' => 'form-check-inline'
+//                ]
+//            ])
 
         ;
 

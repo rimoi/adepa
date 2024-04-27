@@ -58,6 +58,10 @@ class ProfileController extends AbstractController
                 $qualificationService->addExperience($form, 'services');
             }
 
+            if ($days = $form->get('days')->getData()) {
+                $user->setDays($days);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Les modifications ont bien été enregistrées !');

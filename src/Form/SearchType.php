@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Constant\CategoryType;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,7 +21,9 @@ class SearchType extends AbstractType
                        return $repository->createQueryBuilder('t')
                            ->innerJoin('t.parent', 'p')
                            ->where('t.archived = :archived')
+                           ->andWhere('t.type = :type')
                            ->setParameter('archived', false)
+                           ->setParameter('type', CategoryType::MISSION)
                            ->addOrderBy('t.title', 'ASC');
                    },
                    'group_by' => static function (Category $choice) {

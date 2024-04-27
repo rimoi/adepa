@@ -36,3 +36,4 @@ window.$ = global.$ = $;
 window.Swal = global.Swal = Swal;
 
 import './scripts/my';
+import './scripts/category';

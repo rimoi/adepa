@@ -6,6 +6,7 @@ use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,6 +39,13 @@ class CategoryType extends AbstractType
                     'rows' => 5
                 ],
             ])
+            ->add('type', ChoiceType::class, [
+                'label' => 'Type :',
+                'choices' => \App\Constant\CategoryType::MAP,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
@@ -49,6 +57,7 @@ class CategoryType extends AbstractType
         $form->add('parent', EntityType::class, [
             'class' => Category::class,
             'label' => 'Groupe',
+            'choice_label' => 'title',
             'choices' => $this->em->getRepository(Category::class)->getCategoryParent(),
             'required' => false,
             'attr' => [

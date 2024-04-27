@@ -88,87 +88,107 @@
 		</div>
 	</section>
 
-	<section class="cs-educatheurs container">
-		<h2 class="wp-block-heading has-text-align-center content-title" id="h-les-educat-heures">LES ÉDUCAT’HEURES</h2>
-		<p class="text-muted text-center mb-5"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
+	{% if educatheurs|length %}
+		<section class="cs-educatheurs container">
+			<h2 class="wp-block-heading has-text-align-center content-title" id="h-les-educat-heures">LES ÉDUCAT’HEURES</h2>
+			<p class="text-muted text-center mb-5"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
 
-		<div class=" js-slick-educatheur">
-			{% for educateur in educatheurs %}
-				<div>
-					<div class="card text-center mt-3 p-0 cs-educ">
-						<div class="card-header p-0">
-							{% if educateur.image %}
-								<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
-									<img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Educatheur {{ educateur.title }}">
-								</a>
-							{% endif %}
-						</div>
-						<div class="card-body">
-							<h5 class="card-title mb-4">
-								<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
-									{{ educateur.title }}
-								</a>
-							</h5>
-							<div class="my-2">
-								<div class="row">
-									<div class="col-6 cs-space-col">
-										<div class="cs-small-homepage">
-											<i class="fas fa-fw fa-clock text-success"></i>
-											Durée Min : {{ educateur.minDuration }}
-										</div>
-										<div class="cs-small-homepage mt-2" title="Nombre des participants">
-											<i class="fas fa-people-arrows text-primary"></i>
-											Participants : {{ educateur.numberParticipant }}
-										</div>
-									</div>
-									<div class="col-6 cs-space-col">
-										<div class="cs-small-homepage">
-											<i class="fas fa-fw fa-arrow-circle-right text-success"></i>
-											Durée Max : {{ educateur.maxDuration }}
-										</div>
-										<div class="cs-small-homepage mt-2" title="Type public">
-											<i class="fas fa-fw fa-bullhorn text-primary"></i>
-											Public : {{ educateur.publicType|transType }}
-										</div>
-									</div>
-								</div>
-								<div class="row my-4">
-									<div class="col-12 text-center">
-										<div class="cs-small-homepage">
-											<i class="fas fa-map-marker-alt text-danger"></i>
-											<span title="{{ educateur.zipCode }}">{{ educateur.city|upper }}</span>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<div class="card-footer">
-							<div class="d-flex justify-content-between">
-								<div class="text-danger lead">
-									{{ educateur.price }} €
-								</div>
-								<div>
-									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" title="Voir le service">
-										<i class="fas fa-eye"></i>
+			<div class=" js-slick-educatheur">
+				{% for educateur in educatheurs %}
+					<div>
+						<div class="card text-center mt-3 p-0 cs-educ">
+							<div class="card-header p-0">
+								{% if educateur.image %}
+									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
+										<img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Educatheur {{ educateur.title }}">
 									</a>
+								{% endif %}
+							</div>
+							<div class="card-body" style="padding: 7px;">
+								<h5 class="card-title mb-4">
+									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" style="color: #19191a;">
+										{{ educateur.title }}
+									</a>
+								</h5>
+								<div class="my-2">
+									<div class="row">
+										<div class="col-12">
+											<div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
+												<i class="fas fa-clock text-primary"></i>
+												N° d'interventions :
+												<span class="text-muted">
+													{% if educateur.nombreIntervention %}
+														{{ educateur.nombreIntervention }}H
+													{% endif %}
+												</span>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
+												<i class="fas fa-people-arrows text-primary"></i>
+												Participants : <span class="text-muted">{{ educateur.numberParticipant }}</span>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Type public">
+												<i class="fas fa-fw fa-bullhorn text-primary"></i>
+												<span>
+                                                         Public :
+                                                    </span>
+
+												{% for public in educateur.getEducatheureTags %}
+													<span class="badge badge-pill badge-primary">{{ public.category.title }}</span>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+									<div class="row mt-1 mt-sm-3">
+										<div class="col-12">
+											<div class="cs-content-dscription">
+												{{ educateur.description|u.truncate(150, '...')|raw }}
+											</div>
+										</div>
+									</div>
+{#									<div class="row my-4">#}
+{#										<div class="col-12 text-center">#}
+{#											<div class="cs-small-homepage text-center">#}
+{#												<i class="fas fa-map-marker-alt text-danger"></i>#}
+{#												<span title="{{ educateur.departement }}">{{ educateur.departement|upper }}</span>#}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+								</div>
+
+							</div>
+							<div class="card-footer">
+								<div class="d-flex justify-content-between">
+									<div class="text-danger text-sm-start">
+										<i class="fas fa-map-marker-alt text-danger"></i>
+										<span title="{{ educateur.departement }}" class="small">{{ educateur.departement|upper }}</span>
+{#										{{ educateur.price }} €#}
+									</div>
+									<div>
+										<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" title="Voir le service">
+											<i class="fas fa-eye"></i>
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			{% endfor %}
-		</div>
-		<div>
-			<div class="mb-5 mt-2 text-right">
-				<small>
-					<a class="btn btn-primary btn-sm rounded-pill" href="{{ path('app_educatheure_list') }}">
-						TOUS LES ÉDUCAT’HEURES <i class="fas fa-arrow-right"></i>
-					</a>
-				</small>
+				{% endfor %}
 			</div>
-		</div>
-	</section>
+			<div>
+				<div class="mb-5 mt-2 text-right">
+					<small>
+						<a class="btn btn-primary btn-sm rounded-pill" href="{{ path('app_educatheure_list') }}">
+							TOUS LES ÉDUCAT’HEURES <i class="fas fa-arrow-right"></i>
+						</a>
+					</small>
+				</div>
+			</div>
+		</section>
+	{% endif %}
 
 	<section class="text-center cs-video ">
 		<div class="cs-iframe-main embed-responsive embed-responsive-16by9">

@@ -42,10 +42,16 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @return Category[]
      */
-    public function getCategoryParent(): array
+    public function getCategoryParent(?string $type = null): array
     {
         $qb = $this->createQueryBuilder('t')
-            ->where('t.parent IS NULL');
+            ->where('t.parent IS NULL')
+        ;
+
+        if ($type) {
+            $qb->andWhere('t.type = :type')
+                ->setParameter('type', $type);
+        }
 
         return $qb->getQuery()->getResult();
     }

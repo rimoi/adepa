@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: EducatheureRepository::class)]
@@ -22,13 +23,8 @@ class Educatheure
     private ?string $title = null;
 
     #[ORM\Column]
-    private ?int $price = null;
+    private ?int $price = 30;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $minDuration = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $maxDuration = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $numberParticipant = null;
@@ -46,9 +42,6 @@ class Educatheure
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private array $days = [];
-
-    #[ORM\Column(nullable: true)]
     private ?bool $archived = false;
 
     #[ORM\Column(nullable: true)]
@@ -62,6 +55,9 @@ class Educatheure
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $departement = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $noteBooking = null;
@@ -78,11 +74,28 @@ class Educatheure
     #[ORM\OneToMany(mappedBy: 'educatheure', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nombreIntervention = null;
+
+    #[ORM\OneToMany(mappedBy: 'educatheur', targetEntity: EducatheureTag::class)]
+    private Collection $educatheureTags;
+
+
+//    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+//    #[Groups(['planning'])]
+//    private ?\DateTimeInterface $started = null;
+//
+//    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+//    #[Groups(['planning'])]
+//    private ?\DateTimeInterface $ended = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->educatheureTags = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -126,30 +139,6 @@ class Educatheure
     public function setPrice(int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getMinDuration(): ?string
-    {
-        return $this->minDuration;
-    }
-
-    public function setMinDuration(?string $minDuration): self
-    {
-        $this->minDuration = $minDuration;
-
-        return $this;
-    }
-
-    public function getMaxDuration(): ?string
-    {
-        return $this->maxDuration;
-    }
-
-    public function setMaxDuration(?string $maxDuration): self
-    {
-        $this->maxDuration = $maxDuration;
 
         return $this;
     }
@@ -199,19 +188,6 @@ class Educatheure
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
-    }
-
-
-    public function getDays(): array
-    {
-        return $this->days;
-    }
-
-    public function setDays(?array $days): self
-    {
-        $this->days = $days;
-
-        return $this;
     }
 
     public function isArchived(): ?bool
@@ -366,4 +342,78 @@ class Educatheure
 
         return $this;
     }
+
+    public function getDepartement(): ?string
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?string $departement): void
+    {
+        $this->departement = $departement;
+    }
+
+    public function getNombreIntervention(): ?int
+    {
+        return $this->nombreIntervention;
+    }
+
+    public function setNombreIntervention(?int $nombreIntervention): self
+    {
+        $this->nombreIntervention = $nombreIntervention;
+
+        return $this;
+    }
+
+//    public function getStarted(): ?\DateTimeInterface
+//    {
+//        return $this->started;
+//    }
+//
+//    public function setStarted(?\DateTimeInterface $started): void
+//    {
+//        $this->started = $started;
+//    }
+//
+//    public function getEnded(): ?\DateTimeInterface
+//    {
+//        return $this->ended;
+//    }
+//
+//    public function setEnded(?\DateTimeInterface $ended): void
+//    {
+//        $this->ended = $ended;
+//    }
+
+/**
+ * @return Collection<int, EducatheureTag>
+ */
+public function getEducatheureTags(): Collection
+{
+    return $this->educatheureTags;
+}
+
+public function addEducatheureTag(EducatheureTag $educatheureTag): self
+{
+    if (!$this->educatheureTags->contains($educatheureTag)) {
+        $this->educatheureTags->add($educatheureTag);
+        $educatheureTag->setEducatheur($this);
+    }
+
+    return $this;
+}
+
+public function removeEducatheureTag(EducatheureTag $educatheureTag): self
+{
+    if ($this->educatheureTags->removeElement($educatheureTag)) {
+        // set the owning side to null (unless already changed)
+        if ($educatheureTag->getEducatheur() === $this) {
+            $educatheureTag->setEducatheur(null);
+        }
+    }
+
+    return $this;
+}
+
+
 }

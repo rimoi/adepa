@@ -95,8 +95,12 @@ class EducatheureRepository extends ServiceEntityRepository
                 ->setParameter('priceMax', (int) $args['priceMax']);
         }
         if ($args['participant'] ?? false) {
-            $qb->andWhere('e.numberParticipant = :participant')
+            $qb->andWhere('e.numberParticipant >= :participant')
                 ->setParameter('participant', (int) $args['participant']);
+        }
+        if ($args['intervention'] ?? false) {
+            $qb->andWhere('e.nombreIntervention >= :intervention')
+                ->setParameter('intervention', (int) $args['intervention']);
         }
 
         return $qb->getQuery()->getResult();

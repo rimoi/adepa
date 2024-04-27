@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Constant\CategoryType;
+use App\Constant\Days;
 use App\Constant\GenderConstant;
 use App\Constant\UserConstant;
 use App\Entity\Category;
@@ -49,12 +51,18 @@ class ProfileFormType extends AbstractType
                     'placeholder' => 'Dupond'
                 ]
             ])
+            ->add('email', TextType::class, [
+                'label' => 'Email :',
+                'attr' => [
+                    'readonly' => true,
+                    'Title' => 'Vous ne pouvez pas modifier votre adresse e-mail. Veuillez contacter votre administrateur si vous souhaitez la changer.'
+                ]
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => GenderConstant::MAP,
                 'label' => 'Civilité :',
                 'expanded' => true,
                 'multiple' => false,
-                'required' => false,
                 'attr'=> [
                     'class' => 'd-flex cs-gender-bo'
                 ]
@@ -118,6 +126,25 @@ class ProfileFormType extends AbstractType
                 'label' => 'Attestation auto-entrepreneur :',
                 'required' => false,
                 'mapped' => false
+            ])
+
+            ->add('minDuration', TextType::class, [
+                'label' => 'De tel heure: (*)',
+                'attr' => ['placeholder' => 'Ex: 02h00', 'class' => 'datepicker-hours'],
+            ])
+            ->add('maxDuration', TextType::class, [
+                'label' => 'A tel heure: (*)',
+                'attr' => ['placeholder' => 'Ex: 06h00', 'class' => 'datepicker-hours'],
+            ])
+            ->add('days', ChoiceType::class, [
+                'label' => 'Jours de disponibilité : ',
+                'help' => 'Sélectionnez les jours de la semaine disponibles pour la réservation.',
+                'choices' => Days::MAP,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'form-check-inline'
+                ]
             ])
 
             // CV
@@ -206,7 +233,9 @@ class ProfileFormType extends AbstractType
                 return $repository->createQueryBuilder('t')
                     ->innerJoin('t.parent', 'p')
                     ->where('t.archived = :archived')
+                    ->andWhere('t.type = :type')
                     ->setParameter('archived', false)
+                    ->setParameter('type', CategoryType::MISSION)
                     ->addOrderBy('t.title', 'ASC');
             },
             'group_by' => static function (Category $choice) {

@@ -12,7 +12,7 @@
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://sql965.main-hosting.eu:3306/u986133467_adepa</jdbc-url>
+      <jdbc-url>jdbc:mysql://sql965.main-hosting.eu:3306/u266887992_adepa</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

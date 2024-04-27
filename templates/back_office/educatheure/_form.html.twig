@@ -13,22 +13,28 @@
                 {{ form_row(form.categories) }}
             </div>
         </div>
+        {% if 'price' in form|keys %}
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.price) }}
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="col-12">
-                {{ form_row(form.price) }}
+                {{ form_row(form.departement) }}
             </div>
         </div>
-        <div class="row my-3">
-            <div class="col-12">
-                {{ form_row(form.zipCode) }}
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col-12">
-                {{ form_row(form.city) }}
-            </div>
-        </div>
-        <hr>
+{#        <div class="row my-3">#}
+{#            <div class="col-12">#}
+{#                {{ form_row(form.zipCode) }}#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="row my-3">#}
+{#            <div class="col-12">#}
+{#                {{ form_row(form.city) }}#}
+{#            </div>#}
+{#        </div>#}
         <div class="row">
             <div class="col-12">
                 {{ form_row(form.numberParticipant) }}
@@ -51,20 +57,22 @@
             </div>
         </div>
         <hr>
+
         <div class="row">
             <div class="col-12">
-                {{ form_row(form.days) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-6">
-                {{ form_row(form.minDuration) }}
-            </div>
-            <div class="col-12 col-lg-6">
-                {{ form_row(form.maxDuration) }}
+                {{ form_row(form.nombreIntervention) }}
             </div>
         </div>
         <hr>
+{#        <div class="row">#}
+{#            <div class="col-12 col-lg-6">#}
+{#                {{ form_row(form.debut) }}#}
+{#            </div>#}
+{#            <div class="col-12 col-lg-6">#}
+{#                {{ form_row(form.fin) }}#}
+{#            </div>#}
+{#        </div>#}
+{#        <hr>#}
         <div class="row">
             <div class="col">
                 {{ form_label(form.image) }}

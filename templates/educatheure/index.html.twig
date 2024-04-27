@@ -18,13 +18,16 @@
 
         <header class="header-listing mt-5 mb-5">
             <div class="row">
+                <div class="col-12 text-center h1 mb-3">
+                    LES EDUCAT’HEURES
+                </div>
                 <div class="col-12">
                     <form>
 
                         <input type="hidden" name="other_queries" value="{{ queries }}">
 
                         <div class="input-group mb-4 border rounded-pill p-1">
-                            <input type="search" name="search" placeholder="Mots clèfs" aria-describedby="button-addon1" class="form-control border-0 bg-light" value="{{ app.request.get('search') }}">
+                            <input style="border: none;" type="search" name="search" placeholder="Mots clèfs" aria-describedby="button-addon1" class="form-control" value="{{ app.request.get('search') }}">
                             <span class="cs-bar-filter"></span>
                             <select class="js-select2" name="zipCode" data-show-subtext="true" data-live-search="true" style="width: 50%;">
                                 <option value=""></option>
@@ -48,7 +51,7 @@
         </header>
 
         <div class="row">
-            <div class="col-md-5 col-12">
+            <div class="col-md-4 col-12">
                 <div class="bg-border">
                     <form class="custom-form">
 
@@ -70,22 +73,28 @@
                                {% endfor %}
                            </select>
                        </div>
-                        <div class="my-4">
-                            <div class="row">
-                                <div class="col-6 cs-space-col">
-                                    <h6 class="filter-form-small-title">Prix Min : </h6>
-                                    <div class="input-group mb-3">
-                                        <input type="number" name="priceMin" class="form-control" placeholder="50" value="{{ app.request.get('priceMin') }}">
-                                    </div>
-                                </div>
-                                <div class="col-6 cs-space-col">
-                                    <h6 class="filter-form-small-title">Prix Max : </h6>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="priceMax" placeholder="200" value="{{ app.request.get('priceMax') }}">
-                                    </div>
-                                </div>
+                        <div>
+                            <h6 class="filter-form-small-title">Heure d'intervention : </h6>
+                            <div class="input-group mb-3">
+                                <input type="number" name="intervention" class="form-control" placeholder="Ex : 5 ( par heure )" value="{{ app.request.get('intervention') }}">
                             </div>
                         </div>
+{#                        <div class="my-4">#}
+{#                            <div class="row">#}
+{#                                <div class="col-6 cs-space-col">#}
+{#                                    <h6 class="filter-form-small-title">Prix Min : </h6>#}
+{#                                    <div class="input-group mb-3">#}
+{#                                        <input type="number" name="priceMin" class="form-control" placeholder="50" value="{{ app.request.get('priceMin') }}">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-6 cs-space-col">#}
+{#                                    <h6 class="filter-form-small-title">Prix Max : </h6>#}
+{#                                    <div class="input-group">#}
+{#                                        <input type="number" class="form-control" name="priceMax" placeholder="200" value="{{ app.request.get('priceMax') }}">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
 
                         <div>
                             <h6 class="filter-form-small-title">Nombre de participants : </h6>
@@ -116,7 +125,7 @@
 
                 </div>
             </div>
-            <div class="col-md-7 col-12">
+            <div class="col-md-8 col-12">
                 <div class="row">
                     {% for educateur in educatheures %}
                             <div class="card col-md-5 col-12 text-center mt-3 p-0 cs-educ">
@@ -127,60 +136,72 @@
                                         </a>
                                     {% endif %}
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" style="padding: 5px;">
                                     <h5 class="card-title mb-4">
-                                        <a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
+                                        <a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" style="color: #19191a;">
                                             {{ educateur.title }}
                                         </a>
 
                                     </h5>
-                                    {#							<p class="card-text">#}
-                                    {#								<bloquote>#}
-                                    {#									{{ educateur.description|u.truncate(100, '...')|raw }}#}
-                                    {#								</bloquote>#}
-
-                                    {#							</p>#}
                                     <div class="my-2">
                                         <div class="row">
-                                            <div class="col-6 cs-space-col">
-                                                <div class="cs-small-homepage">
-                                                    <i class="fas fa-fw fa-clock text-success"></i>
-                                                    Durée Min : {{ educateur.minDuration }}
+                                            <div class="col-12">
+                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
+                                                    <i class="fas fa-clock text-primary"></i>
+                                                    N° d'interventions :
+                                                    <span class="text-muted">
+													{% if educateur.nombreIntervention %}
+                                                        {{ educateur.nombreIntervention }}H
+                                                    {% endif %}
+												</span>
                                                 </div>
-                                                <div class="cs-small-homepage mt-2" title="Nombre des participants">
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
                                                     <i class="fas fa-people-arrows text-primary"></i>
-                                                    Participants : {{ educateur.numberParticipant }}
+                                                    Participants : <span class="text-muted">{{ educateur.numberParticipant }}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-6 cs-space-col">
-                                                <div class="cs-small-homepage">
-                                                    <i class="fas fa-fw fa-arrow-circle-right text-success"></i>
-                                                    Durée Max : {{ educateur.maxDuration }}
-                                                </div>
-                                                <div class="cs-small-homepage mt-2" title="Type public">
+                                            <div class="col-12">
+                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Type public">
                                                     <i class="fas fa-fw fa-bullhorn text-primary"></i>
-                                                    Public : {{ educateur.publicType|transType }}
+                                                    <span>
+                                                         Public :
+                                                    </span>
+
+                                                    {% for public in educateur.getEducatheureTags %}
+                                                        <span class="badge badge-pill badge-primary">{{ public.category.title }}</span>
+                                                    {% endfor %}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row my-4">
-                                            <div class="col-12 text-center">
-                                                <div class="cs-small-homepage">
-                                                    <i class="fas fa-map-marker-alt text-danger"></i>
-                                                    <span title="{{ educateur.zipCode }}">{{ educateur.city|upper }}</span>
+                                        <div class="row mt-1 mt-sm-3">
+                                            <div class="col-12">
+                                                <div class="cs-content-dscription">
+                                                    {{ educateur.description|u.truncate(150, '...')|raw }}
                                                 </div>
                                             </div>
                                         </div>
+{#                                        <div class="row my-4">#}
+{#                                            <div class="col-12 text-center">#}
+{#                                                <div class="cs-small-homepage text-center">#}
+{#                                                    <i class="fas fa-map-marker-alt text-danger"></i>#}
+{#                                                    <span title="{{ educateur.departement }}">{{ educateur.departement|upper }}</span>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
                                     </div>
 
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-between">
-                                        <div class="text-danger lead">
-                                            {{ educateur.price }} €
+                                        <div class="text-danger text-sm-start">
+                                            <i class="fas fa-map-marker-alt text-danger"></i>
+                                            <span title="{{ educateur.departement }}" class="small">{{ educateur.departement|upper }}</span>
+                                            {#										{{ educateur.price }} €#}
                                         </div>
                                         <div>
-                                            <a href="#" title="Réserver ce service">
+                                            <a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" title="Réserver ce service">
                                                 <i class="fas fa-handshake"></i>
                                             </a>
                                         </div>

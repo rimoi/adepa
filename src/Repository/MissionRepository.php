@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Mission;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,16 +43,78 @@ class MissionRepository extends ServiceEntityRepository
     /**
      * @return Mission[] Returns an array of Mission objects
      */
-    public function getMissionByCriteria(array $categories = []): array
+    public function getMissionByCriteria(User $user, array $categories = []): array
     {
-        return $this->createQueryBuilder('m')
+        /**
+         * @var Mission[] $missions
+         */
+        $missions = $this->createQueryBuilder('m')
             ->join('m.categories', 'c')
             ->where('c.id IN (:categories)')
+            ->andWhere('m.archived = :archived AND m.published = :published ')
+            ->setParameter('published', true)
+            ->setParameter('archived', false)
             ->setParameter('categories', $categories)
             ->orderBy('m.started', 'ASC')
             ->getQuery()
             ->getResult()
         ;
+
+        return $this->checkIsAffected($missions, $user);
+    }
+
+
+    private function getMissionNotAffected(): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb
+            ->join('m.user', 'u')
+            ->andWhere('m.archived = :archived AND m.published = :published ')
+            ->setParameter('published', true)
+            ->setParameter('archived', false)
+            ->orderBy('m.started');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Mission[] Returns an array of Mission objects
+     */
+    public function getMissions(User $user): array
+    {
+        /**
+         * @var Mission[] $missions
+         */
+        $missions = $this->getMissionNotAffected();
+
+        return $this->checkIsAffected($missions, $user);
+    }
+
+    private function checkIsAffected($missions, User $user): array
+    {
+        $resultats = [];
+
+        foreach ($missions as $mission) {
+
+            $include = true;
+
+            if ($mission->getExclusives()->toArray() && $mission->getUser()->getId() !== $user->getId()) {
+                $include = false;
+
+                foreach ($mission->getExclusives() as $exclusive) {
+                    if ($exclusive->getUser()->getId() === $user->getId()) {
+                        $include = true;
+                    }
+                }
+            }
+
+
+            if ($include) {
+                $resultats[$mission->getId()] = $mission;
+            }
+        }
+
+        return $resultats;
     }
 
 

@@ -91,12 +91,16 @@ class Mission
     #[ORM\ManyToOne(inversedBy: 'missions')]
     private ?Service $service = null;
 
+    #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Exclusive::class, cascade: ['persist'])]
+    private Collection $exclusives;
+
+    private $price;
+
     public function isPossibleToCancel(): bool
     {
         return $this->started > new \DateTime('+48 hours', new \DateTimeZone('Europe/Paris'));
     }
 
-    private $price;
     // a supprimé 👇
     public function getPrice()
     {
@@ -113,6 +117,7 @@ class Mission
     {
         $this->bookings = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->exclusives = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -394,4 +399,36 @@ class Mission
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Exclusive>
+     */
+    public function getExclusives(): Collection
+    {
+        return $this->exclusives;
+    }
+
+    public function addExclusife(Exclusive $exclusife): self
+    {
+        if (!$this->exclusives->contains($exclusife)) {
+            $this->exclusives->add($exclusife);
+            $exclusife->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExclusife(Exclusive $exclusife): self
+    {
+        if ($this->exclusives->removeElement($exclusife)) {
+            // set the owning side to null (unless already changed)
+            if ($exclusife->getMission() === $this) {
+                $exclusife->setMission(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

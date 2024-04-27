@@ -57,6 +57,10 @@ class MissionType extends AbstractType
             $userFreelances = $this->entityManager->getRepository(Booking::class)->getUserMatch($user);
         }
 
+        $userAffecteds = [];
+        foreach ($mission->getExclusives() as $exclusive) {
+            $userAffecteds[] = $exclusive->getUser();
+        }
         $started = $mission->getStarted() ? $mission->getStarted()->format('d/m/Y H:i') : '';
         $ended = $mission->getEnded() ? $mission->getEnded()->format('d/m/Y H:i') : '';
 
@@ -99,7 +103,7 @@ class MissionType extends AbstractType
             ])
             ->add('published', CheckboxType::class, [
                 'required' => false,
-                'label' => "Publiée la mission ?",
+                'label' => "Publiée la mission (Si la publication est désactivée, la mission sera enregistrée comme brouillon).",
                 'label_attr' => ['class' => 'switch-custom'],
             ])
             ->add('emergency', CheckboxType::class, [
@@ -119,7 +123,7 @@ class MissionType extends AbstractType
                 'choice_label' => static function (Service $choice) {
                     return $choice->getUnityName();
                 },
-                'label' => 'Type de service ( Vous pourriez choisir plusieurs )',
+                'label' => 'Type de service (Vous pouvez en choisir plusieurs)',
                 'multiple' => false,
                 'required' => false,
                 'attr' => [
@@ -150,6 +154,7 @@ class MissionType extends AbstractType
             },
             'multiple' => true,
             'required' => false,
+            'data' => $userAffecteds,
             'attr' => [
                 'class' => 'js-select2',
                 'style' => "width: 100%",
@@ -177,6 +182,8 @@ class MissionType extends AbstractType
                     ->innerJoin('t.parent', 'p')
                     ->where('t.archived = :archived')
                     ->setParameter('archived', false)
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', \App\Constant\CategoryType::MISSION)
                     ->addOrderBy('t.title', 'ASC');
             },
             'group_by' => static function (Category $choice) {

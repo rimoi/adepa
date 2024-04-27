@@ -8,7 +8,7 @@
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item active">{{ block('title') }}</li>
     </ol>
 
@@ -53,14 +53,17 @@
                 {{ form_start(form, {'attr': {'class': 'user'}}) }}
 
               <div class="row">
-                        <div class="col-12 col-lg-4">
-                            {{ form_row(form.lastname) }}
+                        <div class="col-12 col-lg-3">
+                            {{ form_row(form.lastname, {label: 'Prénom'}) }}
                         </div>
-                        <div class="col-12 col-lg-4">
-                            {{ form_row(form.firstname) }}
+                        <div class="col-12 col-lg-3">
+                            {{ form_row(form.firstname, {label: 'Chef service'}) }}
                         </div>
-                      <div class="col-12 col-lg-4">
+                      <div class="col-12 col-lg-3">
                           {{ form_row(form.telephone, {label: 'Téléphone'}) }}
+                      </div>
+                      <div class="col-12 col-lg-3">
+                          {{ form_row(form.email, {label: 'Email'}) }}
                       </div>
                 </div>
                 <hr>
@@ -114,6 +117,21 @@
                     </div>
                 {% endif %}
                 <hr>
+
+{#                <div class="row">#}
+{#                    <div class="col-12">#}
+{#                        {{ form_row(form.days) }}#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <div class="col-12 col-lg-6">#}
+{#                        {{ form_row(form.minDuration) }}#}
+{#                    </div>#}
+{#                    <div class="col-12 col-lg-6">#}
+{#                        {{ form_row(form.maxDuration) }}#}
+{#                    </div>#}
+{#                </div>#}
+{#                <hr>#}
 
             <div class="row">
                 <div class="col text-right">

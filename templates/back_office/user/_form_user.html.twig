@@ -81,26 +81,48 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-12 col-sm-4 mt-2">
+            <div class="col-12 col-sm-3 mt-2">
                 {{ form_label(form.iban) }}
                 {{ upload.image(
                     form.iban,
                     app.user.iban
                 ) }}
             </div>
-            <div class="col-12 col-sm-4 mt-2">
+            <div class="col-12 col-sm-3 mt-2">
                 {{ form_label(form.cni) }}
                 {{ upload.image(
                     form.cni,
                     app.user.cni
                 ) }}
             </div>
-            <div class="col-12 col-sm-4 mt-2">
+            <div class="col-12 col-sm-3 mt-2">
                 {{ form_label(form.autoentrepriseCertificate) }}
                 {{ upload.image(
                     form.autoentrepriseCertificate,
                     app.user.autoentrepriseCertificate
                 ) }}
+            </div>
+            <div class="col-12 col-sm-3 mt-2">
+                {{ form_label(form.criminalRecord) }}
+                {{ upload.image(
+                    form.criminalRecord,
+                    app.user.criminalRecord
+                ) }}
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_row(form.days) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.minDuration) }}
+            </div>
+            <div class="col-12 col-lg-6">
+                {{ form_row(form.maxDuration) }}
             </div>
         </div>
         <hr>

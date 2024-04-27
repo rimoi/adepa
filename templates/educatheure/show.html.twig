@@ -16,7 +16,7 @@
 
 
 {% block body %}
-    <div class="container cs-article-front mb-5">
+    <div class="container cs-article-front">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
             <li class="breadcrumb-item active">
@@ -35,9 +35,10 @@
         <h2 class="edito text-center text-dark">{{ educatheure.title }}</h2>
 
         <div class="text-center mb-5">
-            <div class="cs-small-homepage">
+            <div class="cs-small-homepage text-center">
                 <i class="fas fa-map-marker-alt text-danger"></i>
-                <span title="{{ educatheure.zipCode }}">{{ educatheure.city|upper }}</span>
+                &nbsp;
+                <span title="{{ educatheure.departement }}">{{ educatheure.departement|upper }}</span>
             </div>
         </div>
 
@@ -47,30 +48,39 @@
             </div>
         {% endif %}
         <div class="text-center text-muted cs-published">
-            Publié {{ educatheure.createdAt|ago(locale='fr') }}
+            Publié : {{ educatheure.createdAt|ago(locale='fr') }}
         </div>
         <div class="row">
             <div class="col-12 col-sm-8">
                 <div class="my-4">
                     <div class="row">
                         <div class="col-6 cs-space-col">
-                            <div class="lead cs-font-weight">
-                                <i class="fas fa-fw fa-clock text-success"></i>
-                                Durée Min : <span class="text-muted">{{ educatheure.minDuration }}</span>
-                            </div>
+{#                            <div class="lead cs-font-weight">#}
+{#                                <i class="fas fa-fw fa-clock text-success"></i>#}
+{#                                Début : <span class="text-muted">{{ educatheure.started|date('d/m/Y') }}</span>#}
+{#                            </div>#}
                             <div class="lead cs-font-weight mt-2" title="Nombre des participants">
                                 <i class="fas fa-people-arrows text-primary"></i>
+                                &nbsp;
                                 Participants : <span class="text-muted">{{ educatheure.numberParticipant }}</span>
+                            </div>
+                            <div class="lead cs-font-weight my-2">
+                                <i class="fas fa-fw fa-hourglass-start text-success"></i>
+                                &nbsp;
+                                Nombre d'intervention : <span class="text-muted">{{ educatheure.numberParticipant }} Heure{{ educatheure.numberParticipant > 1 ? 's' }}</span>
                             </div>
                         </div>
                         <div class="col-6 cs-space-col">
-                            <div class="lead cs-font-weight">
-                                <i class="fas fa-fw fa-arrow-circle-right text-success"></i>
-                                Durée Max : <span class="text-muted">{{ educatheure.maxDuration }}</span>
-                            </div>
+{#                            <div class="lead cs-font-weight">#}
+{#                                <i class="fas fa-fw fa-arrow-circle-right text-success"></i>#}
+{#                                Fin : <span class="text-muted">{{ educatheure.ended|date('d/m/Y') }}</span>#}
+{#                            </div>#}
                             <div class="lead cs-font-weight mt-2" title="Type public">
                                 <i class="fas fa-fw fa-bullhorn text-primary"></i>
-                                Public : <span class="text-muted">{{ educatheure.publicType|transType }}</span>
+
+                                Public : {% for public in educatheure.getEducatheureTags %}
+                                    <span class="badge rounded-pill text-bg-primary" style="font-size: 0.63em;"> {{ public.category.title }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -117,10 +127,10 @@
                                         </div>
                                         <div>
                                             <h6 class="filter-form-small-title">Choisissez un créneau (*) : </h6>
-                                            <select class="form-select form-control" name="publics" id="search-public" data-show-subtext="true" data-live-search="true" required>
-                                                <option value="{{ educatheure.minDuration }}">{{ educatheure.minDuration }}</option>
-                                                <option value="{{ educatheure.maxDuration }}">{{ educatheure.maxDuration }}</option>
-                                            </select>
+                                            <selegct class="form-select form-control" name="publics" id="search-public" data-show-subtext="true" data-live-search="true" required>
+{#                                                <option value="{{ educatheure.started|date('d/m/Y H:i') }}">{{ educatheure.started|date('d/m/Y') }}</option>#}
+{#                                                <option value="{{ educatheure.ended|date('d/m/Y H:i') }}">{{ educatheure.ended|date('d/m/Y') }}</option>#}
+                                            </selegct>
                                         </div>
                                     </div>
                                     <div>
@@ -138,6 +148,15 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="mt-4 cs-form-educatheur">
+                    <div class="text-center py-1">
+                        <a href="{{ path('app_contact') }}" class="btn btn-success"  title="Prise de contact sur la réservation du service '{{ educatheure.title }}'">
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-phone-outgoing"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /><path d="M15 9l5 -5" /><path d="M16 4l4 0l0 4" /></svg>
+                            Envoyer un message
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <p class="my-4 text-dark">

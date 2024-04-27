@@ -16,7 +16,7 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
     #[ORM\Column]
@@ -40,6 +40,13 @@ class Category
     #[ORM\ManyToMany(targetEntity: Educatheure::class, mappedBy: 'categories')]
     private Collection $educatheures;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $type = null;
+
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: EducatheureTag::class)]
+    private Collection $educatheureTags;
+
+
     public function __toString(): string
     {
         return $this->title;
@@ -51,6 +58,7 @@ class Category
         $this->users = new ArrayCollection();
         $this->missions = new ArrayCollection();
         $this->educatheures = new ArrayCollection();
+        $this->educatheureTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,7 +71,7 @@ class Category
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -75,12 +83,6 @@ class Category
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -114,7 +116,7 @@ class Category
         return $this->users;
     }
 
-    public function addUser(User $user): self
+    public function addUser(?User $user): self
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -165,7 +167,7 @@ class Category
         return $this->archived;
     }
 
-    public function setArchived(bool $archived): self
+    public function setArchived(?bool $archived): self
     {
         $this->archived = $archived;
 
@@ -194,6 +196,48 @@ class Category
     {
         if ($this->educatheures->removeElement($educatheure)) {
             $educatheure->removeCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EducatheureTag>
+     */
+    public function getEducatheureTags(): Collection
+    {
+        return $this->educatheureTags;
+    }
+
+    public function addEducatheureTag(EducatheureTag $educatheureTag): self
+    {
+        if (!$this->educatheureTags->contains($educatheureTag)) {
+            $this->educatheureTags->add($educatheureTag);
+            $educatheureTag->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEducatheureTag(EducatheureTag $educatheureTag): self
+    {
+        if ($this->educatheureTags->removeElement($educatheureTag)) {
+            // set the owning side to null (unless already changed)
+            if ($educatheureTag->getCategory() === $this) {
+                $educatheureTag->setCategory(null);
+            }
         }
 
         return $this;

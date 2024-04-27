@@ -12,11 +12,11 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
+    <!-- Nav Item - Tableau de bord -->
     <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_dash_board_index' ? 'active' }}">
         <a class="nav-link" href="{{ path('admin_dash_board_index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Tableau de bord</span></a>
 
     </li>
 
@@ -69,7 +69,14 @@
                 <span>Mes réservations</span>
             </a>
         </li>
-        <hr class="sidebar-divider">
+        {% if is_granted('ROLE_FREELANCE') and not is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_agenda_index') }}">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Mon planning</span>
+                </a>
+            </li>
+        {% endif %}
     {% endif %}
 
     {% if is_granted('ROLE_CLIENT') %}
@@ -78,7 +85,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Missions
+            RENFORT D’ÉQUIPE
         </div>
 
         <li class="nav-item">
@@ -102,12 +109,12 @@
             </a>
         </li>
     {% elseif is_granted('ROLE_FREELANCE') and not is_granted('ROLE_ADMIN') %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('admin_agenda_index') }}">
-                <i class="fas fa-fw fa-list"></i>
-                <span>Mon planning</span>
-            </a>
-        </li>
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+        RENFORT D’ÉQUIPE
+        </div>
         <li class="nav-item">
             <a class="nav-link" href="{{ path('admin_mission_my_missions') }}">
                 <i class="fas fa-fw fa-list"></i>
@@ -121,7 +128,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            ÉDUCAT'HEURES
+            LES EDUCAT’HEURES
         </div>
 
         <li class="nav-item">
@@ -134,7 +141,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ path('admin_educatheure_index') }}">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>Mes Services</span>
+                <span>LES EDUCAT’HEURES</span>
             </a>
         </li>
     {% endif %}

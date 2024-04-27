@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Constant\NotificationConstant;
 use App\Constant\UserConstant;
 use App\Entity\Booking;
+use App\Entity\Exclusive;
 use App\Entity\Mission;
 use App\Entity\Service;
 use App\Form\MissionType;
@@ -57,7 +58,7 @@ class MissionController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, QualificationService $qualificationService, MissionRepository $missionRepository, NotificationService $notificationService): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,  QualificationService $qualificationService, MissionRepository $missionRepository, NotificationService $notificationService): Response
     {
         if (!$this->getUser()->isEnabled()) {
             $this->addFlash('danger', "Vous ne pouvez pas proposer une mission tant que votre profil n'est pas validé par un administrateur !");
@@ -100,6 +101,14 @@ class MissionController extends AbstractController
                     $mission->setEmergency(true);
 
                     $users = $users->toArray();
+
+                    foreach ($users as $user) {
+                        $exclusive = new Exclusive();
+                        $exclusive->setMission($mission);
+                        $exclusive->setUser($user);
+
+                        $entityManager->persist($exclusive);
+                    }
                 }
             }
             $mission->setUser($this->getUser());
@@ -108,9 +117,9 @@ class MissionController extends AbstractController
 
             $missionRepository->save($mission, true);
 
-            if ($mission->isEmergency()) {
-                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
-            }
+//            if ($mission->isEmergency()) {
+//                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
+//            }
             $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
 
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
@@ -149,7 +158,8 @@ class MissionController extends AbstractController
         Mission $mission,
         MissionRepository $missionRepository,
         QualificationService $qualificationService,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        EntityManagerInterface $entityManager
     ): Response
     {
         $form = $this->createForm(MissionType::class, $mission);
@@ -185,7 +195,21 @@ class MissionController extends AbstractController
 
                     $users = $users->toArray();
 
-                    $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
+                    $userExists = $entityManager->getRepository(Exclusive::class)->findBy(['mission' => $mission]);
+
+                    foreach ($userExists as $userExist) {
+                        $entityManager->remove($userExist);
+                    }
+
+                    foreach ($users as $user) {
+                        $exclusive = new Exclusive();
+                        $exclusive->setMission($mission);
+                        $exclusive->setUser($user);
+
+                        $entityManager->persist($exclusive);
+                    }
+
+//                    $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
                     $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
                 }
             }

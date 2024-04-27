@@ -4,10 +4,13 @@ namespace App\Controller\BackOffice;
 
 use App\Constant\UserConstant;
 use App\Entity\Educatheure;
+use App\Entity\EducatheureTag;
 use App\Form\EducatheureType;
 use App\Repository\EducatheureRepository;
 use App\Service\QualificationService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +33,12 @@ class EducatheureController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EducatheureRepository $educatheureRepository, QualificationService $qualificationService): Response
+    public function new(
+        Request $request,
+        EducatheureRepository $educatheureRepository,
+        QualificationService $qualificationService,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $educatheure = new Educatheure();
         $form = $this->createForm(EducatheureType::class, $educatheure);
@@ -38,9 +46,37 @@ class EducatheureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($days = $form->get('days')->getData()) {
-                $educatheure->setDays($days);
+//            if ($dateDebut = $form->get('debut')->getData()) {
+//                $dateDebut = str_replace('/', '-', $dateDebut);
+//                $educatheure->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
+//            }
+//            if ($dateFin = $form->get('fin')->getData()) {
+//                $dateFin = str_replace('/', '-', $dateFin);
+//                $educatheure->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
+//            }
+//            if ($educatheure->getEnded() <= $educatheure->getStarted()) {
+//                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
+//
+//                return $this->renderForm('back_office/educatheure/new.html.twig', [
+//                    'educatheure' => $educatheure,
+//                    'form' => $form,
+//                ]);
+//            }
+
+            if ($categories = $form->get('publicType')->getData()) {
+                foreach ($educatheure->getEducatheureTags() as $educatheureTag) {
+                    $entityManager->remove($educatheureTag);
+                }
+
+                foreach ($categories as $category) {
+                    $categoryTag = new EducatheureTag();
+                    $categoryTag->setCategory($category);
+                    $categoryTag->setEducatheur($educatheure);
+
+                    $entityManager->persist($categoryTag);
+                }
             }
+
 
             $qualificationService->addElement($form, 'image');
 
@@ -70,15 +106,48 @@ class EducatheureController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Educatheure $educatheure, EducatheureRepository $educatheureRepository, QualificationService $qualificationService): Response
+    public function edit(
+        Request $request,
+        Educatheure $educatheure,
+        EducatheureRepository $educatheureRepository,
+        QualificationService $qualificationService,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $form = $this->createForm(EducatheureType::class, $educatheure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($days = $form->get('days')->getData()) {
-                $educatheure->setDays($days);
+//            if ($dateDebut = $form->get('debut')->getData()) {
+//                $dateDebut = str_replace('/', '-', $dateDebut);
+//                $educatheure->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
+//            }
+//            if ($dateFin = $form->get('fin')->getData()) {
+//                $dateFin = str_replace('/', '-', $dateFin);
+//                $educatheure->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
+//            }
+//            if ($educatheure->getEnded() <= $educatheure->getStarted()) {
+//                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
+//
+//                return $this->renderForm('back_office/educatheure/edit.html.twig', [
+//                    'educatheure' => $educatheure,
+//                    'form' => $form,
+//                ]);
+//            }
+
+            if ($categories = $form->get('publicType')->getData()) {
+                foreach ($educatheure->getEducatheureTags() as $educatheureTag) {
+                    $entityManager->remove($educatheureTag);
+                }
+
+                foreach ($categories as $category) {
+                    $categoryTag = new EducatheureTag();
+                    $categoryTag->setCategory($category);
+                    $categoryTag->setEducatheur($educatheure);
+
+                    $entityManager->persist($categoryTag);
+                }
             }
 
             if (!$form->has('users')) {

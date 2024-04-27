@@ -1891,7 +1891,12 @@ pre code {
 }
 
 .form-control:disabled, .form-control[readonly] {
-  background-color: #eaecf4;
+  background-color: #fff !important;
+  opacity: 1;
+}
+
+.form-control.flatpickr-input:disabled, .form-control.flatpickr-input[readonly] {
+  background-color: #fff !important;
   opacity: 1;
 }
 

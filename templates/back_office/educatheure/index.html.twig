@@ -14,7 +14,7 @@
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item active">ÉDUCAT'HEURE</li>
     </ol>
 
@@ -44,9 +44,8 @@
                             <th>Titre</th>
                             <th>Crée</th>
                             <th>Publiée</th>
-                            <th>Durée Min</th>
-                            <th>Durée Max</th>
-                            <th>Jours</th>
+{#                            <th>Début</th>#}
+{#                            <th>Fin</th>#}
 {#                            <th>Réservé</th>#}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <th>Auteur</th>
@@ -72,23 +71,8 @@
                         </span>
                                     {% endif %}
                                 </td>
-                                <td>{{ educatheure.minDuration  }}</td>
-                                <td>{{ educatheure.maxDuration }}</td>
-                                <td>
-                                    {% for day in educatheure.days %}
-                                        <span class="badge rounded-pill bg-success text-light">{{ day }}</span>&nbsp;
-                                    {% endfor %}
-{#                                <td>#}
-{#                                    {% if educatheure.booked %}#}
-{#                                        <span class="badge badge-info">#}
-{#                                         Oui#}
-{#                                        </span>#}
-{#                                    {% else %}#}
-{#                                        <span class="badge badge-secondary">#}
-{#                                          Non#}
-{#                                        </span>#}
-{#                                    {% endif %}#}
-{#                                </td>#}
+{#                                <td>{{ educatheure.started|date('d/m/Y H:i')  }}</td>#}
+{#                                <td>{{ educatheure.ended|date('d/m/Y H:i') }}</td>#}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <td>
                                         {% for user in educatheure.users %}
@@ -102,7 +86,10 @@
                                     {% endfor %}
                                 </td>
                                 <td>
-                                    <span class="badge badge-primary">{{ educatheure.publicType|transType }}</span>
+                                    {% for publicType in educatheure.educatheureTags %}
+                                        <span class="badge badge-primary">{{ publicType.category.title }}</span>
+                                    {% endfor %}
+
                                 </td>
                                 <td align="center">
                                     <a href="{{ path('admin_educatheure_show', {'id': educatheure.id}) }}">

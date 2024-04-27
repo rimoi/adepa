@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
+use App\Constant\CategoryType;
 
 class EducatheureType extends AbstractType
 {
@@ -32,36 +33,60 @@ class EducatheureType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        /**
+         * @var Educatheure $educatheur
+         */
+
+        $educatheur = $options['data'];
+
+        $categories = [];
+
+        foreach ($educatheur->getEducatheureTags() as $educatheureTag) {
+            $categories[] = $educatheureTag->getCategory();
+        }
+
+//        $started = $educatheur->getStarted() ? $educatheur->getStarted()->format('d/m/Y H:i') : '';
+//        $ended = $educatheur->getEnded() ? $educatheur->getEnded()->format('d/m/Y H:i') : '';
+
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Poste: (*)',
+                'label' => 'Service: (*)',
                 'attr' => ['placeholder' => 'Ex: Expert du trouble'],
             ])
-            ->add('price', NumberType::class, [
-                'grouping' => true,
-                'scale' => 0,
-                'label' => 'Prix (*)',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => '150'
-                ],
+            ->add('nombreIntervention', IntegerType::class, [
+                'label' => "Nombre d'intervention",
+                'required' => false,
+                'attr' => ['placeholder' => '5'],
             ])
-            ->add('zipCode', IntegerType::class, [
-                'label' => 'Code Postal (*)',
-                'attr' => ['placeholder' => '75012'],
+            ->add('departement', TextType::class, [
+                'label' => 'Département (*)',
+                'attr' => ['placeholder' => 'Yvelines'],
             ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville (*)',
-                'attr' => ['placeholder' => 'Paris'],
-            ])
-            ->add('minDuration', TextType::class, [
-                'label' => 'Durée min: (*)',
-                'attr' => ['placeholder' => 'Ex: 02h00', 'class' => 'datepicker-hours'],
-            ])
-            ->add('maxDuration', TextType::class, [
-                'label' => 'Durée max: (*)',
-                'attr' => ['placeholder' => 'Ex: 06h00', 'class' => 'datepicker-hours'],
-            ])
+//            ->add('zipCode', IntegerType::class, [
+//                'label' => 'Code Postal (*)',
+//                'attr' => ['placeholder' => '75012'],
+//            ])
+//            ->add('city', TextType::class, [
+//                'label' => 'Ville (*)',
+//                'attr' => ['placeholder' => 'Paris'],
+//            ])
+//            ->add('debut', TextType::class, [
+//                'label' => 'Début du service (*)',
+//                'attr' => [
+//                    'class' => 'datepicker'
+//                ],
+//                "data" => $started,
+//                'mapped' => false
+//            ])
+//            ->add('fin', TextType::class, [
+//                'label' => 'Fin du service (*)',
+//                'attr' => [
+//                    'class' => 'datepicker'
+//                ],
+//                "data" => $ended,
+//                'mapped' => false
+//            ])
             ->add('numberParticipant', IntegerType::class, [
                 'label' => 'Nombre de participant',
                 'required' => false,
@@ -94,16 +119,7 @@ class EducatheureType extends AbstractType
                     //...
                 ),
             ])
-            ->add('days', ChoiceType::class, [
-                'label' => 'Jours de réservation : ',
-                'help' => 'Sélectionnez les jours de la semaine disponibles pour la réservation.',
-                'choices' => Days::MAP,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => [
-                    'class' => 'form-check-inline'
-                ]
-            ])
+
             ->add('image', FileType::class, [
                 'label' => 'Image du service',
                 'required' => false,
@@ -111,9 +127,32 @@ class EducatheureType extends AbstractType
             ])
             ->add('published', CheckboxType::class, [
                 'required' => false,
-                'label' => "Publiée la mission ?",
+                'label' => "Publiée le service ?",
                 'label_attr' => ['class' => 'switch-custom'],
             ])
+            ->add('publicType', EntityType::class, [
+            'class' => Category::class,
+            'query_builder' => static function (CategoryRepository $repository) {
+                return $repository->createQueryBuilder('t')
+                    ->innerJoin('t.parent', 'p')
+                    ->where('t.archived = :archived')
+                    ->setParameter('archived', false)
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', CategoryType::PUBLIC)
+                    ->addOrderBy('t.title', 'ASC');
+            },
+            'group_by' => static function (Category $choice) {
+                return $choice->getParent()->getTitle();
+            },
+            'mapped' => false,
+            'label' => 'Choisir les types de public (*)',
+            'multiple' => true,
+            'data' => $categories ?? null,
+            'attr' => [
+                'class' => 'js-select2',
+                'style' => "width: 100%",
+            ],
+        ])
         ;
 
         if ($this->security->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
@@ -137,7 +176,17 @@ class EducatheureType extends AbstractType
                     'class' => 'js-select2',
                     'style' => "width: 100%",
                 ],
-            ]);
+            ])
+            ->add('price', NumberType::class, [
+                'grouping' => true,
+                'scale' => 0,
+                'label' => 'Prix (*)',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '150'
+                ],
+            ])
+            ;
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
@@ -154,6 +203,8 @@ class EducatheureType extends AbstractType
                     ->innerJoin('t.parent', 'p')
                     ->where('t.archived = :archived')
                     ->setParameter('archived', false)
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', CategoryType::SERVICE)
                     ->addOrderBy('t.title', 'ASC');
             },
             'group_by' => static function (Category $choice) {

@@ -32,19 +32,15 @@ class MissionFrontController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $categories = $form->get('categories')->getData();
             if ($categories && $categories->toArray()) {
-                $missions = $entityManager->getRepository(Mission::class)->getMissionByCriteria($categories->toArray());
+                $missions = $entityManager->getRepository(Mission::class)->getMissionByCriteria($this->getUser(), $categories->toArray());
             }
         }
 
         if (!$missions) {
-            $missions = $entityManager->getRepository(Mission::class)->findBy([
-                'archived' => false,
-                'published' => true,
-                'booked' => false
-            ], ['started' => 'ASC']);
+            $missions = $entityManager->getRepository(Mission::class)->getMissions($this->getUser());
         }
 
-
+       
         $all_missions = [
             'urgent' => [],
             'normal' => []
