@@ -49,7 +49,7 @@
     <thead>
     <tr>
         <th>Description</th>
-        <th>Prix unitaire (€)</th>
+        <th>Prix unitaire ( par Heure )</th>
         <th>Quantité</th>
         <th>Total (€)</th>
     </tr>
@@ -57,11 +57,11 @@
     <tbody>
     {% set total_ht = 0 %}
     {% for reservation in facture.reservations %}
-        {% set total_ht = total_ht + reservation.educatheure.price %}
+        {% set total_ht = total_ht + ( 30 * reservation.educatheure.nombreIntervention )  %}
         <tr>
             <td>{{ reservation.educatheure.title }}</td>
-            <td>{{ reservation.educatheure.price }} €</td>
-            <td>1</td>
+            <td>{{ 30 }} €</td>
+            <td>{{ reservation.educatheure.nombreIntervention }} heure{{ reservation.educatheure.nombreIntervention > 1 ? 's' }}</td>
             <td>{{ reservation.educatheure.price }} €</td>
         </tr>
     {% endfor %}
@@ -70,7 +70,8 @@
         <td>{{ total_ht }}</td>
     </tr>
     <tr>
-        {% set montant_tva = total_ht * (20 / 100) %}
+        {% set montant_tva = 0 %}
+{#        {% set montant_tva = total_ht * (20 / 100) %}#}
         <td colspan="3">TVA ( 20% )</td>
         <td>{{ montant_tva }}</td>
     </tr>

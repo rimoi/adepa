@@ -49,7 +49,7 @@
     <thead>
     <tr>
         <th>Description</th>
-        <th>Prix unitaire (€)</th>
+        <th>Prix unitaire ( par heure)</th>
         <th>Quantité</th>
         <th>Total (€)</th>
     </tr>
@@ -57,11 +57,13 @@
     <tbody>
     {% set total_ht = 0 %}
     {% for booking in facture.bookings %}
-        {% set total_ht = total_ht + booking.mission.price %}
+        {% set total_ht = total_ht + ( 28 * booking.totalHoursPassed ) %}
         <tr>
             <td>{{ booking.mission.title }}</td>
-            <td>{{ booking.mission.price }} €</td>
-            <td>1</td>
+            <td>{{ 28 }} €</td>
+            <td>
+                {{ booking.totalHoursPassed }} heure{{ booking.totalHoursPassed > 1 ? 's' }}
+            </td>
             <td>{{ booking.mission.price }} €</td>
         </tr>
     {% endfor %}
@@ -70,7 +72,8 @@
         <td>{{ total_ht }}</td>
     </tr>
     <tr>
-        {% set montant_tva = total_ht * (20 / 100) %}
+{#        {% set montant_tva = total_ht * (20 / 100) %}#}
+        {% set montant_tva = 0 %}
         <td colspan="3">TVA ( 20% )</td>
         <td>{{ montant_tva }}</td>
     </tr>
@@ -91,8 +94,6 @@
     <p>SIRET : {{ facture.customer.siret }}</p>
     <p>Numéro TVA : {{ facture.customer.tva }}</p>
 </div>
-
-
 
 </body>
 </html>

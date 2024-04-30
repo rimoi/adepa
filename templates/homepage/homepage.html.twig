@@ -20,11 +20,6 @@
 						<br>
 						DU MÉDICO SOCIAL
 					</h1>
-{#					<h1 class="bg-color-blue">#}
-{#						LES EXTRAS FREELANCES #}
-{#						<br>#}
-{#						<span>DU MÉDICO SOCIAL</span>#}
-{#					</h1>#}
 				</div>
 				<div class="col-lg-12 text-center">
 					<lottie-player class="js-relationship mt-lg-n4"  background="transparent"  speed="1"
@@ -149,14 +144,6 @@
 											</div>
 										</div>
 									</div>
-{#									<div class="row my-4">#}
-{#										<div class="col-12 text-center">#}
-{#											<div class="cs-small-homepage text-center">#}
-{#												<i class="fas fa-map-marker-alt text-danger"></i>#}
-{#												<span title="{{ educateur.departement }}">{{ educateur.departement|upper }}</span>#}
-{#											</div>#}
-{#										</div>#}
-{#									</div>#}
 								</div>
 
 							</div>
@@ -165,7 +152,6 @@
 									<div class="text-danger text-sm-start">
 										<i class="fas fa-map-marker-alt text-danger"></i>
 										<span title="{{ educateur.departement }}" class="small">{{ educateur.departement|upper }}</span>
-{#										{{ educateur.price }} €#}
 									</div>
 									<div>
 										<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}" title="Voir le service">
@@ -201,9 +187,6 @@
 	<section class="news" id="news">
 
 		<div class="news-box row ">
-{#			<div class="col-1 col-sm-2 {{ not articles|length ? 'cs-image-actualite' }}">#}
-{#				<img src="{{asset('images/news.png')}}" alt="">#}
-{#			</div>#}
 			<div class="col-12 col-sm-6 offset-sm-3">
 				{% if articles|length %}
 					{% include 'back_office/dash_board/_article.html.twig' with {'articles': articles} %}

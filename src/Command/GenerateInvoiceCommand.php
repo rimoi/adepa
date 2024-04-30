@@ -62,17 +62,17 @@ class GenerateInvoiceCommand extends Command
 
             if ($invoiceDTOs) {
                 $this->createInvoice($invoiceDTOs, $invoice);
-                $io->note(sprintf('%d factures services ont été créer', count($invoiceDTOs)));
+                $io->note(sprintf('%d factures educatheure ont été créer', count($invoiceDTOs)));
             }
 
             // créer les factures mission
             $bookings = $this->entityManager->getRepository(Booking::class)->getFinishedBooking();
-           
+
             $invoiceDTOs = $this->createInvoiceDTOBooking($bookings, $mount);
 
             if ($invoiceDTOs) {
                 $this->createInvoiceBooking($invoiceDTOs, $invoice);
-                $io->note(sprintf('%d factures réservation ont été créer', count($invoiceDTOs)));
+                $io->note(sprintf('%d factures mission ont été créer', count($invoiceDTOs)));
             }
 
             $invoice->setNumberInvoice($this->numberInvoice);
@@ -134,8 +134,8 @@ class GenerateInvoiceCommand extends Command
             }
 
             $booking->getMission()->setPrice(28);
-            // Une mission est tjrs 28 Une mission c’est 28€/ heure
-            // Et éducateur c’est 30€/heure
+            // Une mission est tjrs 28 Une mission c’est 28 €/heure
+            // Et éducateur c’est 30 €/heure
 
             $invoiceDTO = new InvoiceDTO();
             $invoiceDTO->setNumero(sprintf('%s-%s', $mount, $this->numberInvoice));

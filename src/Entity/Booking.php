@@ -36,6 +36,21 @@ class Booking
     #[ORM\Column(options: ['default' => false])]
     private ?bool $validate = false;
 
+    public function totalHoursPassed(): int
+    {
+        $dateDebut = $this->getConfirmStarted();
+        $dateFin = $this->getConfirmEnded();
+        
+        $result = $dateDebut->diff($dateFin);
+
+        if (!$result->d) {
+            return $result->h;
+        }
+
+        return ($result->d * 8) + $result->h;
+    }
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
