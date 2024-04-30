@@ -143,7 +143,7 @@ class ProfileFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => [
-                    'class' => 'form-check-inline'
+                    'class' => 'form-check-inline cs-redesign'
                 ]
             ])
 

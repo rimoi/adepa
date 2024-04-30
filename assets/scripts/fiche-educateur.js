@@ -40,4 +40,13 @@ $(function () {
         var price = intervention * 30;
         $('.js-price').val(price + ' €');
     });
+
+    const menuHamburger = document.querySelector(".menu-burger");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (menuHamburger) {
+        menuHamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-menu')
+        });
+    }
 });

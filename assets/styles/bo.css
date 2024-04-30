@@ -81,3 +81,9 @@ body {
     background-color: #17a2b8;
     color: #fff;
 }
+
+@media (max-width: 768px) {
+    .form-check-inline.cs-redesign {
+        display: block;
+    }
+}

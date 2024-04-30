@@ -61,7 +61,7 @@
                         {{ reservation.note|raw }}
                     </p>
                     <div class="blockquote-footer">
-                        Note de <cite title="Source Title">client</cite>
+                        Note de <cite title="Source Title">{{ reservation.owner.nickname }}</cite>
                     </div>
                 </blockquote>
                 <div class="my-3">
@@ -73,6 +73,18 @@
                         {% endfor %}
                     </select>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <hr>
+                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité : </h6>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-group mb-3">
+                        <input type="text" name="intervention" disabled class="form-control js-intervention" value="{{ reservation.numberIntervention }} heure{{ reservation.numberIntervention > 1 ? 's' }}" required>
+                    </div>
+                </div>
+
                 <div class="my-3">
                     <div class="row">
                         <div class="col-12">
@@ -101,11 +113,16 @@
                                     <input class="form-control" disabled name="name1" type="text" placeholder="Nom" value="{{ adresse1 ? adresse1.contactName : '' }}" required>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <input class="form-control" disabled name="phone1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                    <input class="form-control" disabled name="phone1" type="text" placeholder="Poste" value="{{ adresse1 ? adresse1.unityName : '' }}" required>
                                 </div>
                             </div>
-                            <div>
-                                <input class="form-control" disabled name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="poste1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                                </div>
                             </div>
                             <div class="row my-1">
                                 <div class="col-12 col-sm-6">
@@ -141,15 +158,6 @@
                                 </div>
                             </div>
                         </fieldset>
-                    </div>
-                    <div class="col-12">
-                        <hr>
-                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité : </h6>
-                    </div>
-                    <div class="col-12">
-                        <div class="input-group mb-3">
-                            <input type="text" name="intervention" disabled class="form-control js-intervention" value="{{ reservation.numberIntervention }} heure{{ reservation.numberIntervention > 1 ? 's' }}" required>
-                        </div>
                     </div>
                     <div class="col-12">
                         <h6 class="filter-form-small-title">Tarif : </h6>

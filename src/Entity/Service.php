@@ -37,7 +37,6 @@ class Service
     private ?string $unityName = null;
 
     #[ORM\ManyToOne(inversedBy: 'services')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Mission::class)]

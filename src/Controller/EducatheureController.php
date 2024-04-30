@@ -77,18 +77,11 @@ class EducatheureController extends AbstractController
     #[Route('/new-booking/{slug}', name: 'new_booking', methods: ['POST'])]
     public function newBooking(Educatheure $educatheur, Request $request, EntityManagerInterface $entityManager, NotificationService $notificationService): Response
     {
-//        $reservation = $entityManager->getRepository(Reservation::class)->findOneBy([
-//            'educatheure' => $educatheur,
-//            'owner' => $this->getUser()
-//        ]);
+        $reservation = new Reservation();
+        $reservation->setEducatheure($educatheur);
+        $reservation->setOwner($this->getUser());
 
-//        if (!$reservation) {
-            $reservation = new Reservation();
-            $reservation->setEducatheure($educatheur);
-            $reservation->setOwner($this->getUser());
-
-            $entityManager->persist($reservation);
-//        }
+        $entityManager->persist($reservation);
 
         $reservation->setNote($request->get('note'));
         if ( $publics = $request->get('publics')) {
@@ -115,11 +108,10 @@ class EducatheureController extends AbstractController
             $service = new Service();
             $service->setAddress($request->get('adresse1'));
             $service->setZipCode($request->get('zipCode1'));
+            $service->setPublic($request->get('poste1'));
             $service->setCity($request->get('city1'));
             $service->setContactName($request->get('name1'));
             $service->setPhone($request->get('phone1'));
-
-            $service->setUser($this->getUser());
 
             $reservation->addService($service);
             $service->setReservation($reservation);
@@ -135,8 +127,6 @@ class EducatheureController extends AbstractController
             $service->setContactName($request->get('name2'));
             $service->setPhone($request->get('phone2'));
 
-            $service->setUser($this->getUser());
-
             $reservation->addService($service);
 
             $service->setReservation($reservation);
@@ -149,8 +139,6 @@ class EducatheureController extends AbstractController
 
             $reservation->setPrice($reservation->getNumberIntervention() * 30);
         }
-
-
 
         $entityManager->flush();
 

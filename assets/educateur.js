@@ -52,5 +52,4 @@ const myModal = new Modal('#staticBackdrop', {
 })
 
 import './scripts/fiche-educateur';
-import './scripts/my.js';
 

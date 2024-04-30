@@ -63,7 +63,7 @@
                             <div class="lead cs-font-weight my-2">
                                 <i class="fas fa-fw fa-hourglass-start text-success"></i>
                                 &nbsp;
-                                Nombre d'intervention : <span class="text-muted">{{ educatheure.numberParticipant }} Heure{{ educatheure.numberParticipant > 1 ? 's' }}</span>
+                                Nombre d'intervention : <span class="text-muted">{{ educatheure.nombreIntervention }} Heure{{ educatheure.nombreIntervention > 1 ? 's' }}</span>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 cs-space-col">
@@ -109,7 +109,7 @@
                                             {{ educatheure.noteBooking|raw }}
                                         </p>
                                         <div class="blockquote-footer">
-                                            Note de <cite title="Source Title">l'auteur</cite>
+                                            <cite title="Source Title">{{ educatheure.title }}</cite>
                                         </div>
                                     </blockquote>
                                     <div class="my-3">
@@ -122,9 +122,18 @@
                                         </select>
                                     </div>
                                     <div class="my-2">
-                                        <h6 class="filter-form-small-title">Description du public est besoin <sup class="text-danger">*</sup> : </h6>
+                                        <h6 class="filter-form-small-title">Description du besoin <sup class="text-danger">*</sup> : </h6>
                                         <div class="mb-3">
                                             <textarea class="form-control" name="note" id="message-text" placeholder="Si vous avez des informations à partager concernant votre réservation"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité ( préconisé par l’intervenant = {{ educatheure.nombreIntervention }} ) <sup class="text-danger">*</sup> : </h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <input type="number" name="intervention" class="form-control js-intervention" placeholder="3" required>
                                         </div>
                                     </div>
                                     <div class="my-3">
@@ -155,11 +164,17 @@
                                                         <input class="form-control" name="name1" type="text" placeholder="Nom" value="{{ adresse1 ? adresse1.contactName : '' }}" required>
                                                     </div>
                                                     <div class="col-12 col-sm-6">
-                                                        <input class="form-control" name="phone1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                                        <input class="form-control" name="poste1" type="text" placeholder="Poste" value="{{ adresse1 ? adresse1.unityName : '' }}" required>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <input class="form-control" name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="phone1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                                                    </div>
+
                                                 </div>
                                                 <div class="row my-1">
                                                     <div class="col-12 col-sm-6">
@@ -172,38 +187,29 @@
                                             </fieldset>
                                         </div>
                                         <div class="col-12 my-2">
-                                            {% set adresse2 = app.user.services|length > 1 ? app.user.services.last : false %}
+
                                             <fieldset>
-                                                <h6 class="filter-form-small-title">Lieu intervention <sup class="text-danger">*</sup> : </h6>
+                                                <h6 class="filter-form-small-title">Lieu intervention : </h6>
                                                 <div class="row my-1">
                                                     <div class="col-12 col-sm-6">
-                                                        <input class="form-control" name="name2" type="text" placeholder="Nom" value="{{ adresse2 ? adresse2.contactName : '' }}" required>
+                                                        <input class="form-control" name="name2" type="text" placeholder="Nom" >
                                                     </div>
                                                     <div class="col-12 col-sm-6">
-                                                        <input class="form-control" name="phone2" type="number" placeholder="Tél" value="{{ adresse2 ? adresse2.phone : '' }}" required>
+                                                        <input class="form-control" name="phone2" type="number" placeholder="Tél" >
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <input class="form-control" name="adresse2" type="text" placeholder="3 rue gustave simon" value="{{ adresse2 ? adresse2.address : '' }}" required>
+                                                    <input class="form-control" name="adresse2" type="text" placeholder="3 rue gustave simon" >
                                                 </div>
                                                 <div class="row my-1">
                                                     <div class="col-12 col-sm-6">
-                                                        <input class="form-control" name="city2" type="text" placeholder="Paris" value="{{ adresse2 ? adresse2.city : '' }}" required>
+                                                        <input class="form-control" name="city2" type="text" placeholder="Paris" >
                                                     </div>
                                                     <div class="col-12 col-sm-6">
-                                                        <input class="form-control" name="zipCode2" type="number" placeholder="75012" value="{{ adresse2 ? adresse2.zipCode : '' }}" required>
+                                                        <input class="form-control" name="zipCode2" type="number" placeholder="75012" >
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                        </div>
-                                        <div class="col-12">
-                                            <hr>
-                                            <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité <sup class="text-danger">*</sup> : </h6>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="input-group mb-3">
-                                                <input type="number" name="intervention" class="form-control js-intervention" placeholder="3" required>
-                                            </div>
                                         </div>
                                         <div class="col-12">
                                             <h6 class="filter-form-small-title">Tarif : </h6>

@@ -36,15 +36,22 @@
                             {{ newRequest.createdAt|date('d/m/Y à H:i') }}
                         </td>
                         <td class="project-actions text-right">
-                            <button class="btn btn-primary btn-sm js-validate-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}">
-                                <i class="fas fa-check">
-                                </i>
-                                Accepter
-                            </button>
-                            <button class="btn btn-danger btn-sm js-refused-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}" >
-                                <i class="fas fa-trash"></i>
-                                Refuser
-                            </button>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <button class="btn btn-primary btn-sm js-validate-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}">
+                                    <i class="fas fa-check">
+                                    </i>
+                                    Accepter
+                                </button>
+
+                                <button class="btn btn-danger btn-sm js-refused-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}" >
+                                    <i class="fas fa-trash"></i>
+                                    Refuser
+                                </button>
+                            {% else %}
+                                <span class="badge-pill badge-pill">
+                                    En attente
+                                </span>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
