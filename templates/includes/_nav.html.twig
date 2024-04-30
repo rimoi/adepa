@@ -1,52 +1,56 @@
 <nav class="navbar-header" id="navbar-header">
 	<a href="{{path('home')}}" class="logo"><img src="{{asset('images/logo.png')}}" class="logo-img" alt="logo LES EXTRAS"></a>
-	<div class="nav-links">
-		<ul style="margin-bottom: 0;margin-top: 0;">
-			<li>
-				<a href="{{path('front_mission')}}">
-					<i class="fa fa-briefcase"></i>&nbsp;
-					Renfort d'équipe
-				</a>
-			</li>
-			<li>
-				<a href="{{path('app_educatheure_list')}}">
-					<i class="fas fa-user-md"></i>&nbsp;
-					LES EDUCAT’HEURES
-				</a>
-			</li>
-			<li>
-				<a href="{{path('app_contact')}}">
-					<i class="fa fa-file-signature"></i>&nbsp;
-					Contact
-				</a>
-			</li>
-
-		</ul>
-	</div>
-	<div class="d-flex">
-		{% if app.user %}
+	<div class="nav-links flex-sm-grow-1">
+		<div class="d-sm-flex justify-content-sm-around">
 			<div>
-				<a href="{{ path('admin_dash_board_index') }}">
-					<i class="fas fa-tachometer-alt"></i>&nbsp;
-					Tableau de bord
-				</a>
-			</div>
-			<div class="pl-5 cs-space-22">
-				<a href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
-			</div>
-		 {% else %}
-			<div>
-				<a href="{{path('app_login')}}">
-					<i class="fa fa-user-shield"></i>&nbsp;
-					Se connecter</a>
-			</div>
-			<div class="pl-5 cs-space-22">
-				<a href="{{path('app_register')}}">
-					<i class="fa fa-user-secret"></i>&nbsp;
-					S'inscrire</a>
-			</div>
+				<ul style="margin-bottom: 0;margin-top: 0;">
+					<li>
+						<a href="{{path('front_mission')}}">
+							<i class="fa fa-briefcase"></i>&nbsp;
+							Renfort d'équipe
+						</a>
+					</li>
+					<li>
+						<a href="{{path('app_educatheure_list')}}">
+							<i class="fas fa-user-md"></i>&nbsp;
+							LES EDUCAT’HEURES
+						</a>
+					</li>
+					<li>
+						<a href="{{path('app_contact')}}">
+							<i class="fa fa-file-signature"></i>&nbsp;
+							Contact
+						</a>
+					</li>
 
-		{% endif %}
+				</ul>
+			</div>
+			<div class="d-sm-flex d-flex flex-column flex-sm-row cs-navbar-mobile">
+				{% if app.user %}
+					<div class="pl-5">
+						<a href="{{ path('admin_dash_board_index') }}">
+							<i class="fas fa-tachometer-alt"></i>&nbsp;
+							Tableau de bord
+						</a>
+					</div>
+					<div class="pl-5 cs-space-22">
+						<a href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+					</div>
+				{% else %}
+					<div class="pl-5">
+						<a href="{{path('app_login')}}">
+							<i class="fa fa-user-shield"></i>&nbsp;
+							Se connecter</a>
+					</div>
+					<div class="pl-5 cs-space-22">
+						<a href="{{path('app_register')}}">
+							<i class="fa fa-user-secret"></i>&nbsp;
+							S'inscrire</a>
+					</div>
+
+				{% endif %}
+			</div>
+		</div>
 	</div>
 	<img src="{{asset('images/burger.png')}}" class="menu-burger" alt="menu burger">
 </nav>
