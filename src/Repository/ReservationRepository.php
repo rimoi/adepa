@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Constant\ReservationType;
 use App\Constant\UserConstant;
 use App\Entity\Reservation;
 use App\Entity\User;
@@ -53,6 +54,22 @@ class ReservationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function getAffectedReservations(User $user): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        return $qb->join('r.educatheure', 'e')
+            ->leftjoin('e.user', 'u')
+            ->leftJoin('r.users', 'users')
+            ->where('u.id = :user_id OR users IN (:user_id)')
+            ->setParameter('user_id', $user->getId())
+            ->andWhere('r.status = :status')
+            ->setParameter('status', ReservationType::CREATED)
+            ->orderBy('r.id', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 

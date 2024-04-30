@@ -46,6 +46,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: EducatheureTag::class)]
     private Collection $educatheureTags;
 
+    #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'categories')]
+    private Collection $reservations;
+
 
     public function __toString(): string
     {
@@ -59,6 +62,7 @@ class Category
         $this->missions = new ArrayCollection();
         $this->educatheures = new ArrayCollection();
         $this->educatheureTags = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,6 +242,33 @@ class Category
             if ($educatheureTag->getCategory() === $this) {
                 $educatheureTag->setCategory(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            $reservation->removeCategory($this);
         }
 
         return $this;

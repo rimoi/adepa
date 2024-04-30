@@ -33,14 +33,12 @@
                         <thead>
                         <tr>
                             <th>Service</th>
-                            <th>Freelance</th>
-                            <th>Date réservation</th>
-                            <th>Créneau réservation</th>
-                            <th>Status</th>
+                            <th>Client</th>
+                            <th>Début d'intervention</th>
+                            <th>Fin d'intervention</th>
+                            <th>Heure d'intervention</th>
                             <th>Prix</th>
-                            <th>Note</th>
-                            <th>Crée</th>
-                            <th>Mise à jour</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -48,42 +46,34 @@
                         {% for reservation in reservations %}
                             <tr>
                                 <td>
-                                    {% if reservation.educatheure %}
-                                        <a class="{{ path('app_educatheure_show', {slug: reservation.educatheure.slug}) }}">
-                                            {{ reservation.educatheure.title }}
-                                        </a>
-                                    {% endif %}
+                                    <a class="" href="#" data-toggle="modal" data-target="#modal-{{ reservation.id }}" title="Note du freelance">
+                                        {{ reservation.educatheure.title }}
+                                    </a>
+                                    <br/>
+                                    <small>
+                                        Publié le {{ reservation.createdAt|date('d/m/Y H:i')  }}
+                                    </small>
                                 </td>
                                 <td>
                                     {{ reservation.owner.nickname }}
                                 </td>
-                                <td>{{ reservation.dateSlot|date('d/m/Y') }}</td>
-                                <td>{{ reservation.timeSlot }}</td>
-                                <td>
-                                    {% if reservation.status == 'pending' %}
-                                        <span class="badge badge-secondary">En attente</span>
-                                    {% elseif reservation.isTerminated() %}
-                                        <span class="badge badge-primary">Terminé</span>
-                                    {% elseif reservation.status == 'confirmed' %}
-                                        <span class="badge badge-success">Confirmé</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-danger">
+                                <td>{{ reservation.startedAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ reservation.endAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ reservation.numberIntervention }} heure{{ reservation.numberIntervention > 1 ? 's' }}</td>
+                                <td class="text-danger text-">
                                     {{ reservation.educatheure.price }} €
+                                </td>
+                                <td>
+                                    {% if reservation.status == 'accepted' %}
+                                        <span class="badge badge-success">Validé</span>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#modal-{{ reservation.id }}">
                                         <i class="fas fa-eye">
                                         </i>
-                                        Voir la note
+                                        Voir détails
                                     </a>
-                                </td>
-                                <td>{{ reservation.createdAt|date('Y-m-d H:i') }}</td>
-                                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i') : '' }}</td>
-                                <td align="center">
-                                    {% if not reservation.isTerminated() %}
-                                        {{ include('back_office/reservation/_delete_form.html.twig') }}
-                                    {% endif %}
                                 </td>
                                 {% include 'back_office/reservation/_reservation_note.html.twig' %}
                             </tr>

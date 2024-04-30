@@ -161,6 +161,8 @@ class EducatheureType extends AbstractType
                 'query_builder' => static function (UserRepository $repository) {
                     return $repository->createQueryBuilder('u')
                         ->andWhere('u.roles LIKE :roles')
+                        ->andWhere('u.enabled = :enabled')
+                        ->setParameter('enabled', true)
                         ->setParameter('roles', '%'.UserConstant::ROLE_FREELANCE.'%')
                         ;
                 },

@@ -36,6 +36,9 @@ class Email
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $template = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $type = null;
+
     #[ORM\PrePersist]
     public function setCreatedAt()
     {
@@ -120,6 +123,18 @@ class Email
     public function setTemplate(?string $template): self
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -43,6 +43,9 @@ class Service
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Mission::class)]
     private Collection $missions;
 
+    #[ORM\ManyToOne(inversedBy: 'service')]
+    private ?Reservation $reservation = null;
+
     public function __construct()
     {
         $this->missions = new ArrayCollection();
@@ -175,6 +178,18 @@ class Service
                 $mission->setService(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }

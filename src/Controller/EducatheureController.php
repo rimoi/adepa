@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Constant\PublicType;
+use App\Entity\Category;
 use App\Entity\Educatheure;
 use App\Entity\Reservation;
+use App\Entity\Service;
 use App\helper\ArrayHelper;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,28 +75,86 @@ class EducatheureController extends AbstractController
     }
 
     #[Route('/new-booking/{slug}', name: 'new_booking', methods: ['POST'])]
-    public function newBooking(Educatheure $educatheur, Request $request, EntityManagerInterface $entityManager): Response
+    public function newBooking(Educatheure $educatheur, Request $request, EntityManagerInterface $entityManager, NotificationService $notificationService): Response
     {
+//        $reservation = $entityManager->getRepository(Reservation::class)->findOneBy([
+//            'educatheure' => $educatheur,
+//            'owner' => $this->getUser()
+//        ]);
 
-        $reservation = $entityManager->getRepository(Reservation::class)->findOneBy([
-            'educatheure' => $educatheur,
-            'owner' => $this->getUser()
-        ]);
-
-        if (!$reservation) {
+//        if (!$reservation) {
             $reservation = new Reservation();
             $reservation->setEducatheure($educatheur);
             $reservation->setOwner($this->getUser());
 
             $entityManager->persist($reservation);
-        }
+//        }
 
         $reservation->setNote($request->get('note'));
-        $reservation->setTimeSlot($request->get('publics'));
-
-        if ($request->get('dateSlot')) {
-            $reservation->setDateSlot(new \DateTime($request->get('dateSlot')));
+        if ( $publics = $request->get('publics')) {
+            $categories =  $entityManager->getRepository(Category::class)->findBy(['id' => $publics]);
+            foreach ($categories as $category) {
+                $reservation->addCategory($category);
+            }
         }
+
+        foreach ($educatheur->getUsers() as $user) {
+            $reservation->addUser($user);
+        }
+
+        if ($request->get('startedAt')) {
+            $startedAt = \DateTime::createFromFormat('d/m/Y H:i', $request->get('startedAt'));
+            $reservation->setStartedAt($startedAt);
+        }
+        if ($request->get('endAt')) {
+            $dateEndAt = \DateTime::createFromFormat('d/m/Y H:i', $request->get('endAt'));
+            $reservation->setEndAt($dateEndAt);
+        }
+
+        if ($request->get('adresse1')) {
+            $service = new Service();
+            $service->setAddress($request->get('adresse1'));
+            $service->setZipCode($request->get('zipCode1'));
+            $service->setCity($request->get('city1'));
+            $service->setContactName($request->get('name1'));
+            $service->setPhone($request->get('phone1'));
+
+            $service->setUser($this->getUser());
+
+            $reservation->addService($service);
+            $service->setReservation($reservation);
+
+            $entityManager->persist($service);
+        }
+
+        if ($request->get('adresse2')) {
+            $service = new Service();
+            $service->setAddress($request->get('adresse2'));
+            $service->setZipCode($request->get('zipCode2'));
+            $service->setCity($request->get('city2'));
+            $service->setContactName($request->get('name2'));
+            $service->setPhone($request->get('phone2'));
+
+            $service->setUser($this->getUser());
+
+            $reservation->addService($service);
+
+            $service->setReservation($reservation);
+
+            $entityManager->persist($service);
+        }
+
+        if ($request->get('intervention')) {
+            $reservation->setNumberIntervention($request->get('intervention'));
+
+            $reservation->setPrice($reservation->getNumberIntervention() * 30);
+        }
+
+
+
+        $entityManager->flush();
+
+        $notificationService->createNotification($reservation);
 
         $entityManager->flush();
 

@@ -20,7 +20,7 @@ class ReservationController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             $reservations = $reservationRepository->findBy([], ['id' => 'DESC']);
         } else {
-            $reservations = $reservationRepository->findBy(['owner' => $this->getUser()], ['id' => 'DESC']);
+            $reservations = $reservationRepository->findBy(['affected' => $this->getUser(), 'status' => ReservationType::ACCEPTED], ['id' => 'DESC']);
         }
 
         return $this->render('back_office/reservation/index.html.twig', [
@@ -31,7 +31,31 @@ class ReservationController extends AbstractController
     #[Route('/validate/{id}', name: 'validate', methods: ['POST'], options: ['expose' => true])]
     public function validate(Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
-        $reservation->setStatus(ReservationType::CONFIRMED);
+        $reservation->setStatus(ReservationType::ACCEPTED);
+
+        $reservation->setAffected($this->getUser());
+
+        foreach ($reservation->getUsers() as $user) {
+            $reservation->removeUser($user);
+        }
+
+        $entityManager->flush();
+
+        return $this->json(['success' => true]);
+    }
+
+    #[Route('/refused/{id}', name: 'refused', methods: ['POST'], options: ['expose' => true])]
+    public function refused(Reservation $reservation, EntityManagerInterface $entityManager): Response
+    {
+        $educatheur = $reservation->getEducatheure();
+
+        if ($educatheur->getUser() && $educatheur->getUser()->getId() === $this->getUser()->getId()) {
+            $reservation->setStatus(ReservationType::REFUSED);
+        } else {
+            // après ici il revoir si on veut garder l'historique des refus
+            // vu que c'est sur la reservation on peux
+            $reservation->removeUser($this->getUser());
+        }
 
         $entityManager->flush();
 

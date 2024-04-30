@@ -18,14 +18,14 @@
         {% endif %}
     </div>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        {% include 'back_office/dash_board/_statistic.html.twig' %}
-    {% endif %}
+{#    {% if is_granted('ROLE_ADMIN') %}#}
+{#        {% include 'back_office/dash_board/_statistic.html.twig' %}#}
+{#    {% endif %}#}
 
     <div class="row">
         <div class="col-12">
 
-            {% if is_granted('ROLE_ADMIN') and reservations %}
+            {% if reservations %}
                 {% include 'back_office/dash_board/_reservation.html.twig' with  {'reservations': reservations } only %}
             {% endif %}
 

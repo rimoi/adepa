@@ -12,10 +12,15 @@ import './admin/css/sb-admin-2.min.css';
 import './styles/footer.css';
 import './styles/timeline.css';
 
+import 'select2/dist/css/select2.min.css';
+
 
 import './admin/vendor/jquery/jquery.min.js';
 import "./admin/vendor/datatables/jquery.dataTables.min.js";
 import "./admin/vendor/bootstrap/js/bootstrap.bundle";
+
+import 'select2';
+import 'select2/dist/js/i18n/fr';
 
 import Swal from 'sweetalert2/dist/sweetalert2.all';
 window.Swal = global.Swal = Swal;

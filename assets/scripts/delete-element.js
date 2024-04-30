@@ -20,4 +20,13 @@ $(function () {
             })
         });
     }
+
+    if ($('.js-select2').length) {
+        let input_select2 = $('.js-select2');
+        input_select2.select2({
+            allowClear: true,
+            placeholder: input_select2.attr('placeholder'),
+            dropdownParent: $("#staticBackdrop")
+        });
+    }
 });

@@ -44,7 +44,7 @@
 
         {% if educatheure.image %}
             <div class="my-2 text-center">
-                <img class="img-fluid w-50" src="{{ asset(photo_directory ~'/'~ educatheure.image.name) }}" alt="photo '{{ educatheure.title }}' indisponible">
+                <img class="w-50" src="{{ asset(photo_directory ~'/'~ educatheure.image.name) }}" alt="photo '{{ educatheure.title }}' indisponible" style="    max-height: 600px;border-radius: 6px;">
             </div>
         {% endif %}
         <div class="text-center text-muted cs-published">
@@ -55,10 +55,6 @@
                 <div class="my-4">
                     <div class="row">
                         <div class="col-6 cs-space-col">
-{#                            <div class="lead cs-font-weight">#}
-{#                                <i class="fas fa-fw fa-clock text-success"></i>#}
-{#                                Début : <span class="text-muted">{{ educatheure.started|date('d/m/Y') }}</span>#}
-{#                            </div>#}
                             <div class="lead cs-font-weight mt-2" title="Nombre des participants">
                                 <i class="fas fa-people-arrows text-primary"></i>
                                 &nbsp;
@@ -71,10 +67,6 @@
                             </div>
                         </div>
                         <div class="col-6 cs-space-col">
-{#                            <div class="lead cs-font-weight">#}
-{#                                <i class="fas fa-fw fa-arrow-circle-right text-success"></i>#}
-{#                                Fin : <span class="text-muted">{{ educatheure.ended|date('d/m/Y') }}</span>#}
-{#                            </div>#}
                             <div class="lead cs-font-weight mt-2" title="Type public">
                                 <i class="fas fa-fw fa-bullhorn text-primary"></i>
 
@@ -87,13 +79,15 @@
                 </div>
             </div>
             <div class="col-12 col-sm-4">
-                <div class="my-4 cs-booking-price-header">
-                    <div class="cs-booking-price">
-                        {{ educatheure.price }} €
-                    </div>
-                </div>
+{#                <div class="my-4 cs-booking-price-header">#}
+{#                    <div class="cs-booking-price">#}
+{#                        {{ educatheure.price }} €#}
+{#                    </div>#}
+{#                </div>#}
 
-                <form class="cs-form-educatheur" action="{{ path('app_educatheure_new_booking', {slug: educatheure.slug}) }}" method="POST">
+                {% if app.user.hasRole('ROLE_CLIENT')  %}
+                    <form class="cs-form-educatheur" action="{{ path('app_educatheure_new_booking', {slug: educatheure.slug}) }}" method="POST">
+
                     <div class="text-center">
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" title="Faire une demande de réservation pour le service '{{ educatheure.title }}'">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart-heart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M10 17h-4v-14h-2" /><path d="M6 5l14 1l-.717 5.016m-7.783 1.984h-5.5" /><path d="M18 22l3.35 -3.284a2.143 2.143 0 0 0 .005 -3.071a2.242 2.242 0 0 0 -3.129 -.006l-.224 .22l-.223 -.22a2.242 2.242 0 0 0 -3.128 -.006a2.143 2.143 0 0 0 -.006 3.071l3.355 3.296z" /></svg>
@@ -101,8 +95,8 @@
                         </button>
                     </div>
 
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-full-width">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Demande de réservation</h1>
@@ -119,24 +113,105 @@
                                         </div>
                                     </blockquote>
                                     <div class="my-3">
-                                        <div>
-                                            <h6 class="filter-form-small-title">Choisissez une date (*) : </h6>
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="dateSlot" class="form-control js-datepicker" required>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h6 class="filter-form-small-title">Choisissez un créneau (*) : </h6>
-                                            <selegct class="form-select form-control" name="publics" id="search-public" data-show-subtext="true" data-live-search="true" required>
-{#                                                <option value="{{ educatheure.started|date('d/m/Y H:i') }}">{{ educatheure.started|date('d/m/Y') }}</option>#}
-{#                                                <option value="{{ educatheure.ended|date('d/m/Y H:i') }}">{{ educatheure.ended|date('d/m/Y') }}</option>#}
-                                            </selegct>
-                                        </div>
+                                        <h6 class="filter-form-small-title">Votre public <sup class="text-danger">*</sup> : </h6>
+                                        <select name="publics[]" id="publics" class="js-select2" multiple  placeholder="Choisir un public" style="width: 100%" required>
+                                            <option value=""></option>
+                                            {% for public in educatheure.educatheureTags %}
+                                                <option value="{{ public.category.id }}">{{ public.category.title }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
-                                    <div>
-                                        <h6 class="filter-form-small-title">Une adresse ou une remarque : </h6>
+                                    <div class="my-2">
+                                        <h6 class="filter-form-small-title">Description du public est besoin <sup class="text-danger">*</sup> : </h6>
                                         <div class="mb-3">
                                             <textarea class="form-control" name="note" id="message-text" placeholder="Si vous avez des informations à partager concernant votre réservation"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="my-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="filter-form-small-title">Période durant laquelle les interventions devront être réalisées <sup class="text-danger">*</sup> : </h6>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="input-group mb-3">
+                                                    <input type="text" name="startedAt" class="form-control datepicker" placeholder="Date début" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="input-group mb-3">
+                                                    <input type="text" name="endAt" class="form-control datepicker" placeholder="Date fin" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <hr>
+                                        </div>
+                                        <div class="col-12">
+                                            {% set adresse1 = app.user.services.first %}
+                                            <fieldset>
+                                                <h6 class="filter-form-small-title">Contact structure <sup class="text-danger">*</sup> : </h6>
+                                                <div class="row my-1">
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="name1" type="text" placeholder="Nom" value="{{ adresse1 ? adresse1.contactName : '' }}" required>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="phone1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <input class="form-control" name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="city1" type="text" placeholder="Paris" value="{{ adresse1 ? adresse1.city : '' }}" required>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="zipCode1" type="number" placeholder="75012" value="{{ adresse1 ? adresse1.zipCode : '' }}" required>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12 my-2">
+                                            {% set adresse2 = app.user.services|length > 1 ? app.user.services.last : false %}
+                                            <fieldset>
+                                                <h6 class="filter-form-small-title">Lieu intervention <sup class="text-danger">*</sup> : </h6>
+                                                <div class="row my-1">
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="name2" type="text" placeholder="Nom" value="{{ adresse2 ? adresse2.contactName : '' }}" required>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="phone2" type="number" placeholder="Tél" value="{{ adresse2 ? adresse2.phone : '' }}" required>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <input class="form-control" name="adresse2" type="text" placeholder="3 rue gustave simon" value="{{ adresse2 ? adresse2.address : '' }}" required>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="city2" type="text" placeholder="Paris" value="{{ adresse2 ? adresse2.city : '' }}" required>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <input class="form-control" name="zipCode2" type="number" placeholder="75012" value="{{ adresse2 ? adresse2.zipCode : '' }}" required>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12">
+                                            <hr>
+                                            <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité <sup class="text-danger">*</sup> : </h6>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <input type="number" name="intervention" class="form-control js-intervention" placeholder="3" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <h6 class="filter-form-small-title">Tarif : </h6>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <input type="text" name="price" class="form-control js-price" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -148,6 +223,7 @@
                         </div>
                     </div>
                 </form>
+                {% endif %}
 
                 <div class="mt-4 cs-form-educatheur">
                     <div class="text-center py-1">
@@ -162,75 +238,5 @@
         <p class="my-4 text-dark">
             {{ educatheure.description|raw }}
         </p>
-{#        <div class="my-5">#}
-{#            <h6 class="filter-form-small-title">Annonce similaire : </h6>#}
-{#            <div class=" js-slick-educatheur">#}
-{#                {% for educateur in educatheurs %}#}
-{#                    <div>#}
-{#                        <div class="card text-center mt-3 p-0 cs-educ">#}
-{#                            <div class="card-header p-0">#}
-{#                                {% if educateur.image %}#}
-{#                                    <a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">#}
-{#                                        <img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Educatheur {{ educateur.title }}">#}
-{#                                    </a>#}
-{#                                {% endif %}#}
-{#                            </div>#}
-{#                            <div class="card-body">#}
-{#                                <h5 class="card-title mb-4">#}
-{#                                    <a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">#}
-{#                                        {{ educateur.title }}#}
-{#                                    </a>#}
-{#                                </h5>#}
-{#                                <div class="my-2">#}
-{#                                    <div class="row">#}
-{#                                        <div class="col-6 cs-space-col">#}
-{#                                            <div class="cs-small-homepage">#}
-{#                                                <i class="fas fa-fw fa-clock text-success"></i>#}
-{#                                                Durée Min : {{ educateur.minDuration }}#}
-{#                                            </div>#}
-{#                                            <div class="cs-small-homepage mt-2" title="Nombre des participants">#}
-{#                                                <i class="fas fa-people-arrows text-primary"></i>#}
-{#                                                Participants : {{ educateur.numberParticipant }}#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                        <div class="col-6 cs-space-col">#}
-{#                                            <div class="cs-small-homepage">#}
-{#                                                <i class="fas fa-fw fa-arrow-circle-right text-success"></i>#}
-{#                                                Durée Max : {{ educateur.maxDuration }}#}
-{#                                            </div>#}
-{#                                            <div class="cs-small-homepage mt-2" title="Type public">#}
-{#                                                <i class="fas fa-fw fa-bullhorn text-primary"></i>#}
-{#                                                Public : {{ educateur.publicType|transType }}#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="row my-4">#}
-{#                                        <div class="col-12 text-center">#}
-{#                                            <div class="cs-small-homepage">#}
-{#                                                <i class="fas fa-map-marker-alt text-danger"></i>#}
-{#                                                <span title="{{ educateur.zipCode }}">{{ educateur.city|upper }}</span>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-
-{#                            </div>#}
-{#                            <div class="card-footer">#}
-{#                                <div class="d-flex justify-content-between">#}
-{#                                    <div class="text-danger lead">#}
-{#                                        {{ educateur.price }} €#}
-{#                                    </div>#}
-{#                                    <div>#}
-{#                                        <a href="#" title="Réserver ce service">#}
-{#                                            <i class="fas fa-handshake"></i>#}
-{#                                        </a>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
     </div>
 {% endblock %}

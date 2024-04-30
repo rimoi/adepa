@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Constant\ReservationType;
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,7 +25,7 @@ class Reservation
     private ?User $owner = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = ReservationType::PENDING;
+    private ?string $status = ReservationType::CREATED;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -35,33 +37,38 @@ class Reservation
     private ?string $note = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateSlot = null;
+    private ?\DateTimeInterface $startedAt = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $timeSlot = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $endAt = null;
 
-    public function isTerminated(): bool
+    #[ORM\Column(nullable: true)]
+    private ?int $numberIntervention = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
+    #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: Service::class)]
+    private Collection $service;
+
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'reservations')]
+    private Collection $categories;
+
+    #[ORM\ManyToOne]
+    private ?User $affected = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $users;
+
+
+    public function __construct()
     {
-        if ($this->status === ReservationType::CONFIRMED) {
-
-            $stringDate = sprintf('%s %s', $this->dateSlot->format('d/m/Y'), $this->timeSlot);
-
-            try {
-                $dateObj = date_create_from_format('d/m/Y H\\hi', $stringDate);
-            } catch (\Exception $e) {
-                $dateObj = null;
-            }
-
-            if (
-                $dateObj
-                && ($dateObj <= new \DateTime()))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        $this->service = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
+
 
     #[ORM\PrePersist]
     public function setCreatedAt()
@@ -138,26 +145,140 @@ class Reservation
         return $this;
     }
 
-    public function getDateSlot(): ?\DateTimeInterface
+    public function getStartedAt(): ?\DateTimeInterface
     {
-        return $this->dateSlot;
+        return $this->startedAt;
     }
 
-    public function setDateSlot(?\DateTimeInterface $dateSlot): self
+    public function setStartedAt(?\DateTimeInterface $startedAt): self
     {
-        $this->dateSlot = $dateSlot;
+        $this->startedAt = $startedAt;
 
         return $this;
     }
 
-    public function getTimeSlot(): ?string
+    public function getEndAt(): ?\DateTimeInterface
     {
-        return $this->timeSlot;
+        return $this->endAt;
     }
 
-    public function setTimeSlot(?string $timeSlot): self
+    public function setEndAt(?\DateTimeInterface $endAt): self
     {
-        $this->timeSlot = $timeSlot;
+        $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getNumberIntervention(): ?int
+    {
+        return $this->numberIntervention;
+    }
+
+    public function setNumberIntervention(?int $numberIntervention): self
+    {
+        $this->numberIntervention = $numberIntervention;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getService(): Collection
+    {
+        return $this->service;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->service->contains($service)) {
+            $this->service->add($service);
+            $service->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->service->removeElement($service)) {
+            // set the owning side to null (unless already changed)
+            if ($service->getReservation() === $this) {
+                $service->setReservation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getAffected(): ?User
+    {
+        return $this->affected;
+    }
+
+    public function setAffected(?User $affected): self
+    {
+        $this->affected = $affected;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

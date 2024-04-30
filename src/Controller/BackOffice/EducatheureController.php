@@ -46,23 +46,6 @@ class EducatheureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            if ($dateDebut = $form->get('debut')->getData()) {
-//                $dateDebut = str_replace('/', '-', $dateDebut);
-//                $educatheure->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
-//            }
-//            if ($dateFin = $form->get('fin')->getData()) {
-//                $dateFin = str_replace('/', '-', $dateFin);
-//                $educatheure->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
-//            }
-//            if ($educatheure->getEnded() <= $educatheure->getStarted()) {
-//                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
-//
-//                return $this->renderForm('back_office/educatheure/new.html.twig', [
-//                    'educatheure' => $educatheure,
-//                    'form' => $form,
-//                ]);
-//            }
-
             if ($categories = $form->get('publicType')->getData()) {
                 foreach ($educatheure->getEducatheureTags() as $educatheureTag) {
                     $entityManager->remove($educatheureTag);
@@ -77,11 +60,10 @@ class EducatheureController extends AbstractController
                 }
             }
 
-
             $qualificationService->addElement($form, 'image');
 
-            if (!$form->has('users')) {
-                $educatheure->addUser($this->getUser());
+            if (!$form->has('users') && !$this->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
+                $educatheure->setUser($this->getUser());
             }
             
             $educatheureRepository->save($educatheure, true);
@@ -118,24 +100,6 @@ class EducatheureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-//            if ($dateDebut = $form->get('debut')->getData()) {
-//                $dateDebut = str_replace('/', '-', $dateDebut);
-//                $educatheure->setStarted(new \DateTimeImmutable($dateDebut, new \DateTimeZone('Europe/Paris')));
-//            }
-//            if ($dateFin = $form->get('fin')->getData()) {
-//                $dateFin = str_replace('/', '-', $dateFin);
-//                $educatheure->setEnded(new \DateTimeImmutable($dateFin, new \DateTimeZone('Europe/Paris')));
-//            }
-//            if ($educatheure->getEnded() <= $educatheure->getStarted()) {
-//                $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
-//
-//                return $this->renderForm('back_office/educatheure/edit.html.twig', [
-//                    'educatheure' => $educatheure,
-//                    'form' => $form,
-//                ]);
-//            }
-
             if ($categories = $form->get('publicType')->getData()) {
                 foreach ($educatheure->getEducatheureTags() as $educatheureTag) {
                     $entityManager->remove($educatheureTag);
@@ -150,8 +114,8 @@ class EducatheureController extends AbstractController
                 }
             }
 
-            if (!$form->has('users')) {
-                $educatheure->addUser($this->getUser());
+            if (!$form->has('users') && !$this->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
+                $educatheure->setUser($this->getUser());
             }
 
             $qualificationService->addElement($form, 'image');

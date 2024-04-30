@@ -3,10 +3,12 @@
 namespace App\Service;
 
 
+use App\Constant\EmailType;
 use App\Constant\NotificationConstant;
 use App\Entity\Booking;
 use App\Entity\Contact;
 use App\Entity\Mission;
+use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -397,6 +399,72 @@ class NotificationService
         $email->setSend(true);
         $this->entityManager->flush();
 
+    }
+
+    public function createNotification(Reservation $reservation): void
+    {
+        if ($user = $reservation->getEducatheure()?->getUser()) {
+            $template = 'mailing/suggest_educatheur.html.twig';
+
+            $options = [
+                'user' => $user,
+                'sender' => $this->mailerSender,
+                'template' => $template,
+                'type' => EmailType::EDUCATHEUR,
+            ];
+
+            $email = EmailFactory::create($options);
+
+            $this->entityManager->persist($email);
+
+            $templateEmail = (new TemplatedEmail())
+                ->from(new Address($this->mailerSender, 'LES EXTRAS'))
+                ->to($user->getEmail())
+                ->subject('LES EXTRAS - 🏈 Agissez vite : une nouvelle mission vient d\'être publiée.')
+                ->htmlTemplate($template)
+                ->context([
+                    'user' => $user,
+                    'reservation' => $reservation,
+                    'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                ]);
+
+            $this->mailer->send($templateEmail);
+
+
+            $email->setSend(true);
+
+        } elseif ($users = $reservation->getEducatheure()->getUsers()) {
+            foreach ($users as $user) {
+                $template = 'mailing/suggest_educatheur.html.twig';
+
+                $options = [
+                    'user' => $user,
+                    'sender' => $this->mailerSender,
+                    'template' => $template,
+                    'type' => EmailType::EDUCATHEUR
+                ];
+
+                $email = EmailFactory::create($options);
+
+                $this->entityManager->persist($email);
+
+                $templateEmail = (new TemplatedEmail())
+                    ->from(new Address($this->mailerSender, 'LES EXTRAS'))
+                    ->to($user->getEmail())
+                    ->subject('LES EXTRAS - 🏈 Agissez vite : une nouvelle mission vient d\'être publiée.')
+                    ->htmlTemplate($template)
+                    ->context([
+                        'user' => $user,
+                        'reservation' => $reservation,
+                        'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                    ]);
+
+                $this->mailer->send($templateEmail);
+
+
+                $email->setSend(true);
+            }
+        }
     }
 
 }

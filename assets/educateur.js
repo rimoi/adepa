@@ -20,6 +20,8 @@ import 'flatpickr/dist/themes/material_blue.css';
 import './styles/educateur.css';
 import './styles/article.css';
 
+import 'select2/dist/css/select2.min.css';
+
 
 import $ from 'jquery';
 window.$ = global.$ = $;

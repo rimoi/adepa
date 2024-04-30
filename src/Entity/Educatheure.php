@@ -68,6 +68,7 @@ class Educatheure
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'educatheures')]
     private Collection $categories;
 
+    // Tous les personnes ajouté pas l'admin eligible à cette mission
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'elements', cascade: ['persist'])]
     private Collection $users;
 
@@ -79,6 +80,10 @@ class Educatheure
 
     #[ORM\OneToMany(mappedBy: 'educatheur', targetEntity: EducatheureTag::class)]
     private Collection $educatheureTags;
+
+    // Le premier gars qui valide la mission
+    #[ORM\ManyToOne]
+    private ?User $user = null;
 
 
 //    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -411,6 +416,18 @@ public function removeEducatheureTag(EducatheureTag $educatheureTag): self
             $educatheureTag->setEducatheur(null);
         }
     }
+
+    return $this;
+}
+
+public function getUser(): ?User
+{
+    return $this->user;
+}
+
+public function setUser(?User $user): self
+{
+    $this->user = $user;
 
     return $this;
 }

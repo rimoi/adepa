@@ -2,6 +2,10 @@ body {
     overflow-x : hidden;
 }
 
+.cs-space-22 {
+    margin-left: 22px;
+}
+
 #register-right {
     color: white;
     /*height: 100vh;*/

@@ -26,6 +26,10 @@ class EmailFactory
             $email->setTemplate($options['template']);
         }
 
+        if ($options['type'] ?? false) {
+            $email->setType($options['type']);
+        }
+
         return $email;
     }
 }

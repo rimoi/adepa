@@ -44,28 +44,125 @@
     }
 </style>
 
+{% set educatheure = reservation.educatheure %}
 <div class="modal fade" id="modal-{{ reservation.id }}">
-    <div class="modal-dialog modal-{{ reservation.id }}">
+    <div class="modal-dialog modal-{{ reservation.id }} modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Voir la note de '{{ reservation.educatheure.title }}'</h4>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ reservation.educatheure.title }}</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <blockquote class="blockquote">
-                    <h6 class="filter-form-small-title my-2">Note sur la réservation :</h6>
+                    <h6 class="filter-form-small-title my-2">Note :</h6>
                     <p class="mb-0">
                         {{ reservation.note|raw }}
                     </p>
-{#                    <div class="blockquote-footer">#}
-{#                        Note de <cite title="Source Title">l'auteur</cite>#}
-{#                    </div>#}
+                    <div class="blockquote-footer">
+                        Note de <cite title="Source Title">client</cite>
+                    </div>
                 </blockquote>
+                <div class="my-3">
+                    <h6 class="filter-form-small-title">Le public concerné : </h6>
+                    <select disabled name="publics[]" id="publics" class="js-select2" multiple  placeholder="Choisir un public" style="width: 100%" required>
+                        <option value=""></option>
+                        {% for public in educatheure.educatheureTags %}
+                            <option value="{{ public.category.id }}" selected>{{ public.category.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="my-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="filter-form-small-title">Période durant laquelle les interventions devront être réalisées : </h6>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="input-group mb-3">
+                                <input type="text" disabled name="startedAt" class="form-control" placeholder="Date début" value="{{ reservation.startedAt|date('d/m/Y H:i') }}">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="input-group mb-3">
+                                <input type="text" disabled name="endAt" class="form-control datepicker" placeholder="Date fin" value="{{ reservation.startedAt|date('d/m/Y H:i') }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr>
+                    </div>
+                    <div class="col-12">
+                        {% set adresse1 = reservation.service.first %}
+                        <fieldset>
+                            <h6 class="filter-form-small-title">Contact structure : </h6>
+                            <div class="row my-1">
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="name1" type="text" placeholder="Nom" value="{{ adresse1 ? adresse1.contactName : '' }}" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="phone1" type="number" placeholder="Tél" value="{{ adresse1 ? adresse1.phone : '' }}" required>
+                                </div>
+                            </div>
+                            <div>
+                                <input class="form-control" disabled name="adresse1" type="text" placeholder="3 rue gustave simon" value="{{ adresse1 ? adresse1.address : '' }}" required>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="city1" type="text" placeholder="Paris" value="{{ adresse1 ? adresse1.city : '' }}" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="zipCode1" type="number" placeholder="75012" value="{{ adresse1 ? adresse1.zipCode : '' }}" required>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-12 my-2">
+                        {% set adresse2 = reservation.service.last %}
+                        <fieldset>
+                            <h6 class="filter-form-small-title">Lieu intervention : </h6>
+                            <div class="row my-1">
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="name2" type="text" placeholder="Nom" value="{{ adresse2 ? adresse2.contactName : '' }}" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="phone2" type="number" placeholder="Tél" value="{{ adresse2 ? adresse2.phone : '' }}" required>
+                                </div>
+                            </div>
+                            <div>
+                                <input class="form-control" disabled name="adresse2" type="text" placeholder="3 rue gustave simon" value="{{ adresse2 ? adresse2.address : '' }}" required>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="city2" type="text" placeholder="Paris" value="{{ adresse2 ? adresse2.city : '' }}" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input class="form-control" disabled name="zipCode2" type="number" placeholder="75012" value="{{ adresse2 ? adresse2.zipCode : '' }}" required>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <hr>
+                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité : </h6>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-3">
+                            <input type="text" name="intervention" disabled class="form-control js-intervention" value="{{ reservation.numberIntervention }} heure{{ reservation.numberIntervention > 1 ? 's' }}" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h6 class="filter-form-small-title">Tarif : </h6>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-3">
+                            <input type="text" name="price" class="form-control js-price" value="{{ reservation.numberIntervention * 30 }} €"  disabled>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer text-right">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">fermer</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
