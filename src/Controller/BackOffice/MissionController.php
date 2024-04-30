@@ -103,6 +103,12 @@ class MissionController extends AbstractController
                     $users = $users->toArray();
 
                     foreach ($users as $user) {
+                        /*
+                             Si la personne qui Crée la mission demande des personnes précisément
+                             sur le formulaire, seuls eux reçoivent les messages MISSION DISPO et si
+                             mission non prise en 2 jours, l’envoi de la mission est envoyé à toutes les
+                             personnes ayant le profil
+                         */
                         $exclusive = new Exclusive();
                         $exclusive->setMission($mission);
                         $exclusive->setUser($user);
