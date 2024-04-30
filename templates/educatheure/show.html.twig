@@ -85,7 +85,7 @@
 {#                    </div>#}
 {#                </div>#}
 
-                {% if app.user.hasRole('ROLE_CLIENT')  %}
+                {% if app.user and app.user.hasRole('ROLE_CLIENT')  %}
                     <form class="cs-form-educatheur" action="{{ path('app_educatheure_new_booking', {slug: educatheure.slug}) }}" method="POST">
 
                     <div class="text-center">
@@ -238,5 +238,16 @@
         <p class="my-4 text-dark">
             {{ educatheure.description|raw }}
         </p>
+        {% if not app.user or (is_granted('ROLE_FREELANCE') and  not ( app.user and educatheure.user and app.user.id == educatheure.user.id ) and dontHaveRequest(educatheure.id, app.user.id)) %}
+            <div style="margin-top: 82px" class="text-end">
+                <form action="{{ path('app_educatheure_new_request', {slug: educatheure.slug}) }}" method="POST">
+                    <button type="submit" class="btn btn-sm btn-success text-light" title="Demander à réaliser ce service">
+                        <i class="fas fa-plus-circle"></i>
+                        Postuler à ce service
+                    </button>
+                </form>
+
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

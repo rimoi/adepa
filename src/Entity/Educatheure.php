@@ -81,9 +81,12 @@ class Educatheure
     #[ORM\OneToMany(mappedBy: 'educatheur', targetEntity: EducatheureTag::class)]
     private Collection $educatheureTags;
 
-    // Le premier gars qui valide la mission
+    // Le premier gars qui valide la mission ou le freelance proprio du service
     #[ORM\ManyToOne]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'educatheur', targetEntity: NewRequest::class)]
+    private Collection $newRequests;
 
 
 //    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -101,6 +104,7 @@ class Educatheure
         $this->reservations = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->educatheureTags = new ArrayCollection();
+        $this->newRequests = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -428,6 +432,36 @@ public function getUser(): ?User
 public function setUser(?User $user): self
 {
     $this->user = $user;
+
+    return $this;
+}
+
+/**
+ * @return Collection<int, NewRequest>
+ */
+public function getNewRequests(): Collection
+{
+    return $this->newRequests;
+}
+
+public function addNewRequest(NewRequest $newRequest): self
+{
+    if (!$this->newRequests->contains($newRequest)) {
+        $this->newRequests->add($newRequest);
+        $newRequest->setEducatheur($this);
+    }
+
+    return $this;
+}
+
+public function removeNewRequest(NewRequest $newRequest): self
+{
+    if ($this->newRequests->removeElement($newRequest)) {
+        // set the owning side to null (unless already changed)
+        if ($newRequest->getEducatheur() === $this) {
+            $newRequest->setEducatheur(null);
+        }
+    }
 
     return $this;
 }

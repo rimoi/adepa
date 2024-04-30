@@ -4,6 +4,7 @@ namespace App\Controller\BackOffice;
 
 use App\Constant\ReservationType;
 use App\Constant\UserConstant;
+use App\Entity\NewRequest;
 use App\Entity\Reservation;
 use App\Repository\ArticleRepository;
 use App\Repository\MissionRepository;
@@ -57,6 +58,8 @@ class DashBoardController extends AbstractController
 
         $articles = $articleRepository->findBy(['archived' => false, 'published' => true], ['id' => 'DESC']);
 
+        $newRequests = $entityManager->getRepository(NewRequest::class)->findAll();
+
         $reservations = $entityManager->getRepository(Reservation::class)->getAffectedReservations($this->getUser());
 
         $isReserved = false;
@@ -84,7 +87,8 @@ class DashBoardController extends AbstractController
             'last_missions' => count($availables) > 20 ? array_slice($availables, 0, 20) : $availables,
             'articles' => count($articles) > 20 ? array_slice($articles, 0, 20) : $articles,
             'photo_directory' => $this->getParameter('app.relative_path.image_directory'),
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'newRequests' => $newRequests,
         ]);
     }
 }

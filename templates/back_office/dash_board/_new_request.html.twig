@@ -1,0 +1,56 @@
+<div class="card my-5 card-warning" id="dashboard-request">
+    <div class="card-header">
+        <h3 class="card-title text-dark">Affectation demandée</h3>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+            <tr>
+                <th style="width: 20%">
+                    Educatheur
+                </th>
+                <th style="width: 30%">
+                    Freelance
+                </th>
+                <th>
+                    Date de la demande
+                </th>
+                <th style="width: 25%">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for newRequest in newRequests %}
+                    <tr class="request-{{ newRequest.id }}">
+                        <td>
+                            <a href="{{ path('app_educatheure_show', {slug: newRequest.educatheur.slug}) }}">
+                                {{ newRequest.educatheur.title }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_candidat_show', {slug: newRequest.user.slug}) }}">
+                                {{ newRequest.user.nickname }}
+                            </a>
+                        </td>
+                        <td class="text-danger ">
+                            {{ newRequest.createdAt|date('d/m/Y à H:i') }}
+                        </td>
+                        <td class="project-actions text-right">
+                            <button class="btn btn-primary btn-sm js-validate-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}">
+                                <i class="fas fa-check">
+                                </i>
+                                Accepter
+                            </button>
+                            <button class="btn btn-danger btn-sm js-refused-request" data-id="{{ newRequest.id }}" data-element="request-{{ newRequest.id }}" >
+                                <i class="fas fa-trash"></i>
+                                Refuser
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

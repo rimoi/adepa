@@ -8,6 +8,7 @@ use App\Constant\NotificationConstant;
 use App\Entity\Booking;
 use App\Entity\Contact;
 use App\Entity\Mission;
+use App\Entity\NewRequest;
 use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -465,6 +466,39 @@ class NotificationService
                 $email->setSend(true);
             }
         }
+    }
+
+    public function createNewRequest(NewRequest $newRequest): void
+    {
+        $template = 'mailing/new_request.html.twig';
+        $user = $newRequest->getUser();
+
+        $options = [
+            'user' => $newRequest->getUser(),
+            'sender' => $this->mailerSender,
+            'template' => $template,
+        ];
+
+        $email = EmailFactory::create($options);
+
+        $this->entityManager->persist($email);
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
+            ->to('assoc.adepa@gmail.com')
+            ->subject('LES EXTRAS - Une nouvelle demande d\'affectation de service')
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $user,
+                'educatheur' => $newRequest->getEducatheur(),
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+
+        $email->setSend(true);
+
     }
 
 }

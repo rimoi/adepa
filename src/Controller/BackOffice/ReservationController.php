@@ -3,6 +3,7 @@
 namespace App\Controller\BackOffice;
 
 use App\Constant\ReservationType;
+use App\Entity\NewRequest;
 use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,18 +45,24 @@ class ReservationController extends AbstractController
         return $this->json(['success' => true]);
     }
 
-    #[Route('/refused/{id}', name: 'refused', methods: ['POST'], options: ['expose' => true])]
-    public function refused(Reservation $reservation, EntityManagerInterface $entityManager): Response
+    #[Route('/request/{id}', name: 'request_validate', methods: ['POST'], options: ['expose' => true])]
+    public function requestValidate(NewRequest $newRequest, EntityManagerInterface $entityManager): Response
     {
-        $educatheur = $reservation->getEducatheure();
+        $educatheur = $newRequest->getEducatheur();
 
-        if ($educatheur->getUser() && $educatheur->getUser()->getId() === $this->getUser()->getId()) {
-            $reservation->setStatus(ReservationType::REFUSED);
-        } else {
-            // après ici il revoir si on veut garder l'historique des refus
-            // vu que c'est sur la reservation on peux
-            $reservation->removeUser($this->getUser());
-        }
+        $educatheur->addUser($newRequest->getUser());
+
+        $entityManager->remove($newRequest);
+
+        $entityManager->flush();
+
+        return $this->json(['success' => true]);
+    }
+
+    #[Route('/request/{id}', name: 'request_refused', methods: ['POST'], options: ['expose' => true])]
+    public function requestRefused(NewRequest $newRequest, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($newRequest);
 
         $entityManager->flush();
 

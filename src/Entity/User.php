@@ -158,6 +158,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Exclusive::class, cascade: ['persist'])]
     private Collection $exclusives;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: NewRequest::class)]
+    private Collection $newRequests;
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;
@@ -216,6 +219,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reservations = new ArrayCollection();
         $this->factures = new ArrayCollection();
         $this->exclusives = new ArrayCollection();
+        $this->newRequests = new ArrayCollection();
     }
 
     /**
@@ -938,6 +942,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($exclusife->getUser() === $this) {
                 $exclusife->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NewRequest>
+     */
+    public function getNewRequests(): Collection
+    {
+        return $this->newRequests;
+    }
+
+    public function addNewRequest(NewRequest $newRequest): self
+    {
+        if (!$this->newRequests->contains($newRequest)) {
+            $this->newRequests->add($newRequest);
+            $newRequest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewRequest(NewRequest $newRequest): self
+    {
+        if ($this->newRequests->removeElement($newRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($newRequest->getUser() === $this) {
+                $newRequest->setUser(null);
             }
         }
 

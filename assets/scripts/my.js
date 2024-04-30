@@ -294,6 +294,91 @@ $(document).ready(function() {
         })
     });
 
+    $('.js-validate-request').on('click', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        var element = $(this).data('element');
+
+        Swal.fire({
+            title: 'Êtes-vous sûr de vouloir accepter cette affectation ?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: `Fermer`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: window.Routing.generate('admin_reservation_request_validate', {id}),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Utilisateur affecté avec succès.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            $('.'+element).fadeOut('slow');
+                            $('.'+element).remove();
+
+                            if (!$('#dashboard-request table tbody tr').length) {
+                                $('#dashboard-request').fadeOut('slow');
+                                $('#dashboard-request').remove();
+                            }
+
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    $('.js-refused-request').on('click', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        var element = $(this).data('element');
+
+        Swal.fire({
+            title: 'Êtes-vous sûr de vouloir refuser cette affectation ?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: `Fermer`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: window.Routing.generate('admin_reservation_request_refused', {id}),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire({
+                                // position: 'top-end',
+                                icon: 'success',
+                                title: 'Affectation supprimée avec succès.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            $('.'+element).fadeOut('slow');
+                            $('.'+element).remove();
+
+                            if (!$('#dashboard-request table tbody tr').length) {
+                                $('#dashboard-request').fadeOut('slow');
+                                $('#dashboard-request').remove();
+                            }
+
+                        }
+                    }
+                });
+            }
+        })
+    });
+
     if ($('.js-event-change-service').length) {
 
 

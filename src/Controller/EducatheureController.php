@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Constant\PublicType;
 use App\Entity\Category;
 use App\Entity\Educatheure;
+use App\Entity\NewRequest;
 use App\Entity\Reservation;
 use App\Entity\Service;
 use App\helper\ArrayHelper;
@@ -17,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/educatheure', name: 'app_educatheure_')]
-#[IsGranted('ROLE_USER')]
 class EducatheureController extends AbstractController
 {
     #[Route('/list', name: 'list')]
@@ -159,6 +159,25 @@ class EducatheureController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'Votre demande de réservation à bel a bien été soumise.');
+
+        return $this->redirectToRoute('app_educatheure_show', ['slug' => $educatheur->getSlug()]);
+    }
+
+    #[Route('/new-request/{slug}', name: 'new_request', methods: ['POST'])]
+    #[IsGranted('ROLE_FREELANCE')]
+    public function newRequest(Educatheure $educatheur, EntityManagerInterface $entityManager, NotificationService $notificationService): Response
+    {
+        $newRequest = new NewRequest();
+        $newRequest->setEducatheur($educatheur);
+        $newRequest->setUser($this->getUser());
+
+        $entityManager->persist($newRequest);
+
+        $notificationService->createNewRequest($newRequest);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre demande à bel a bien été soumise.');
 
         return $this->redirectToRoute('app_educatheure_show', ['slug' => $educatheur->getSlug()]);
     }
