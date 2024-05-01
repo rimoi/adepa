@@ -94,6 +94,8 @@ class MissionController extends AbstractController
 
             $users = [];
 
+            $isExlusives = false;
+
             if ($form->has('users')) {
                 $users = $form->get('users')->getData();
 
@@ -101,6 +103,8 @@ class MissionController extends AbstractController
                     $mission->setEmergency(true);
 
                     $users = $users->toArray();
+
+                    $isExlusives = true;
 
                     foreach ($users as $user) {
                         /*
@@ -126,7 +130,9 @@ class MissionController extends AbstractController
 //            if ($mission->isEmergency()) {
 //                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
 //            }
-            $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+            if(!$isExlusives) {
+                $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+            }
 
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
 

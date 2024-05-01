@@ -85,7 +85,7 @@
 {#                    </div>#}
 {#                </div>#}
 
-                {% if app.user and app.user.hasRole('ROLE_CLIENT')  %}
+                {% if app.user and is_granted('ROLE_CLIENT')  %}
                     <form class="cs-form-educatheur" action="{{ path('app_educatheure_new_booking', {slug: educatheure.slug}) }}" method="POST">
 
                     <div class="text-center">
