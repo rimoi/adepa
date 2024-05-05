@@ -76,3 +76,9 @@
 /*    font-size: 24px;*/
 /*    color: #f16621;*/
 /*}*/
+
+@media (max-width: 800px) {
+    .cal-wrapper {
+        display: none;
+    }
+}

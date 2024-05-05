@@ -17,11 +17,11 @@
             </tr>
             <tr>
                 <th>CreatedAt</th>
-                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('d/m/Y à H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>UpdatedAt</th>
-                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('d/m/Y à H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th>DateSlot</th>
-                <td>{{ reservation.dateSlot ? reservation.dateSlot|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.dateSlot ? reservation.dateSlot|date('d/m/Y à H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>TimeSlot</th>

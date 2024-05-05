@@ -124,7 +124,7 @@
                                     <div class="my-2">
                                         <h6 class="filter-form-small-title">Description du besoin <sup class="text-danger">*</sup> : </h6>
                                         <div class="mb-3">
-                                            <textarea class="form-control" name="note" id="message-text" placeholder="Si vous avez des informations à partager concernant votre réservation"></textarea>
+                                            <textarea class="form-control" rows="5" name="note" id="message-text" placeholder="Si vous avez des informations à partager concernant votre réservation"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -142,11 +142,13 @@
                                                 <h6 class="filter-form-small-title">Période durant laquelle les interventions devront être réalisées <sup class="text-danger">*</sup> : </h6>
                                             </div>
                                             <div class="col-12 col-sm-6">
+                                                Entre le :
                                                 <div class="input-group mb-3">
                                                     <input type="text" name="startedAt" class="form-control datepicker" placeholder="Date début" required>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6">
+                                                Et le :
                                                 <div class="input-group mb-3">
                                                     <input type="text" name="endAt" class="form-control datepicker" placeholder="Date fin" required>
                                                 </div>
@@ -189,7 +191,7 @@
                                         <div class="col-12 my-2">
 
                                             <fieldset>
-                                                <h6 class="filter-form-small-title">Lieu intervention : </h6>
+                                                <h6 class="filter-form-small-title">Contact bénéficiaire : </h6>
                                                 <div class="row my-1">
                                                     <div class="col-12 col-sm-6">
                                                         <input class="form-control" name="name2" type="text" placeholder="Nom" >
@@ -233,9 +235,11 @@
 
                 <div class="mt-4 cs-form-educatheur">
                     <div class="text-center py-1">
-                        <a href="{{ path('app_contact') }}" class="btn btn-success"  title="Prise de contact sur la réservation du service '{{ educatheure.title }}'">
+                        <a href="{{ path('app_contact') }}" class="btn btn-secondary"  title="Prise de contact sur la réservation du service '{{ educatheure.title }}'">
+                            &nbsp;&nbsp;&nbsp;
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-phone-outgoing"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /><path d="M15 9l5 -5" /><path d="M16 4l4 0l0 4" /></svg>
                             Envoyer un message
+                            &nbsp;&nbsp;&nbsp;
                         </a>
                     </div>
                 </div>
@@ -247,7 +251,7 @@
         {% if not app.user or (is_granted('ROLE_FREELANCE') and  not ( app.user and educatheure.user and app.user.id == educatheure.user.id ) and dontHaveRequest(educatheure.id, app.user.id)) %}
             <div style="margin-top: 82px" class="text-end">
                 <form action="{{ path('app_educatheure_new_request', {slug: educatheure.slug}) }}" method="POST">
-                    <button type="submit" class="btn btn-sm btn-success text-light" title="Demander à réaliser ce service">
+                    <button type="submit" class="btn btn-sm btn-secondary text-light" title="Demander à réaliser ce service">
                         <i class="fas fa-plus-circle"></i>
                         Postuler à ce service
                     </button>

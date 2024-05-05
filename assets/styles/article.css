@@ -48,7 +48,7 @@
 .bg-product{
     /* SET Height cho nó rồi bảo sao ko lỗi? */
     /*height: #e3e5eb;*/
-    background: #e3e5eb;
+    background: transparent;
     /*background: #d1d7f5;*/
     /* overflow: hidden; */
 }

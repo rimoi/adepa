@@ -62,7 +62,7 @@
                         {% for mission in missions %}
                             <tr>
                                 <td>{{ mission.title }}</td>
-                                <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i') : '' }}</td>
+                                <td>{{ mission.createdAt ? mission.createdAt|date('d/m/Y à H:i') : '' }}</td>
                                 <td>
                                     {% if mission.published %}
                                         <span class="badge badge-info">
@@ -74,8 +74,8 @@
                         </span>
                                     {% endif %}
                                 </td>
-                                <td>{{ mission.started ? mission.started|date('Y-m-d H:i') : '' }}</td>
-                                <td>{{ mission.ended ? mission.ended|date('Y-m-d H:i') : '' }}</td>
+                                <td>{{ mission.started ? mission.started|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ mission.ended ? mission.ended|date('d/m/Y à H:i') : '' }}</td>
                                 <td>
                                     {% if mission.booked %}
                                         <span class="badge badge-info">

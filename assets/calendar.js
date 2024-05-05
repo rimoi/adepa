@@ -8,7 +8,7 @@ import './styles/footer.css';
 import $ from 'jquery';
 import "./admin/vendor/bootstrap/js/bootstrap.bundle";
 
-import "./admin/js/sb-admin-2.min.js";
+import "./admin/js/sb-admin-2.js";
 
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';

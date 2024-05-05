@@ -7,7 +7,7 @@ $(function () {
 		autoplaySpeed: 2000,
 		responsive: [
 			{
-				breakpoint: 768,
+				breakpoint: 900,
 				settings: {
 					autoplay: true,
 					autoplaySpeed: 2000,

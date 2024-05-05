@@ -28,7 +28,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import $ from 'jquery';
 import "./admin/vendor/bootstrap/js/bootstrap.bundle.min.js";
 import "./admin/vendor/jquery-easing/jquery.easing.min.js";
-import "./admin/js/sb-admin-2.min.js";
+import "./admin/js/sb-admin-2.js";
 import slick from "slick-carousel";
 
 import * as Turbo from '@hotwired/turbo';

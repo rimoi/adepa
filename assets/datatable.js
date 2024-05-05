@@ -27,7 +27,7 @@ window.Swal = global.Swal = Swal;
 
 import "./admin/vendor/datatables/dataTables.bootstrap4.min";
 
-import "./admin/js/sb-admin-2.min.js";
+import "./admin/js/sb-admin-2.js";
 import "./admin/js/demo/datatables-demo";
 import './scripts/delete-element';
 

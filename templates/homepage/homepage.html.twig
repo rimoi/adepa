@@ -37,7 +37,7 @@
 							<div class="text-center">
 								<button type="submit" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">Rechercher</button>
 								&nbsp;
-								<a href="https://les-extras.fr/" target="_blank" class="mt-1 mt-md-0 rounded-pill input-search p-2 p-lg-3 btn btn-primary"> VOIR NOS OFFRES D’ATELIERS </a>
+{#								<a href="https://les-extras.fr/" target="_blank" class="mt-1 mt-md-0 rounded-pill input-search p-2 p-lg-3 btn btn-primary"> VOIR NOS OFFRES D’ATELIERS </a>#}
 							</div>
 						</div>
 					</div>
@@ -47,38 +47,107 @@
 		</div>
 	</section>
 
-	<section class="services mt-lg-n3" id="intro1">
+	<section class="services" id="intro1">
 		<h2 style="color: #131314">NOS SERVICES</h2>
 		<div class="row">
-			<div class="col-12 col-md-4 service1">
+{#			<div class="col-12 col-md-4 service1">#}
+{#				<div>#}
+{#					<lottie-player class="js-plateforme"  background="transparent"  speed="1" loop autoplay>#}
+{#					</lottie-player>#}
+{#				</div>#}
+{#				<h3 class="my-2 bg-color-blue">Plateforme#}
+{#				</h3>#}
+{#				<p>Grâce à notre plateforme, vous pourrez en quelques clics#}
+{#					proposer vos services éducat'heures, demander un freelance,#}
+{#					réserver un atelier éducatif et obtenir du renfort d'équipe professionnel.#}
+{#					Nous vous avons créé un espace autonome qui permet#}
+{#					de répondre aux besoins simplement et avec efficacité !#}
+{#					Nous sommes à votre écoute et disponible via notre formulaire de contact#}
+{#					pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉</p>#}
+{#				<div class="mt-2 text-center">#}
+{#					<a href="https://les-extras.fr/" target="_blank" class="mt-1 mt-md-0 rounded-pill input-search p-2 p-lg-3 btn btn-primary"> VOIR NOS OFFRES D’ATELIERS </a>#}
+{#				</div>#}
+{#			</div>#}
+{#			<div class="service2 col-12 col-md-4">#}
+{#				<div>#}
+{#					<lottie-player class="js-formation"  background="transparent"  speed="1"#}
+{#								   style="height: 224px;" loop autoplay>#}
+{#					</lottie-player>#}
+{#				</div>#}
+{#				<h3 class="my-2 bg-color-blue">Formations</h3>#}
+{#				<p>Nous effectuons sur demande des présentations du dispositif de l'association, de la plateforme et son utilisation. Donc demander nous une Extra Présentation et inscrivez-vous à notre newsletter pour recevoir les dates de nos prochaines formations au monde du médico-social. Tous nos adhérents en bénéficient gratuitement.</p>#}
+{#			</div>#}
+{#			<div class="service3 col-12 col-md-4">#}
+{#				<div>#}
+{#					<lottie-player class="js-assistance"  background="transparent"  speed="1"#}
+{#								   style="height: 224px;" loop autoplay>#}
+{#					</lottie-player>#}
+{#				</div>#}
+{#				<h3 class="my-2 bg-color-blue">Assistance</h3>#}
+{#				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉#}
+{#					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à assoc.adepa@gmail.com#}
+{#				</p>#}
+{#			</div>#}
+{#		</div>#}
+
+
+			<div class="service1 col-12 col-md-4">
+				<div>
+					<lottie-player class="js-formation"  background="transparent"  speed="1"
+								   style="height: 224px;" loop autoplay>
+					</lottie-player>
+				</div>
+				<h3 class="my-2 bg-color-blue">
+					{{ "RENFORT D'ÉQUIPE"|capitalize }}
+				</h3>
+				<p>
+
+					Les Professionnels Auto-Entrepreneurs Disponibles
+					pour vos Besoins en Renfort D'équipe.
+					<br>
+					Proposez une mission et le logiciel
+					vous donnera 24 h sur 24 et 7 jours sur 7
+					l'intervenant Adapté !
+				</p>
+				<div class="mt-2 text-center">
+					<a href="https://les-extras.fr/" target="_blank" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">RENFORT D'ÉQUIPE</a>
+				</div>
+			</div>
+			<div class="service2 col-12 col-md-4">
+				<div>
+					<lottie-player class="js-assistance"  background="transparent"  speed="1"
+								   style="height: 224px;" loop autoplay>
+					</lottie-player>
+				</div>
+				<h3 class="my-2 bg-color-blue">{{ "LES ÉDUCAT'HEURES"|capitalize }} </h3>
+				<p>
+					Des Heures éducatives données par des Experts
+					d'un Public et d'une Technicité maitrisée !
+					<br>
+					Faites votre Demande Personnalisée via notre Formulaire
+					et Laissez vous guider, c'est Automatique.
+				</p>
+				<div class="mt-2 text-center">
+					<a href="https://les-extras.fr/" target="_blank" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">LES ÉDUCAT'HEURES</a>
+				</div>
+			</div>
+			<div class="col-12 col-md-4 service3">
 				<div>
 					<lottie-player class="js-plateforme"  background="transparent"  speed="1" loop autoplay>
 					</lottie-player>
 				</div>
 				<h3 class="my-2 bg-color-blue">Plateforme
 				</h3>
-				<p>Grace à notre plateforme, vous pourrez en quelques clics proposer vos services, demander un freelance, réserver un atelier éducatif, obtenir du renfort professionnel, et avoir les dernières actualités éducatives dans le sport-médico-social.
-					Nous vous avons créé un espace autonome qui permet de répondre aux besoins simplement et avec efficacité !</p>
-			</div>
-			<div class="service2 col-12 col-md-4">
-				<div>
-					<lottie-player class="js-formation"  background="transparent"  speed="1"
-								   style="height: 224px;" loop autoplay>
-					</lottie-player>
+				<p>Grâce à notre plateforme, vous pourrez en quelques clics
+					proposer vos services éducat'heures, demander un freelance,
+					réserver un atelier éducatif et obtenir du renfort d'équipe professionnel.
+					Nous vous avons créé un espace autonome qui permet
+					de répondre aux besoins simplement et avec efficacité !
+					Nous sommes à votre écoute et disponible via notre formulaire de contact
+					pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉</p>
+				<div class="mt-2 text-center">
+					<a href="https://les-extras.fr/" target="_blank" class="mt-1 mt-md-0 rounded-pill input-search p-2 p-lg-3 btn btn-primary"> VOIR NOS OFFRES D’ATELIERS </a>
 				</div>
-				<h3 class="my-2 bg-color-blue">Formations</h3>
-				<p>Nous effectuons sur demande des présentations du dispositif de l'association, de la plateforme et son utilisation. Donc demander nous une Extra Présentation et inscrivez-vous à notre newsletter pour recevoir les dates de nos prochaines formations au monde du médico-social. Tous nos adhérents en bénéficient gratuitement.</p>
-			</div>
-			<div class="service3 col-12 col-md-4">
-				<div>
-					<lottie-player class="js-assistance"  background="transparent"  speed="1"
-								   style="height: 224px;" loop autoplay>
-					</lottie-player>
-				</div>
-				<h3 class="my-2 bg-color-blue">Assistance</h3>
-				<p>Nous sommes à votre écoute et disponible via notre formulaire de contact pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
-					Contacter DAVID notre EXTRA Référent au 06 20 60 67 89 ou par mail à assoc.adepa@gmail.com
-				</p>
 			</div>
 		</div>
 	</section>
@@ -86,7 +155,7 @@
 	{% if educatheurs|length %}
 		<section class="cs-educatheurs container">
 			<h2 class="wp-block-heading has-text-align-center content-title" id="h-les-educat-heures">LES ÉDUCAT’HEURES</h2>
-			<p class="text-muted text-center mb-5"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>
+{#			<p class="text-muted text-center mb-5"><strong>Demandez des</strong> <strong>heures éducatives assurés par nos experts en accompagnement personnalisé et renforcé.</strong></p>#}
 
 			<div class=" js-slick-educatheur">
 				{% for educateur in educatheurs %}
@@ -95,7 +164,7 @@
 							<div class="card-header p-0">
 								{% if educateur.image %}
 									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
-										<img class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Éducatheur {{ educateur.title }}">
+										<img style="max-height: 400px" class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Éducatheur {{ educateur.title }}">
 									</a>
 								{% endif %}
 							</div>
@@ -165,9 +234,9 @@
 				{% endfor %}
 			</div>
 			<div>
-				<div class="mb-5 mt-2 text-right">
+				<div class="mb-5 mt-4 text-right">
 					<small>
-						<a class="btn btn-primary btn-sm rounded-pill" href="{{ path('app_educatheure_list') }}">
+						<a class="btn btn-primary rounded-pill" href="{{ path('app_educatheure_list') }}">
 							VOIR TOUS LES ÉDUCAT’HEURES
 						</a>
 					</small>
