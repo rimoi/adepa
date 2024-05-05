@@ -44,7 +44,11 @@
 
         {% if educatheure.image %}
             <div class="my-2 text-center">
-                <img class="w-50" src="{{ asset(photo_directory ~'/'~ educatheure.image.name) }}" alt="photo '{{ educatheure.title }}' indisponible" style="    max-height: 600px;border-radius: 6px;">
+                <img class="w-50" src="{{ asset(photo_directory ~'/'~ educatheure.image.name) }}" alt="photo '{{ educatheure.title }}' indisponible" style="
+                    max-height: 417px;
+                    max-width: 504px;
+                    border-radius: 5px;
+                ">
             </div>
         {% endif %}
         <div class="text-center text-muted cs-published">

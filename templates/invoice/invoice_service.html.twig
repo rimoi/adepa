@@ -32,20 +32,59 @@
         }
 
         .content {
-            padding: 5px 18px;
+            padding: 5px 14px;
             background-color: #f1f1f1;
+        }
+        .cs-header {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .cs-my-3 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .cs-info {
+            border: 1px solid red;
+            padding: 15px 10px;
+            display: inline-block;
+            border-radius: 10px;
+            margin-left: 20px;
         }
     </style>
 </head>
 <body>
-<h1>Facture #{{ facture.numero }}</h1>
-<p>Date : {{ facture.invoiceDate|date('d/m/Y à H:i') }}</p>
-<p>Client : {{ facture.customer.nickname }}</p>
-<p>Téléphone : {{ facture.customer.telephone }}</p>
-<p>Email : {{ facture.customer.email }}</p>
-<p style="margin-bottom: 50px;">Adresse : {{ facture.customer.fullAddress }}</p>
 
-<table >
+<div class="cs-header">
+{#    <div class="cs-my-3" >#}
+{#        <img src="{{ asset('images/logo.png')}}" alt="" style='background-color: #fff'>#}
+{#    </div>#}
+    <div class="cs-info">
+        <b>LES EXTRAS</b>
+        <br>
+        30 Rue nouvelle
+        <br>
+        77190 Dammarie les lys
+        <br>
+        06.25.91.35.94
+        <br>
+        contact@asso-adepa.com
+        <br>
+        www.asso-adepa.com
+    </div>
+</div>
+
+<div style="text-align: right;">
+    <h1>Facture #{{ facture.numero }}</h1>
+    <p>Date : {{ facture.invoiceDate|date('d/m/Y à H:i') }}</p>
+    <div class="cs-info">
+        <p>Client : {{ facture.customer.nickname }}</p>
+        <p>Téléphone : {{ facture.customer.telephone }}</p>
+        <p>Email : {{ facture.customer.email }}</p>
+        <p style="margin-bottom: 10px;">Adresse : {{ facture.customer.fullAddress }}</p>
+    </div>
+</div>
+
+<table  style="margin-top: 10px">
     <thead>
     <tr>
         <th>Description</th>
@@ -78,11 +117,11 @@
     <tr>
         {% set total_ttc = total_ht + montant_tva %}
         <td colspan="3">Total TTC</td>
-        <td>{{ total_ttc }}</td>
+        <td>{{ total_ttc }} €</td>
     </tr>
     <tr>
         <td colspan="3">Net à payer</td>
-        <td>{{ total_ttc }}</td>
+        <td>{{ total_ttc }} €</td>
     </tr>
     </tbody>
 </table>
@@ -93,7 +132,12 @@
     <p>Numéro TVA : {{ facture.customer.tva }}</p>
 </div>
 
-
-
+<div style="margin-top: 15px;margin-bottom: 5px;text-align: center;">
+    Association ADEPA, Dispositif LES EXTRAS ADEPA - 30 rue nouvelle 77190 Dammarie les lys – contact@asso-adepa.com - Siret 809 251 358 00028
+</div>
 </body>
 </html>
+
+
+
+

@@ -110,7 +110,7 @@
 					l'intervenant Adapté !
 				</p>
 				<div class="mt-2 text-center">
-					<a href="https://les-extras.fr/" target="_blank" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">RENFORT D'ÉQUIPE</a>
+					<a href="{{ path('front_mission') }}" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">RENFORT D'ÉQUIPE</a>
 				</div>
 			</div>
 			<div class="service2 col-12 col-md-4">
@@ -128,7 +128,7 @@
 					et Laissez vous guider, c'est Automatique.
 				</p>
 				<div class="mt-2 text-center">
-					<a href="https://les-extras.fr/" target="_blank" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">LES ÉDUCAT'HEURES</a>
+					<a href="{{ path('app_educatheure_list') }}" class="rounded-pill input-search p-2 p-lg-3 btn btn-danger">LES ÉDUCAT'HEURES</a>
 				</div>
 			</div>
 			<div class="col-12 col-md-4 service3">
@@ -164,7 +164,7 @@
 							<div class="card-header p-0">
 								{% if educateur.image %}
 									<a href="{{ path('app_educatheure_show', {slug:  educateur.slug}) }}">
-										<img style="max-height: 400px" class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Éducatheur {{ educateur.title }}">
+										<img style="max-height: 335px" class="img-fluid w-100" height="268" width="446" src="{{ asset(photo_directory ~'/'~ educateur.image.name) }}" alt="Éducatheur {{ educateur.title }}">
 									</a>
 								{% endif %}
 							</div>
