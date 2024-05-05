@@ -18,17 +18,17 @@ class ExperienceType extends AbstractType
                     'placeholder' => '2016-2018',
                     'class' => 'col-12'
                 ],
-                'label' => false
+                'label' => 'Année'
             ])
             ->add('title', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Mission ou Formation...',
                     'class' => 'col-12'
                 ],
-                'label' => false
+                'label' => 'Titre'
             ])
             ->add('file', FileType::class, [
-                'label' => false,
+                'label' => 'Téléchargez votre diplôme',
                 'required' => false,
                 'mapped' => false,
                 'attr' => [

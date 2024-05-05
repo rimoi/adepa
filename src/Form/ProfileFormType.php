@@ -60,9 +60,11 @@ class ProfileFormType extends AbstractType
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => GenderConstant::MAP,
-                'label' => 'Civilité :',
+                'label' => 'Civilité  :',
                 'expanded' => true,
                 'multiple' => false,
+                'required' => false,
+                'placeholder' => false,
                 'attr'=> [
                     'class' => 'd-flex cs-gender-bo'
                 ]

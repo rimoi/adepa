@@ -85,7 +85,7 @@ $(document).ready(function() {
     function addTagFormDeleteLink(item) {
 
         const div = document.createElement('div');
-        div.className = 'col-12 col-sm-2 text-center text-sm-left';
+        div.className = 'col-12 col-sm-2 text-center text-sm-left d-flex align-items-center mt-3';
 
         const removeFormButton = document.createElement('button');
         removeFormButton.innerText = 'Supprimer';

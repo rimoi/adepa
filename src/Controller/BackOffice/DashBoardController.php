@@ -58,7 +58,11 @@ class DashBoardController extends AbstractController
 
         $articles = $articleRepository->findBy(['archived' => false, 'published' => true], ['id' => 'DESC']);
 
-        $newRequests = $entityManager->getRepository(NewRequest::class)->findAll();
+        if ($this->getUser()->hasRole(UserConstant::ROLE_ADMIN)) {
+            $newRequests = $entityManager->getRepository(NewRequest::class)->findAll();
+        } else {
+            $newRequests = $entityManager->getRepository(NewRequest::class)->findBy(['user' => $this->getUser()->getId()], ['id' => 'DESC']);
+        }
 
         $reservations = $entityManager->getRepository(Reservation::class)->getAffectedReservations($this->getUser());
 
@@ -75,6 +79,10 @@ class DashBoardController extends AbstractController
 
         if ($isReserved) {
             $this->addFlash('danger', "Hélas ! Cette mission est déjà prise, vous arrivez un peu trop tard. Mais ne vous inquiétez pas, d'autres opportunités arrivent bientôt.");
+        }
+
+        if (!$this->getUser()->isActive()) {
+            $this->addFlash('danger', "Votre compte n'est pas encore totalement activé. Il reste une étape à valider par l'administrateur avant que vous ne puissiez commencer à publier.");
         }
 
         return $this->render('back_office/dash_board/index.html.twig', [

@@ -161,6 +161,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: NewRequest::class)]
     private Collection $newRequests;
 
+    public function isActive(): bool
+    {
+        if ($this->isVerified && $this->enabled && !$this->archived) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function nickname(): string
     {
         return $this->firstname . ' ' . $this->lastname;

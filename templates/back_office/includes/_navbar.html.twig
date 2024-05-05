@@ -60,7 +60,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Réservation
+            RÉSERVATION ÉDUCAT'HEURE
         </div>
 
         <li class="nav-item">
@@ -131,12 +131,14 @@
             LES EDUCAT’HEURES
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('admin_educatheure_new') }}">
-                <i class="fas fa-fw fa-plus-circle"></i>
-                <span>Proposer un service</span>
-            </a>
-        </li>
+        {% if app.user.isActive %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_educatheure_new') }}">
+                    <i class="fas fa-fw fa-plus-circle"></i>
+                    <span>Proposer un service</span>
+                </a>
+            </li>
+        {% endif %}
 
         <li class="nav-item">
             <a class="nav-link" href="{{ path('admin_educatheure_index') }}">

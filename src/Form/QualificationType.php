@@ -12,28 +12,27 @@ class QualificationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
         ->add('year', TextType::class, [
         'attr' => [
             'placeholder' => '2016-2018',
             'class' => 'col-12'
         ],
-        'label' => false
+        'label' => 'Année'
         ])
         ->add('entreprise', TextType::class, [
             'attr' => [
-                'placeholder' => 'Entreprise...',
+                'placeholder' => 'Atos, ...',
                 'class' => 'col-12'
             ],
-            'label' => false
+            'label' => 'Entreprise'
         ])
         ->add('title', TextType::class, [
             'attr' => [
                 'placeholder' => 'Mission ou Formation...',
                 'class' => 'col-12'
             ],
-            'label' => false
+            'label' => 'Titre'
         ])
         ;
     }

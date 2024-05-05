@@ -19,6 +19,13 @@ body {
     z-index: 1;
 }
 
+#register-right .invalid-feedback {
+    background-color: crimson;
+    color: aliceblue;
+    border-radius: 6px;
+    padding: 2px;
+}
+
 #register-right h1 {
     font-size: 2rem;
 }

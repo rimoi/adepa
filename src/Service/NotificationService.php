@@ -501,4 +501,36 @@ class NotificationService
 
     }
 
+
+    public function activateAccount(User $user): void
+    {
+        $template = 'mailing/activate_account.html.twig';
+
+        $options = [
+            'user' => $user,
+            'sender' => $this->mailerSender,
+            'template' => $template,
+        ];
+
+        $email = EmailFactory::create($options);
+
+        $this->entityManager->persist($email);
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->mailerSender, 'LES EXTRAS'))
+            ->to($user->getEmail())
+            ->subject('LES EXTRAS - Félicitations ! Votre compte vient d\'être validé par un administrateur.')
+            ->htmlTemplate($template)
+            ->context([
+                'user' => $user,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+
+        $email->setSend(true);
+
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Constant\UserConstant;
 use App\Entity\User;
 use App\Form\ProfileFormType;
+use App\Service\NotificationService;
 use App\Service\QualificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -186,11 +187,14 @@ class UserController extends AbstractController
     #[Route('/user/{slug}/activate', name: 'activate', methods: ['POST'], options: ['expose' => true])]
     public function activate(
         User $user,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        NotificationService  $notificationService
     ): Response
     {
         $user->setEnabled(true);
         $user->setIsVerified(true);
+
+        $notificationService->activateAccount($user);
 
         $entityManager->flush();
 

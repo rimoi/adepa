@@ -34,7 +34,7 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => '0606060606'
                 ],
                 'constraints' => [
-                    new Regex('/0\d{9}/')
+                    new Regex(pattern: '/0\d{9}/', message: 'Numéro de téléphone n\'est pas valide !')
                 ],
             ])
             ->add('firstname', TextType::class, [
