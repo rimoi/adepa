@@ -88,6 +88,9 @@ class Educatheure
     #[ORM\OneToMany(mappedBy: 'educatheur', targetEntity: NewRequest::class)]
     private Collection $newRequests;
 
+    #[ORM\ManyToOne]
+    private ?User $owner = null;
+
 
 //    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
 //    #[Groups(['planning'])]
@@ -462,6 +465,18 @@ public function removeNewRequest(NewRequest $newRequest): self
             $newRequest->setEducatheur(null);
         }
     }
+
+    return $this;
+}
+
+public function getOwner(): ?User
+{
+    return $this->owner;
+}
+
+public function setOwner(?User $owner): self
+{
+    $this->owner = $owner;
 
     return $this;
 }

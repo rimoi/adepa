@@ -121,8 +121,9 @@ class EducatheureType extends AbstractType
             ])
 
             ->add('image', FileType::class, [
-                'label' => 'Image du service',
+                'label' => 'Image du service ( <b>Idéalement : <span class="text-danger">488x266 px</span></b> )',
                 'required' => false,
+                'label_html' => true,
                 'mapped' => false
             ])
             ->add('published', CheckboxType::class, [

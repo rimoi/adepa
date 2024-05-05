@@ -44,7 +44,7 @@ class EducatheureRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('e');
 
-        $qb->join('e.users', 'u')
+        $qb->join('e.owner', 'u')
             ->where('u.id = :currentUser')
             ->andWhere('u.archived = :archived')
             ->setParameter('currentUser', $user->getId())

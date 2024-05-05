@@ -46,6 +46,8 @@ class EducatheureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $educatheure->setOwner($this->getUser());
+
             if ($categories = $form->get('publicType')->getData()) {
                 foreach ($educatheure->getEducatheureTags() as $educatheureTag) {
                     $entityManager->remove($educatheureTag);

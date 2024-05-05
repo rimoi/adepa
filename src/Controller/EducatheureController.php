@@ -165,7 +165,7 @@ class EducatheureController extends AbstractController
 
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre demande à bel a bien été soumise.');
+        $this->addFlash('success', "Parfait ! Votre demande à bel a bien été soumise. <br> L'administrateur reviendra vers vous rapidement pour répondre à votre demande.");
 
         return $this->redirectToRoute('app_educatheure_show', ['slug' => $educatheur->getSlug()]);
     }
