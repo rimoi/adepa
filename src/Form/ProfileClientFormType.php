@@ -31,13 +31,13 @@ class ProfileClientFormType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom : (*)',
                 'attr' => [
-                    'placeholder' => 'Jean'
+                    'placeholder' => 'Chef de service'
                 ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom : (*)',
                 'attr' => [
-                    'placeholder' => 'Dupond'
+                    'placeholder' => 'Damien Dupond'
                 ]
             ])
             ->add('email', TextType::class, [
