@@ -7,7 +7,7 @@
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
         <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item">
-            <a href="{{ path('admin_educatheure_index') }}">ÉDUCAT'HEURS</a>
+            <a href="{{ path('admin_educatheure_index') }}">Mes services</a>
         </li>
         <li class="breadcrumb-item active">Voir {{ educatheure.title }}</li>
     </ol>
@@ -33,7 +33,7 @@
         <div class="col">
             <a href="{{ path('admin_educatheure_index') }}" class="btn btn-secondary">
                 <span class="fa fa-arrow-left"></span>
-                Liste des ÉDUCAT'HEURES
+                Liste des mes services
             </a>
             <a href="{{ path('admin_educatheure_edit', {id: educatheure.id}) }}" class="btn btn-success">
                 <span class="fa fa-pencil-alt"></span>

@@ -1,19 +1,19 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title "Nouveau ÉDUCAT'HEURE" %}
+{% block title "Nouveau service" %}
 
 {% block body %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
         <li class="breadcrumb-item"><a href="{{ path('admin_dash_board_index') }}">Tableau de bord</a></li>
         <li class="breadcrumb-item">
-            <a href="{{ path('admin_educatheure_index') }}">ÉDUCAT'HEURE</a>
+            <a href="{{ path('admin_educatheure_index') }}">Mes services</a>
         </li>
-        <li class="breadcrumb-item active">Nouveau ÉDUCAT'HEURE</li>
+        <li class="breadcrumb-item active">Nouveau service</li>
     </ol>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary text-center">Nouveau ÉDUCAT'HEURE</h6>
+            <h6 class="m-0 font-weight-bold text-primary text-center">Nouveau service</h6>
         </div>
         {% include 'back_office/educatheure/_form.html.twig' %}
     </div>
