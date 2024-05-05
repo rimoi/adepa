@@ -62,7 +62,7 @@ class GenerateInvoiceCommand extends Command
 
             if ($invoiceDTOs) {
                 $this->createInvoice($invoiceDTOs, $invoice);
-                $io->note(sprintf('%d factures educatheure ont été créer', count($invoiceDTOs)));
+                $io->note(sprintf('%d factures éducatheure ont été créer', count($invoiceDTOs)));
             }
 
             // créer les factures mission

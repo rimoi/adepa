@@ -57,10 +57,10 @@
     <tbody>
     {% set total_ht = 0 %}
     {% for reservation in facture.reservations %}
-        {% set total_ht = total_ht + ( 30 * reservation.educatheure.nombreIntervention )  %}
+        {% set total_ht = total_ht + ( reservation.educatheure.price|default(30) * reservation.educatheure.nombreIntervention )  %}
         <tr>
             <td>{{ reservation.educatheure.title }}</td>
-            <td>{{ 30 }} €</td>
+            <td>{{ reservation.educatheure.price|default(30) }} €</td>
             <td>{{ reservation.educatheure.nombreIntervention }} heure{{ reservation.educatheure.nombreIntervention > 1 ? 's' }}</td>
             <td>{{ reservation.educatheure.price }} €</td>
         </tr>

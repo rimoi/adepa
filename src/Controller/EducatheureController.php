@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\PublicType;
+use App\Constant\ReservationType;
 use App\Entity\Category;
 use App\Entity\Educatheure;
 use App\Entity\NewRequest;
@@ -26,7 +27,7 @@ class EducatheureController extends AbstractController
       
         $educatheurs = $entityManager->getRepository(Educatheure::class)->search($request->query->all());
 
-        $educatheursAll = $entityManager->getRepository(Educatheure::class)->findBy(['archived' => false, 'published' => true]);
+        $educatheursAll = $entityManager->getRepository(Educatheure::class)->findBy(['archived' => false, 'published' => true], ['id' => 'DESC']);
         
         $cities = ArrayHelper::createAssociativeArray($educatheursAll, 'zipCode', 'city');
 
@@ -137,12 +138,23 @@ class EducatheureController extends AbstractController
         if ($request->get('intervention')) {
             $reservation->setNumberIntervention($request->get('intervention'));
 
-            $reservation->setPrice($reservation->getNumberIntervention() * 30);
+            $reservation->setPrice($reservation->getNumberIntervention() * ($reservation->getEducatheure()?->getPrice() ?? 30));
         }
 
         $entityManager->flush();
 
         $notificationService->createNotification($reservation);
+
+        // SI c'est l'admin qui valide la demande de reservation
+        if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+            $reservation->setStatus(ReservationType::ACCEPTED);
+
+            $reservation->setAffected($reservation->getEducatheure()->getOwner());
+
+            foreach ($reservation->getUsers() as $user) {
+                $reservation->removeUser($user);
+            }
+        }
 
         $entityManager->flush();
 

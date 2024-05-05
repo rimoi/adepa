@@ -37,7 +37,8 @@ $(function () {
 
     $('.js-intervention').on('input', function() {
         var intervention = $(this).val();
-        var price = intervention * 30;
+        var priceEducatheur = $(this).data('price');
+        var price = intervention * priceEducatheur;
         $('.js-price').val(price + ' €');
     });
 

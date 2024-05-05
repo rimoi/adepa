@@ -18,9 +18,13 @@
 
         <header class="header-listing mt-5 mb-5">
             <div class="row">
-                <div class="col-12 text-center h1 mb-3">
-                    LES EDUCAT’HEURES
-                </div>
+                <h1 class=" col-12 text-center mb-3" style="font-size: calc(12px + 2.3vw);
+    font-weight: 700;">
+                    LES ÉDUCAT’HEURES
+                </h1>
+{#                <div class="col-12 text-center h1 mb-3">#}
+{#                    LES EDUCAT’HEURES#}
+{#                </div>#}
                 <div class="col-12">
                     <form>
 
@@ -146,9 +150,9 @@
                                     <div class="my-2">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
+                                                <div class="cs-small-homepage pl-1 mt-2" title="Nombre des participants">
                                                     <i class="fas fa-clock text-primary"></i>
-                                                    N° d'interventions :
+                                                    Heure d'intervention préconisé :
                                                     <span class="text-muted">
 													{% if educateur.nombreIntervention %}
                                                         {{ educateur.nombreIntervention }}H
@@ -157,13 +161,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Nombre des participants">
+                                                <div class="cs-small-homepage pl-1  mt-2" title="Nombre des participants">
                                                     <i class="fas fa-people-arrows text-primary"></i>
-                                                    Participants : <span class="text-muted">{{ educateur.numberParticipant }}</span>
+                                                    Participant maximum : <span class="text-muted">{{ educateur.numberParticipant }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="cs-small-homepage pl-1 pl-sm-4 mt-2" title="Type public">
+                                                <div class="cs-small-homepage pl-1 mt-2" title="Type public">
                                                     <i class="fas fa-fw fa-bullhorn text-primary"></i>
                                                     <span>
                                                          Public :

@@ -164,7 +164,7 @@
                     </div>
                     <div class="col-12">
                         <div class="input-group mb-3">
-                            <input type="text" name="price" class="form-control js-price" value="{{ reservation.numberIntervention * 30 }} €"  disabled>
+                            <input type="text" name="price" class="form-control js-price" value="{{ reservation.numberIntervention * reservation.educatheure.price|default(30) }} €"  disabled>
                         </div>
                     </div>
                 </div>

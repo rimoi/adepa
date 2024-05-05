@@ -54,19 +54,19 @@
             <div class="col-12 col-sm-8">
                 <div class="my-4">
                     <div class="row">
-                        <div class="col-12 col-sm-6 cs-space-col">
+                        <div class="col-12 col-sm-7 cs-space-col">
                             <div class="lead cs-font-weight mt-2" title="Nombre des participants">
                                 <i class="fas fa-people-arrows text-primary"></i>
                                 &nbsp;
-                                Participants : <span class="text-muted">{{ educatheure.numberParticipant }}</span>
+                                Participant maximum : <span class="text-muted">{{ educatheure.numberParticipant }}</span>
                             </div>
                             <div class="lead cs-font-weight my-2">
                                 <i class="fas fa-fw fa-hourglass-start text-success"></i>
                                 &nbsp;
-                                Nombre d'intervention : <span class="text-muted">{{ educatheure.nombreIntervention }} Heure{{ educatheure.nombreIntervention > 1 ? 's' }}</span>
+                                Heure d'intervention préconisé : <span class="text-muted">{{ educatheure.nombreIntervention }} Heure{{ educatheure.nombreIntervention > 1 ? 's' }}</span>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 cs-space-col">
+                        <div class="col-12 col-sm-5 cs-space-col">
                             <div class="lead cs-font-weight mt-2" title="Type public">
                                 <i class="fas fa-fw fa-bullhorn text-primary"></i>
 
@@ -129,11 +129,11 @@
                                     </div>
                                     <div class="col-12">
                                         <hr>
-                                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité ( préconisé par l’intervenant = {{ educatheure.nombreIntervention }} ) <sup class="text-danger">*</sup> : </h6>
+                                        <h6 class="filter-form-small-title">Nombre d’heure d’intervention souhaité <br> ( <small>préconisé par l’intervenant = {{ educatheure.nombreIntervention }}</small> ) <sup class="text-danger">*</sup> : </h6>
                                     </div>
                                     <div class="col-12">
                                         <div class="input-group mb-3">
-                                            <input type="number" name="intervention" class="form-control js-intervention" placeholder="3" required>
+                                            <input type="number" name="intervention" class="form-control js-intervention" data-price="{{ educatheure.price ?? 30 }}" placeholder="3" required>
                                         </div>
                                     </div>
                                     <div class="my-3">

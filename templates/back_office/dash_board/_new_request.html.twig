@@ -3,16 +3,16 @@
         <h3 class="card-title text-dark">Affectation demandée</h3>
     </div>
     <div class="card-body p-0">
-        <table class="table table-striped projects">
+        <table class="table table-striped projects table-responsive">
             <thead>
             <tr>
                 <th style="width: 20%">
-                    Educatheur
+                    Éducatheur
                 </th>
                 <th style="width: 30%">
                     Freelance
                 </th>
-                <th>
+                <th class="d-none d-sm-block">
                     Date de la demande
                 </th>
                 <th style="width: 25%">
@@ -32,7 +32,7 @@
                                 {{ newRequest.user.nickname }}
                             </a>
                         </td>
-                        <td class="text-danger ">
+                        <td class="text-danger d-none d-sm-block">
                             {{ newRequest.createdAt|date('d/m/Y à H:i') }}
                         </td>
                         <td class="project-actions text-right">
