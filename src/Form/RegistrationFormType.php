@@ -31,10 +31,10 @@ class RegistrationFormType extends AbstractType
             ->add('telephone', TelType::class, [
                 'label' => "Numéro de téléphone(*)",
                 'attr' => [
-                    'placeholder' => '0606060606'
+                    'placeholder' => '0605060606'
                 ],
                 'constraints' => [
-                    new Regex(pattern: '/0\d{9}/', message: 'Numéro de téléphone n\'est pas valide !')
+                    new Regex(pattern: '/0\d{9}/', message: 'Numéro de téléphone n\'est pas valide, il doit être au format `0605060606` !')
                 ],
             ])
             ->add('firstname', TextType::class, [

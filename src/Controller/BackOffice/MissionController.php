@@ -127,11 +127,13 @@ class MissionController extends AbstractController
 
             $missionRepository->save($mission, true);
 
-//            if ($mission->isEmergency()) {
-//                $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
-//            }
+
             if(!$isExlusives) {
                 $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+
+                if ($mission->isEmergency()) {
+                    $notificationService->infoUserMission($mission, NotificationConstant::WATHAPPS, $users);
+                }
             }
 
             $this->addFlash('success', sprintf('Mission `%s` à été crée !', $mission->getTitle()));
@@ -205,8 +207,6 @@ class MissionController extends AbstractController
                 if ($users) {
                     $mission->setEmergency(true);
 
-                    $users = $users->toArray();
-
                     $userExists = $entityManager->getRepository(Exclusive::class)->findBy(['mission' => $mission]);
 
                     foreach ($userExists as $userExist) {
@@ -223,10 +223,12 @@ class MissionController extends AbstractController
 
 //                    $notificationService->infoUserMission($mission, NotificationConstant::SMS, $users);
                     $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
+                    $notificationService->infoUserMission($mission, NotificationConstant::WATHAPPS, $users);
                 }
             }
 
             $missionRepository->save($mission, true);
+
 
             $this->addFlash('success', sprintf('Mission `%s` modifiée !', $mission->getTitle()));
 

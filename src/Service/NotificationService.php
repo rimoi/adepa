@@ -65,6 +65,11 @@ class NotificationService
                     $this->sendSMSEmergency($user, $mission);
                 }
                 break;
+            case NotificationConstant::WATHAPPS:
+                foreach ($users as $user) {
+                    $this->sendWathappsEmergency($user, $mission);
+                }
+                break;
         }
     }
 
@@ -77,6 +82,17 @@ class NotificationService
         ];
 
         $this->messageBird->sendSMS($user, $template, $params);
+    }
+
+    private function sendWathappsEmergency(User $user, Mission $mission)
+    {
+        $template = 'sms/admin/mission_available_emergency_wathapps.txt.twig';
+        $params = [
+            'url' => $this->urlGenerator->generate('front_mission_show_with_id', ['id' => $mission->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            'user' => $user
+        ];
+
+        $this->messageBird->sendWathapps($user, $template, $params);
     }
 
     // suggestion de mission

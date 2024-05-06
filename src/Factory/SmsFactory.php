@@ -22,6 +22,10 @@ class SmsFactory
             $sms->setContent($options['content']);
         }
 
+        if ($options['type'] ?? false) {
+            $sms->setType($options['type']);
+        }
+
         return $sms;
     }
 }

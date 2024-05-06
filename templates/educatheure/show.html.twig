@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Voir L'ÉDUCAT'HEURE {{ educatheure.title }}{% endblock %}
+{% block title %}Voir L'ÉDUCAT'HEURE '{{ educatheure.title }}'{% endblock %}
 
 {% block description %}
     {{ educatheure.description|u.truncate(200, '...')|raw }}
