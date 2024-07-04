@@ -12,9 +12,11 @@
                 <th style="width: 30%">
                     Client
                 </th>
-                <th>
-                    Prix
-                </th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>
+                        Prix
+                    </th>
+                {% endif %}
                 <th style="width: 25%" align="center">
 
                 </th>
@@ -35,9 +37,11 @@
                         <td>
                            {{ reservation.owner.nickname }}
                         </td>
-                        <td class="text-danger text-">
-                            {{ reservation.educatheure.price }} €
-                        </td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td class="text-danger text-">
+                                {{ reservation.educatheure.price }} €
+                            </td>
+                        {% endif %}
                         <td class="project-actions text-right">
                             <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#modal-{{ reservation.id }}" title="Note du freelance">
                                 <i class="fas fa-eye">

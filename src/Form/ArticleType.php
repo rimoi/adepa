@@ -36,7 +36,7 @@ class ArticleType extends AbstractType
                 'label_attr' => ['class' => 'switch-custom'],
             ])
             ->add('file', FileType::class, [
-                'label' => 'Uploader la fiche de Poste ( non obligatoire )',
+                'label' => 'Uploader un fichier ( non obligatoire )',
                 'required' => false,
                 'mapped' => false
             ])

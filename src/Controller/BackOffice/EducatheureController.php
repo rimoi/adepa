@@ -136,17 +136,17 @@ class EducatheureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/deleted', name: 'delete', methods: ['POST'])]
+    #[Route('/{id}/deleted', name: 'delete', methods: ['POST', 'GET'])]
     public function delete(Request $request, Educatheure $educatheure, EducatheureRepository $educatheureRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$educatheure->getId(), $request->request->get('_token'))) {
+//        if ($this->isCsrfTokenValid('delete'.$educatheure->getId(), $request->request->get('_token'))) {
 
             $educatheure->setArchived(!$educatheure->isArchived());
 
             $educatheureRepository->save($educatheure, true);
 
             $this->addFlash('success', sprintf('Service `%s` à bien été archivé !', $educatheure->getTitle()));
-        }
+//        }
 
         return $this->redirectToRoute('admin_educatheure_index', [], Response::HTTP_SEE_OTHER);
     }

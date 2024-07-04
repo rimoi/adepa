@@ -37,7 +37,9 @@
                             <th>Début d'intervention</th>
                             <th>Fin d'intervention</th>
                             <th>Heure d'intervention</th>
-                            <th>Prix</th>
+                            {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CLIENT") %}
+                                <th>Prix</th>
+                            {% endif %}
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -60,9 +62,11 @@
                                 <td>{{ reservation.startedAt|date('d/m/Y à H:i') }}</td>
                                 <td>{{ reservation.endAt|date('d/m/Y à H:i') }}</td>
                                 <td>{{ reservation.numberIntervention }} heure{{ reservation.numberIntervention > 1 ? 's' }}</td>
-                                <td class="text-danger text-">
-                                    {{ reservation.educatheure.price }} €
-                                </td>
+                                {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CLIENT") %}
+                                    <td class="text-danger text-">
+                                        {{ reservation.educatheure.price }} €
+                                    </td>
+                                {% endif %}
                                 <td>
                                     {% if reservation.status == 'accepted' %}
                                         <span class="badge badge-success">Validé</span>

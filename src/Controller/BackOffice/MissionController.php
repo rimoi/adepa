@@ -28,6 +28,7 @@ class MissionController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(MissionRepository $missionRepository): Response
     {
+      
         if ($this->isGranted('ROLE_ADMIN')) {
             $missions = $missionRepository->findBy(['archived' => false], ['id' => 'DESC']);
         } else {
@@ -101,8 +102,6 @@ class MissionController extends AbstractController
 
                 if ($users) {
                     $mission->setEmergency(true);
-
-                    $users = $users->toArray();
 
                     $isExlusives = true;
 
@@ -242,9 +241,12 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{slug}/archived', name: 'archived', methods: ['POST', 'GET'])]
-    public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
+    public function delete(Mission $mission, EntityManagerInterface $entityManager): Response
     {
-        $mission->setArchived(!$mission->isArchived());
+        $mission->setArchived(true);
+        $mission->setEmergency(false);
+        $mission->setBooked(false);
+
         $entityManager->flush();
 
         $this->addFlash('success', sprintf('Mission `%s` archivée !', $mission->getTitle()));

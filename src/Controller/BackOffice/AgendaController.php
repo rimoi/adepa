@@ -46,9 +46,9 @@ class AgendaController extends AbstractController
                 'end' => $reservation->getEndAt()->format('Y-m-d H:i:s'),
                 'title' => $reservation->getEducatheure()->getTitle(),
                 'description' => $reservation->getNote(),
-                'address' => $reservation->getService()->first()->getAddress(),
-                'city' => $reservation->getService()->first()->getCity(),
-                'zipCode' => $reservation->getService()->first()->getZipCode(),
+                'address' => $reservation->getService()->first() ? $reservation->getService()->first()->getAddress() : '',
+                'city' => $reservation->getService()->first() ? $reservation->getService()->first()->getCity() : '',
+                'zipCode' => $reservation->getService()->first() ? $reservation->getService()->first()->getZipCode() : '',
                 'url' => $urlGenerator->generate('app_educatheure_show', ['slug' => $reservation->getEducatheure()?->getSlug()])
             ];
         }

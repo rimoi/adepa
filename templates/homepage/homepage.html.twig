@@ -101,12 +101,15 @@
 					réserver un atelier éducatif et obtenir du renfort d'équipe professionnel.
 					Nous vous avons créé un espace autonome qui permet
 					de répondre aux besoins simplement et avec efficacité !
-					Nous sommes à votre écoute et disponible via notre formulaire de contact
-					pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉</p>
+					</p>
 				<div class="mt-2 text-center">
 					<a href="https://les-extras.fr/" target="_blank" class="mt-1 mt-md-0 rounded-pill input-search p-2 p-lg-3 btn btn-primary"> VOIR NOS OFFRES D’ATELIERS </a>
 				</div>
 			</div>
+		</div>
+		<div class="mt-5">
+			Nous sommes à votre écoute et disponible via notre formulaire de contact
+			pour toutes questions turlupinantes, difficulté d'inscription, ou juste pour faire notre connaissance 😉
 		</div>
 	</section>
 
@@ -167,7 +170,7 @@
 									<div class="row mt-1 mt-sm-3">
 										<div class="col-12">
 											<div class="cs-content-dscription">
-												{{ educateur.description|u.truncate(150, '...')|raw }}
+												{{ educateur.description|striptags|u.truncate(150, '...')|raw }}
 											</div>
 										</div>
 									</div>

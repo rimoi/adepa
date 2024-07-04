@@ -179,7 +179,7 @@
                                         <div class="row mt-1 mt-sm-3">
                                             <div class="col-12">
                                                 <div class="cs-content-dscription">
-                                                    {{ educateur.description|u.truncate(150, '...')|raw }}
+                                                    {{ educateur.description|striptags|u.truncate(150, '...')|raw }}
                                                 </div>
                                             </div>
                                         </div>
