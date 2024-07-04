@@ -2,7 +2,11 @@ fos_ck_editor:
   configs:
     my_config:
       toolbar: [ [ 'Bold', 'Italic', '-', 'Link', '-', 'Source' ]]
+      versionCheck: false
 #    # ...
 #    base_path: "build/ckeditor"
 #    js_path:   "bundles/fosckeditor/ckeditor.js"
 
+
+# Une solution dans le cas ou ckeditor ne s'affiche pas https://github.com/FriendsOfSymfony/FOSCKEditorBundle/issues/253#issuecomment-1693278790
+# et pensez après à faire ctrl +f5 pour vider le cache ainsi le cache de symfony
