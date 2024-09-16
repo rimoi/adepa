@@ -9,15 +9,65 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SearchService
 {
-    private EntityManagerInterface $entityManager;
-    private MissionIndexation $missionIndexation;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        MissionIndexation $missionIndexation
+        private EntityManagerInterface $entityManager,
+        private MissionIndexation $missionIndexation
     ) {
-        $this->entityManager = $entityManager;
-        $this->missionIndexation = $missionIndexation;
+    }
+
+    public function searchByTerm(string $term): array
+    {
+        // Response de ce type
+        //  Ex:
+        //  $response = [
+        //      0 => [
+        //         'id' => 1252,
+        //         'title' => 'Développeur web',
+        //         'content' => 'lorem ipsum ....',
+        //      ]
+        //  ];
+        //
+        //
+        $response = $this->missionIndexation->search(
+            $this->getOptionsSearch($term)
+        );
+
+
+        // Response de ce type
+        //  Ex:
+        //  return = [
+        //      0 => App\Entity\Mission {#522 ▶}
+        //      1 => App\Entity\Mission {#652 ▶}
+        //  ];
+        //
+        //
+        return $this->convertToObject($response);
+    }
+
+    private function getOptionsSearch(string $term): array
+    {
+        return [
+            'q' => $term,
+            'attributesToHighlight' => ['title', 'content'],
+            'attributesToCrop' => ['content'],
+            'cropLength' => 8,
+            'highlightPreTag' => '<span class="cs-highlight">',
+            'highlightPostTag' => '</span>'
+        ];
+    }
+
+    private function convertToObject(array $data): array
+    {
+        $result = ArrayHelper::columnize($data, '[id]');
+
+        $missions = $this->entityManager->getRepository(Mission::class)->findBy(['id' => $result]);
+
+        foreach ($missions as $key => $mission) {
+            $mission->setContent($data[$key]['_formatted']['content'] ?? $mission->getContent());
+            $mission->setTitle($data[$key]['_formatted']['title'] ?? $mission->getTitle());
+        }
+
+        return $missions;
     }
 
     public function search(array $categories, ?string $term): array
@@ -60,17 +110,5 @@ class SearchService
         }
 
         return $missions;
-    }
-
-    private function getOptionsSearch(string $term): array
-    {
-        return [
-            'q' => $term,
-            'attributesToHighlight' => ['title', 'content'],
-            'attributesToCrop' => ['content'],
-            'cropLength' => 8,
-            'highlightPreTag' => '<span class="cs-highlight">',
-            'highlightPostTag' => '</span>'
-        ];
     }
 }

@@ -19,16 +19,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class RegenerateIndexMeiliSearchCommand extends Command
 {
-    private EntityManagerInterface $entityManager;
-    private MissionIndexation $missionIndexation;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        MissionIndexation $missionIndexation
+       private EntityManagerInterface $entityManager,
+       private MissionIndexation $missionIndexation
     ) {
         parent::__construct(null);
-        $this->entityManager = $entityManager;
-        $this->missionIndexation = $missionIndexation;
     }
 
     protected function configure(): void
@@ -48,11 +43,15 @@ class RegenerateIndexMeiliSearchCommand extends Command
 
         foreach ($missions as $mission) {
             $io->note(sprintf('Mission: %s', $mission->getTitle()));
+
+            // suppression de l'index
             $this->missionIndexation->delete($mission);
+
+            // creation de l'index
             $this->missionIndexation->create($mission);
         }
 
-        $io->success('Terminé !');
+        $io->success('Population terminé !');
 
         return Command::SUCCESS;
     }

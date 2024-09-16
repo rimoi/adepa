@@ -10,23 +10,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AbstractMeiliSearch implements IndexationInterface
 {
-    private EntityManagerInterface $em;
-
     abstract protected function getNameIndex(): ?string;
 
     protected MeiliSearchClient $meiliSearchClient;
-    protected SerializerInterface $serializer;
 
     public function __construct(
-        SerializerInterface $serializer,
-        EntityManagerInterface $em,
         string $meiliSearchHost,
-        string $meiliSearchKey
+        string $meiliSearchKey,
+        protected SerializerInterface $serializer,
+        protected EntityManagerInterface $em
     )
     {
         $this->meiliSearchClient = new MeiliSearchClient($meiliSearchHost, $meiliSearchKey);
-        $this->serializer = $serializer;
-        $this->em = $em;
     }
 
 
