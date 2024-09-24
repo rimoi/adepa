@@ -3,7 +3,6 @@
 namespace App\Controller\BackOffice;
 
 use App\Constant\NotificationConstant;
-use App\Constant\UserConstant;
 use App\Entity\Booking;
 use App\Entity\Exclusive;
 use App\Entity\Mission;
@@ -20,7 +19,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/mission', name: 'admin_mission_')]
 class MissionController extends AbstractController
@@ -87,7 +86,7 @@ class MissionController extends AbstractController
             if ($mission->getEnded() <= $mission->getStarted()) {
                 $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de debut !'));
 
-                return $this->renderForm('back_office/mission/new.html.twig', [
+                return $this->render('back_office/mission/new.html.twig', [
                     'mission' => $mission,
                     'form' => $form,
                 ]);
@@ -121,11 +120,8 @@ class MissionController extends AbstractController
                 }
             }
             $mission->setUser($this->getUser());
-
             $qualificationService->addElement($form, 'file');
-
             $missionRepository->save($mission, true);
-
 
             if(!$isExlusives) {
                 $notificationService->infoUserMission($mission, NotificationConstant::EMAIL, $users);
@@ -140,7 +136,7 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('back_office/mission/new.html.twig', [
+        return $this->render('back_office/mission/new.html.twig', [
             'mission' => $mission,
             'form' => $form,
         ]);
@@ -194,7 +190,7 @@ class MissionController extends AbstractController
             if ($mission->getEnded() <= $mission->getStarted()) {
                 $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
                 
-                return $this->renderForm('back_office/mission/edit.html.twig', [
+                return $this->render('back_office/mission/edit.html.twig', [
                     'mission' => $mission,
                     'form' => $form,
                 ]);
@@ -234,7 +230,7 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_mission_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('back_office/mission/edit.html.twig', [
+        return $this->render('back_office/mission/edit.html.twig', [
             'mission' => $mission,
             'form' => $form,
         ]);
@@ -313,7 +309,7 @@ class MissionController extends AbstractController
             if ($booking->getConfirmEnded() <= $booking->getConfirmStarted()) {
                 $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
 
-                return $this->renderForm('back_office/mission/confirm.html.twig', [
+                return $this->render('back_office/mission/confirm.html.twig', [
                     'form' => $form,
                     'booking' => $booking
                 ]);
@@ -328,7 +324,7 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_dash_board_index');
         }
 
-        return $this->renderForm('back_office/mission/confirm.html.twig', [
+        return $this->render('back_office/mission/confirm.html.twig', [
             'form' => $form,
             'booking' => $booking
         ]);
@@ -395,7 +391,7 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_dash_board_index');
         }
 
-        return $this->renderForm('back_office/mission/confirm.html.twig', [
+        return $this->render('back_office/mission/confirm.html.twig', [
             'form' => $form,
             'booking' => $booking
         ]);
@@ -421,7 +417,7 @@ class MissionController extends AbstractController
             if ($booking->getConfirmEnded() <= $booking->getConfirmStarted()) {
                 $form->get('fin')->addError(new FormError('La date de fin ne peux pas être avant la date de début !'));
 
-                return $this->renderForm('back_office/mission/confirm.html.twig', [
+                return $this->render('back_office/mission/confirm.html.twig', [
                     'form' => $form,
                     'booking' => $booking
                 ]);
@@ -440,7 +436,7 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('admin_dash_board_index');
         }
 
-        return $this->renderForm('back_office/mission/confirm.html.twig', [
+        return $this->render('back_office/mission/confirm.html.twig', [
             'form' => $form,
             'booking' => $booking
         ]);

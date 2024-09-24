@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin', name: 'admin_profile_')]
 class ProfileController extends AbstractController
@@ -31,7 +31,7 @@ class ProfileController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
+        if ($user->hasRole(UserConstant::ROLE_CLIENT) || $user->hasRole(UserConstant::ROLE_DIRECTION)) {
             $form = $this->createForm(ProfileClientFormType::class, $user, ['show_service' => true]);
         } else {
             $form = $this->createForm(ProfileFormType::class, $user, ['show_experience' => true]);
@@ -42,7 +42,7 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if (!$user->hasRole(UserConstant::ROLE_CLIENT)) {
+            if (!$user->hasRole(UserConstant::ROLE_CLIENT) || $user->hasRole(UserConstant::ROLE_DIRECTION)) {
                 $qualificationService->addElement($form, 'cni');
                 $qualificationService->addElement($form, 'permisConduite');
                 $qualificationService->addElement($form, 'criminalRecord');
@@ -81,10 +81,10 @@ class ProfileController extends AbstractController
             'show_updaded_image' => !!$errors,
         ];
 
-        if ($user->hasRole(UserConstant::ROLE_CLIENT)) {
-            return $this->renderForm('back_office/profile/profil_client.html.twig', $params);
+        if ($user->hasRole(UserConstant::ROLE_CLIENT) || $user->hasRole(UserConstant::ROLE_DIRECTION)) {
+            return $this->render('back_office/profile/profil_client.html.twig', $params);
         }
 
-        return $this->renderForm('back_office/profile/index.html.twig', $params);
+        return $this->render('back_office/profile/index.html.twig', $params);
     }
 }

@@ -1,0 +1,5 @@
+easy_admin:
+  entities:
+#    - App\Entity\Contact
+    - App\Entity\User
+#    - App\Entity\Mission

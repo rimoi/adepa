@@ -88,7 +88,6 @@
                         {{ form_row(form.socialReason) }}
                     </div>
                 </div>
-                <hr>
 
                 {% if 'services' in form|keys %}
                     <hr>
@@ -117,6 +116,111 @@
                     </div>
                 {% endif %}
                 <hr>
+
+<div class="row">
+            {{ form_label(form.services, 'Services : ') }}
+            {{ form_errors(form.services) }}
+            <div class="col mx-auto">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-0">
+
+                        <!-- Responsive table -->
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Public</th>
+                                        <th scope="col">Adresse</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <td class="text-right">
+                                            <!-- Call to action buttons -->
+                                            <ul class="list-inline m-0">
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <td class="text-right">
+                                            <!-- Call to action buttons -->
+                                            <ul class="list-inline m-0">
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Larry</td>
+                                        <td>Bird</td>
+                                        <td>@twitter</td>
+                                        <td class="text-right">
+                                            <!-- Call to action buttons -->
+                                            <ul class="list-inline m-0">
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Martin</td>
+                                        <td>Williams</td>
+                                        <td>@Marty</td>
+                                        <td class="text-right">
+                                            <!-- Call to action buttons -->
+                                            <ul class="list-inline m-0">
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+         <div class="row">
+            <div class="col text-right px-5 pb-5">
+                <button class="btn btn-primary btn-sm add-another-collection-widget" data-list-selector="#qualification-fields-list" type="button" data-toggle="tooltip" data-placement="top" title="Ajouter un service">
+                <span class="fa fa-plus-square"></span> Ajouter un service</button>
+            </div>
+        </div>
 
 {#                <div class="row">#}
 {#                    <div class="col-12">#}

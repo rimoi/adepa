@@ -1,0 +1,62 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title 'Envoyer une invitation' %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block body %}
+ <div class="card shadow p-4">
+    {{ form_start(invitation_form) }}
+
+    {% form_theme invitation_form 'bootstrap_4_layout.html.twig' %}
+
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            {{ form_row(invitation_form.gender) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.lastname) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.firstname) }}
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.telephone) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.email) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.statut) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(invitation_form.services) }}
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-3 col-lg-3 offset-lg-4">
+            <button type="submit" class="btn btn-primary">Envoyer l'invitation</button>
+        </div>
+    </div>
+    {{ form_end(invitation_form) }}
+ </div>
+
+
+{% endblock %}

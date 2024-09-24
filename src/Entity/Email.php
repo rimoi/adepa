@@ -45,7 +45,7 @@ class Email
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    #[ORM\preUpdate]
+    #[ORM\PreUpdate]
     public function setUpdatedAt()
     {
         $this->updatedAt = new \DateTimeImmutable();

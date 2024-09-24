@@ -27,11 +27,23 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/Entity/'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    # add more service definitions when explicit configuration is needed
+    
     # please note that last definitions always *replace* previous ones
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%app.image_directory%'
 
+    # Form types
+    app.send.invitation:
+        class: App\Form\SendInvitationFormType
+        # you CAN still use autowiring: we just want to show what it looks like without
+        autowire: true
+        # manually wire all arguments
+        arguments:
+            - '@security.token_storage'

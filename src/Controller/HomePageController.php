@@ -25,7 +25,7 @@ class HomePageController extends AbstractController
 
         $educatheurs = $entityManager->getRepository(Educatheure::class)->findBy(['archived' => false, 'published' => true], ['id' => 'DESC'], 6);
 
-        return $this->renderForm('homepage/homepage.html.twig', [
+        return $this->render('homepage/homepage.html.twig', [
             'articles' => $articles,
             'form' => $form,
             'educatheurs' => $educatheurs,

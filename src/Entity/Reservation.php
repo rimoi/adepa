@@ -57,7 +57,7 @@ class Reservation
     #[ORM\ManyToOne]
     private ?User $affected = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'services')]
     private Collection $users;
 
 

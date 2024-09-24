@@ -31,13 +31,22 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: [ROLE_USER] }
+        - { path: ^/admin, roles: ['ROLE_ADMIN', 'ROLE_DIRECTION', 'ROLE_MANAGER'] }
+        - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
         # naitways/configuration-validator
         ROLE_CLIENT: ROLE_USER
         ROLE_FREELANCE: ROLE_USER
+        ROLE_MANAGER: ROLE_USER
+        ROLE_EMPLOYE: ROLE_USER 
+        ROLE_DIRECTION:
+            - ROLE_MANAGER 
+            - ROLE_EMPLOYE
         ROLE_ADMIN:
+            - ROLE_DIRECTION
+            - ROLE_MANAGER
+            - ROLE_EMPLOYE
             - ROLE_FREELANCE
             - ROLE_CLIENT
 

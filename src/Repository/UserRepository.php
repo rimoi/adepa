@@ -116,7 +116,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //        ;
 //    }
 
+    public function getServices(): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->where('u.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->andWhere('u.roles LIKE :freelance')
+            ->setParameter('freelance', '%'.UserConstant::ROLE_FREELANCE.'%');
 
+        return $qb->getQuery()->getResult();
+    }
 
     public function getFreelances(): array
     {

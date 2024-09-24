@@ -55,8 +55,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('statut', ChoiceType::class, [
                 'choices' => [
-                    'Les extras freelances' => UserConstant::ROLE_FREELANCE,
-                    'Les extras clients' => UserConstant::ROLE_CLIENT,
+                    UserConstant::CLIENT => UserConstant::ROLE_CLIENT,
+                    UserConstant::FREELANCE => UserConstant::ROLE_FREELANCE,
+                    UserConstant::DIRECTION => UserConstant::ROLE_DIRECTION,
+                    UserConstant::MANAGER => UserConstant::ROLE_MANAGER,
                 ],
                 'label' => "S'incrire en tant que(*) :",
                 'mapped' => false

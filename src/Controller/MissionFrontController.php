@@ -15,8 +15,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Entity\File as FileEntity;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
 class MissionFrontController extends AbstractController
@@ -60,7 +59,7 @@ class MissionFrontController extends AbstractController
             }
         }
       
-        return $this->renderForm('mission_front/index.html.twig', [
+        return $this->render('mission_front/index.html.twig', [
             'missions' => $all_missions,
             'form' => $form
         ]);

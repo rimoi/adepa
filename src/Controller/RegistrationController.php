@@ -77,15 +77,9 @@ class RegistrationController extends AbstractController
             $this->addFlash('success', $notice);
 
             return $this->redirectToRoute('home');
-
-            // return $userAuthenticator->authenticateUser(
-            //     $user,
-            //     $authenticator,
-            //     $request
-            // );
         }
 
-        return $this->renderForm('registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/candidat', name: 'admin_candidat_')]
 class CandidatController extends AbstractController
@@ -46,7 +46,7 @@ class CandidatController extends AbstractController
             }
         }
 
-        return $this->renderForm('back_office/candidat/index.html.twig', [
+        return $this->render('back_office/candidat/index.html.twig', [
             'bookings' => $bookings,
         ]);
     }
@@ -68,7 +68,7 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute($request->attributes->get('_route'));
         }
 
-        return $this->renderForm('back_office/candidat/show.html.twig', [
+        return $this->render('back_office/candidat/show.html.twig', [
             'form' => $form,
             'user' => $user,
         ]);

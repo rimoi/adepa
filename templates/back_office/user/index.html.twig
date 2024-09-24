@@ -27,7 +27,8 @@
                 Nouveau utilisateur
             </a>
         </div>
-        <!-- DataTales Example -->
+        <!-- DataTales -->
+        {% if not is_granted('ROLE_DIRECTION') and not is_granted('ROLE_MANAGER') %}
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Clients</h6>
@@ -73,7 +74,103 @@
                 </div>
             </div>
         </div>
+    {% endif %}
 
+    {% if is_granted('ROLE_DIRECTION') or is_granted('ROLE_MANAGER') %}
+        <div class="card shadow mb-2">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Responsables</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th align="center">Prénom</th>
+                            <th align="center">Nom</th>
+                            <th align="center">Phone</th>
+                            <th align="center">Email</th>
+                            <th align="center">Active</th>
+                            <th align="center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users['responsables'] %}
+                            <tr>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.telephone }}</td>
+                                <td>{{ user.email }}</td>
+                                <td align="center">
+                                    {% if user.enabled %}
+                                        <span class="badge badge-info">
+                                            Oui
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                                            Non
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td align="center">
+                                    <a href="{{ path('admin_user_edit', {slug: user.slug}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-2">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Salari&eacute;s</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th align="center">Prénom</th>
+                            <th align="center">Nom</th>
+                            <th align="center">Phone</th>
+                            <th align="center">Email</th>
+                            <th align="center">Active</th>
+                            <th align="center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users['salaries'] %}
+                            <tr>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.telephone }}</td>
+                                <td>{{ user.email }}</td>
+                                <td align="center">
+                                    {% if user.enabled %}
+                                        <span class="badge badge-info">
+                                            Oui
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">
+                                            Non
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td align="center">
+                                    <a href="{{ path('admin_user_edit', {slug: user.slug}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if not is_granted('ROLE_DIRECTION') and not is_granted('ROLE_MANAGER') %}
         <div class="card shadow mb-2">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Freelances</h6>
@@ -119,7 +216,7 @@
                 </div>
             </div>
         </div>
-
+    {% endif %}
     </div>
 {% endblock %}
 

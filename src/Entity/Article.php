@@ -41,10 +41,9 @@ class Article
     private ?string $slug = null;
 
     #[ORM\PrePersist]
-    public function setSlug()
+    public function setSlug(string $slugger = 'fr_FR')
     {
-        $slugger = new AsciiSlugger('fr_FR');
-
+        $slugger = new AsciiSlugger($slugger);
         $this->slug = $slugger->slug(strtolower($this->title)  .'-' . time());
     }
 

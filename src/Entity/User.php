@@ -40,14 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
@@ -129,13 +129,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $socialReason = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
+    //#[ORM\ManyToMany(mappedBy: 'users', targetEntity: Service::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Service::class, inversedBy: 'users', orphanRemoval: true, cascade: ['persist'])]
     private Collection $services;
+
+    //#[ORM\ManyToOne(inversedBy: 'users')]
+    //private ?Service $service = null;
 
     // à supprimer il n'est plus utilisé
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $public = null;
-
 
     #[ORM\ManyToMany(targetEntity: Educatheure::class, mappedBy: 'users', cascade: ['persist'])]
     private Collection $elements;
@@ -195,18 +198,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createdAt = new \DateTimeImmutable();
     }
+
     #[ORM\PrePersist]
     public function setSlug()
     {
         $slugger = new AsciiSlugger('fr_FR');
-
         $this->slug = $slugger->slug(strtolower($this->nickname()) .'-' . time());
     }
-    #[ORM\preUpdate]
+    
+    #[ORM\PreUpdate]
     public function setUpdatedAt()
     {
         $this->updatedAt = new \DateTimeImmutable();
     }
+
     #[ORM\PostRemove]
     public function setDeletedAt()
     {
@@ -223,7 +228,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->categories = new ArrayCollection();
         $this->sms = new ArrayCollection();
         $this->services = new ArrayCollection();
-        $this->educatheures = new ArrayCollection();
+        //$this->educatheures = new ArrayCollection();
         $this->elements = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->factures = new ArrayCollection();
@@ -278,7 +283,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -741,7 +746,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+   /* public function getService(): ?Service
+    {
+        return $this->service;
+    }
 
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
+
+        return $this;
+    }*/
 
     /**
      * @return Collection<int, Service>
@@ -754,8 +769,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addService(Service $service): self
     {
         if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->setUser($this);
+            $this->services[] = $service;
+            $service->addUser($this);
         }
 
         return $this;
@@ -763,7 +778,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeService(Service $service): self
     {
-        if ($this->services->removeElement($service)) {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
             // set the owning side to null (unless already changed)
             if ($service->getUser() === $this) {
                 $service->setUser(null);

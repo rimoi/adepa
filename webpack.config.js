@@ -1,7 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
 const FosRouting = require('fos-router/webpack/FosRouting');
 
-
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -13,7 +12,7 @@ Encore
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
-    // only needed for CDN's or sub-directory deploy
+    // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
 
     /*
@@ -23,19 +22,24 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+
+    //------> Custom ------------
     .addEntry('admin_bo', './assets/admin_bo.js')
     .addEntry('datatable', './assets/datatable.js')
     .addEntry('front-mission', './assets/front-mission.js')
     .addEntry('calendar', './assets/calendar.js')
-    .addEntry('educateur', './assets/educateur.js')
-    .addStyleEntry('admin', './assets/styles/admin.css') //
+    .addStyleEntry('admin', './assets/styles/admin.css') // à enlver après
 
+     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+     .enableStimulusBridge('./assets/controllers.json')
 
-    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
+    //--------< Custom -----------
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
+
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
@@ -54,16 +58,19 @@ Encore
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
+    // configure Babel
     .configureBabel((config) => {
-        config.plugins.push('@babel/plugin-proposal-class-properties');
+         config.plugins.push('@babel/plugin-transform-class-properties');
     })
 
-    // enables @babel/preset-env polyfills
+    // enables and configure @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
-        config.corejs = 3;
+        config.corejs = '3.23';
     })
-     .copyFiles({
+
+    //----------> Copy
+    .copyFiles({
         from: './assets/admin/img',
         to: 'images/[path][name].[hash:8].[ext]'
     },
@@ -74,6 +81,7 @@ Encore
          {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
          {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'}
     )
+    //----------< Copy
 
     // enables Sass/SCSS support
     .enableSassLoader()
@@ -84,7 +92,9 @@ Encore
     // uncomment if you use React
     //.enableReactPreset()
 
+    //-------->
     .addPlugin(new FosRouting())
+    //--------<
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher

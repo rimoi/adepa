@@ -11,10 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/article', name: 'admin_article_')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_MANAGER")'))]
 class ArticleController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
@@ -45,7 +46,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('admin_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('back_office/article/new.html.twig', [
+        return $this->render('back_office/article/new.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
@@ -76,7 +77,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('admin_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('back_office/article/edit.html.twig', [
+        return $this->render('back_office/article/edit.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mission index{% endblock %}
+
+{% block body %}
+    <h1>Mission index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Started</th>
+                <th>Ended</th>
+                <th>Booked</th>
+                <th>Archived</th>
+                <th>Published</th>
+                <th>Slug</th>
+                <th>Address</th>
+                <th>ZipCode</th>
+                <th>City</th>
+                <th>Emergency</th>
+                <th>Phone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mission in missions %}
+            <tr>
+                <td>{{ mission.id }}</td>
+                <td>{{ mission.title }}</td>
+                <td>{{ mission.content }}</td>
+                <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.started ? mission.started|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.ended ? mission.ended|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.booked ? 'Yes' : 'No' }}</td>
+                <td>{{ mission.archived ? 'Yes' : 'No' }}</td>
+                <td>{{ mission.published ? 'Yes' : 'No' }}</td>
+                <td>{{ mission.slug }}</td>
+                <td>{{ mission.address }}</td>
+                <td>{{ mission.zipCode }}</td>
+                <td>{{ mission.city }}</td>
+                <td>{{ mission.emergency ? 'Yes' : 'No' }}</td>
+                <td>{{ mission.phone }}</td>
+                <td>
+                    <a href="{{ path('app_mission_show', {'id': mission.id}) }}">show</a>
+                    <a href="{{ path('app_mission_edit', {'id': mission.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_mission_new') }}">Create new</a>
+{% endblock %}

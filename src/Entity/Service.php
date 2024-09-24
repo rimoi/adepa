@@ -36,8 +36,10 @@ class Service
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $unityName = null;
 
-    #[ORM\ManyToOne(inversedBy: 'services')]
-    private ?User $user = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy:'services', orphanRemoval: true, cascade: ['persist'])]
+    private Collection $users;
+
 
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Mission::class)]
     private Collection $missions;
@@ -48,6 +50,7 @@ class Service
     public function __construct()
     {
         $this->missions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,7 +130,69 @@ class Service
         return $this;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection<int, Service>
+     */
+    /*public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            //$this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getService() === $this) {
+                $user->setService(null);
+            }
+        }
+
+        return $this;
+    }*/
+
+    /**
+     * @return Collection<int, Service>
+     */
+    /*public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getUser() === $this) {
+                $service->setUser(null);
+            }
+        }
+
+        return $this;
+    }*/
+
+    /*public function getUser(): ?User
     {
         return $this->user;
     }
@@ -137,7 +202,8 @@ class Service
         $this->user = $user;
 
         return $this;
-    }
+    }*/
+    
 
     public function getUnityName(): ?string
     {

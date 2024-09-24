@@ -139,7 +139,7 @@ class Mission
         return sprintf('%s, %d %s', $this->address, $this->zipCode, $this->city);
     }
     
-    #[ORM\preUpdate]
+    #[ORM\PreUpdate]
     public function setUpdatedAt()
     {
         $this->updatedAt = new \DateTimeImmutable();

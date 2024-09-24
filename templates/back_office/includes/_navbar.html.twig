@@ -38,7 +38,7 @@
     </li>
 
 
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTION') or is_granted('ROLE_MANAGER') %}
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -53,6 +53,15 @@
                 <span>Gestion utilisateurs</span>
             </a>
         </li>
+        {% if is_granted('ROLE_DIRECTION') or is_granted('ROLE_MANAGER') %}
+            <li class="nav-item {{ app.request.attributes.get('_route') == 'admin_user_index' ? 'active' }}">
+                <a class="nav-link" href="{{ path('admin_user_send_invitation') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Envoyer une invitation</span>
+                </a>
+            </li>
+        {% endif %}
+
     {% endif %}
 
     {% if app.user and app.user.enabled %}
@@ -79,7 +88,7 @@
         {% endif %}
     {% endif %}
 
-    {% if is_granted('ROLE_CLIENT') %}
+    {% if is_granted('ROLE_CLIENT')  or is_granted('ROLE_DIRECTION') or is_granted('ROLE_MANAGER') %}
         <!-- Divider -->
         <hr class="sidebar-divider">
 
