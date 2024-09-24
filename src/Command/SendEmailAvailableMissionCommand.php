@@ -37,14 +37,20 @@ class SendEmailAvailableMissionCommand extends Command
 
         $exclusives = $this->entityManager->getRepository(Exclusive::class)->findAll();
 
+        $mission = null;
+
         foreach ($exclusives as $exclusive) {
             if ($exclusive->isAlwaysOnTime()) {
                 continue;
             }
 
-            $this->notificationService->infoUserMission($exclusive->getMission(), NotificationConstant::EMAIL, [$exclusive->getUser()]);
+            $mission = $exclusive->getMission();
             
             $this->entityManager->remove($exclusive);
+        }
+
+        if ($mission !== null) {
+            $this->notificationService->infoUserMission($mission);
         }
         
         $this->entityManager->flush();
